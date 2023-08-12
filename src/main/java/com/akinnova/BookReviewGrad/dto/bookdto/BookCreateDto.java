@@ -9,6 +9,6 @@ public class BookCreateDto {
     private String genre;
     private String publicationYear;
     private String ISBN;
-    private String description;
+    private String summary;
     private String coverImage;
 }

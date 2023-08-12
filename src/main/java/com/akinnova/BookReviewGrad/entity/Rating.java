@@ -15,12 +15,11 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "rating_table")
-public class RatingEntity {
+public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String ISBN;
     private Integer starRating;
     private Long rateCount;
     private Double averageRating;

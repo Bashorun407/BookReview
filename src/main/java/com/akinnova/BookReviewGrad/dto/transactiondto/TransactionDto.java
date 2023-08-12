@@ -9,8 +9,7 @@ public class TransactionDto {
     private String firstName;
     private String lastName;
     private String otherName;
-    private String bankName;
-    private String accountNumber;
+    private String serialNumber;
     private Double amountPaid;
     private String invoiceCode;
     private LocalDateTime transactionDate;

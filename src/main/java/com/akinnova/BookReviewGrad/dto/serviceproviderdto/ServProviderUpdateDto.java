@@ -1,13 +1,10 @@
-package com.akinnova.BookReviewGrad.dto.userdto;
+package com.akinnova.BookReviewGrad.dto.serviceproviderdto;
 
 import lombok.Data;
 
 @Data
-public class UserCreateDto {
+public class ServProviderUpdateDto {
     private String profilePicture;
-    private String firstName;
-    private String lastName;
-    private String dateOfBirth;
     private String phoneNumber;
     private String username;
     private String email;

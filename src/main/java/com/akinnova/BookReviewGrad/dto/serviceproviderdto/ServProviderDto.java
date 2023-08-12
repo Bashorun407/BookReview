@@ -1,9 +1,9 @@
-package com.akinnova.BookReviewGrad.dto.userdto;
+package com.akinnova.BookReviewGrad.dto.serviceproviderdto;
 
 import lombok.Data;
 
 @Data
-public class UserCreateDto {
+public class ServProviderDto {
     private String profilePicture;
     private String firstName;
     private String lastName;

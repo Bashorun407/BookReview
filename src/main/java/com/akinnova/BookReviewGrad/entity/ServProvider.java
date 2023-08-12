@@ -1,6 +1,6 @@
 package com.akinnova.BookReviewGrad.entity;
 
-import com.akinnova.BookReviewGrad.entity.enums.UserRoleEnum;
+import com.akinnova.BookReviewGrad.entity.enums.ApplicationStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,28 +17,28 @@ import java.util.Set;
 @Data
 @Builder
 @Entity
-@Table(name = "client_table",
+@Table(name = "user_table",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = "phoneNumber"),
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
         }
 )
-public class UserEntity {
+public class ServProvider {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String profilePicture;
     private String firstName;
     private String lastName;
-    private String userId;
-    private String dateOfBirth;
+    private String providerId;
     private String phoneNumber;
     private String username;
     private String email;
     private String password;
-    private UserRoleEnum userRole;
+    private String specialization;
     private String description;
+    private ApplicationStatus applicationStatus;
     private Boolean activeStatus;
 
     @CreationTimestamp
@@ -46,11 +46,4 @@ public class UserEntity {
     @UpdateTimestamp
     private LocalDateTime modifiedOn;
 
-    //Many-to-many relationship with role
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role_relationship",
-            joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
-            inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "roleName")
-    )
-    private Set<UserRole> roles;
 }

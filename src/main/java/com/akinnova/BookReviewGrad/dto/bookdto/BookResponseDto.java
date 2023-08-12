@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @Builder
 public class BookResponseDto {
+    private String coverImage;
     private String title;
     private String author;
-    private String description;
-    private String coverImage;
+    private String summary;
 }

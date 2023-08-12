@@ -1,6 +1,6 @@
 package com.akinnova.BookReviewGrad.security;
 
-import com.akinnova.BookReviewGrad.entity.UserEntity;
+import com.akinnova.BookReviewGrad.entity.ServProvider;
 import com.akinnova.BookReviewGrad.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserEntity userEntity = userRepository.findByUsername(username)
+        ServProvider userEntity = userRepository.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("user with this username not found" + username));
 
         //I do not know if subsequent code will work

@@ -1,12 +1,12 @@
 package com.akinnova.BookReviewGrad.repository;
 
-import com.akinnova.BookReviewGrad.entity.RatingEntity;
+import com.akinnova.BookReviewGrad.entity.Rating;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface RatingRepository extends JpaRepository<RatingEntity, Long> {
-    Optional<RatingEntity> findByTitle(String title);
+public interface RatingRepository extends JpaRepository<Rating, Long> {
+    Optional<Rating> findByTitle(String title);
 }
