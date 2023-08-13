@@ -4,12 +4,10 @@ import lombok.Data;
 
 @Data
 public class BookUpdateDto {
-
     private String coverImage;
     private String title;
+    private StringBuffer content;
     private String author;
-    private String ISBN;
-    private String genre;
-    private String summary;
+    private String projectId;
     private Boolean activeStatus;
 }

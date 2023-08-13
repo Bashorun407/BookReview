@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    Optional<List<Transaction>> findBySerialNumber(String serialNumber);
+    Optional<Transaction> findByProjectId(String serialNumber);
+    Optional<List<Transaction>> findByProviderId(String providerId);
     Optional<Transaction> findByInvoiceCode(String invoiceCode);
 }

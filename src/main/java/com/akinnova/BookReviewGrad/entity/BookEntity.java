@@ -16,23 +16,16 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @Entity
-@Table(name = "book_table",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "ISBN")
-        }
-)
+@Table(name = "book_table")
 public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String coverImage;
     private String title;
+    private StringBuffer content;
     private String author;
-    private String genre;
-    private String publicationYear;
-    private String ISBN;
-    private String serialNumber;
-    private String summary;
+    private String projectId;
     private ReviewStatus reviewStatus;
     private Boolean activeStatus;
     @CreationTimestamp

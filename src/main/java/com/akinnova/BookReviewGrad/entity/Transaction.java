@@ -17,10 +17,12 @@ import java.time.LocalDateTime;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String firstName;
     private String lastName;
     private String otherName;
-    private String serialNumber;
+    private String projectId;
+    private String providerId;
     private Double amountPaid;
     private String invoiceCode;
     private LocalDateTime transactionDate;

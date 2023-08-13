@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/email/auth")
 public class EmailController {
+
     @Autowired
     private EmailServiceImpl emailService;
 

@@ -10,14 +10,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 @Entity
-@Table(name = "user_table",
+@Table(name = "service_provider_table",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
@@ -32,10 +31,8 @@ public class ServProvider {
     private String firstName;
     private String lastName;
     private String providerId;
-    private String phoneNumber;
     private String username;
     private String email;
-    private String password;
     private String specialization;
     private String description;
     private ApplicationStatus applicationStatus;

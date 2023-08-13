@@ -1,5 +1,5 @@
 package com.akinnova.BookReviewGrad.entity.enums;
 
 public enum UserRoleEnum {
-    Admin, User, Client
+     Client, Service_Provider, Admin
 }

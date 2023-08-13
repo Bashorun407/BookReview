@@ -9,5 +9,5 @@ public class BookResponseDto {
     private String coverImage;
     private String title;
     private String author;
-    private String summary;
+    private String projectId;
 }

@@ -37,7 +37,7 @@ public class UserEntity {
     private String username;
     private String email;
     private String password;
-    private UserRoleEnum userRole;
+    private String userRole;
     private String description;
     private Boolean activeStatus;
 
