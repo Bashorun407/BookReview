@@ -108,7 +108,7 @@ public class BookServiceImpl implements IBookService {
     public ResponseEntity<?> findBookByTitle(String title, int pageNum, int pageSize) {
 
         List<BookEntity> bookEntityList = bookRepository.findByTitle(title)
-                .orElseThrow(()-> new ApiException("There are no projects by this author: " + title));
+                .orElseThrow(()-> new ApiException("There are no projects by this title: " + title));
 
         List<BookResponseDto> responseDtoList = new ArrayList<>();
 
@@ -133,7 +133,7 @@ public class BookServiceImpl implements IBookService {
     public ResponseEntity<?> findBookByProjectId(String projectId) {
 
         BookEntity bookEntity = bookRepository.findByProjectId(projectId)
-                .orElseThrow(()-> new ApiException("There are no projects by this author: " + projectId));
+                .orElseThrow(()-> new ApiException("There are no projects with this project id: " + projectId));
 
         BookResponseDto responseDto = BookResponseDto.builder()
                 .coverImage(bookEntity.getCoverImage())
@@ -145,16 +145,96 @@ public class BookServiceImpl implements IBookService {
         return ResponseEntity.ok(responseDto);
     }
 
+    // TODO: 13/08/2023 To complete the following methods
+    @Override
+    public ResponseEntity<?> findPendingBookReview(int pageNum, int pageSize) {
+        List<BookEntity> bookEntityList = bookRepository.findAll().stream().filter(x-> x.getReviewStatus() == ReviewStatus.Pending)
+                .toList();
+        List<BookResponseDto> responseDtoList = new ArrayList<>();
+
+        if(bookEntityList.isEmpty())
+            return new ResponseEntity<>("There are no pending reviews yet.", HttpStatus.NOT_FOUND);
+
+        bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize)
+                .map(
+                        bookEntity -> BookResponseDto.builder()
+                                .coverImage(bookEntity.getCoverImage())
+                                .title(bookEntity.getTitle())
+                                .author(bookEntity.getAuthor())
+                                .projectId(bookEntity.getProjectId())
+                                .build()
+                ).forEach(responseDtoList::add);
+
+        return ResponseEntity.ok()
+                .header("Book page number: ", String.valueOf(pageNum))
+                .header("Book page size: ", String.valueOf(pageSize))
+                .header("Book total count: ", String.valueOf(responseDtoList.size()))
+                .body(responseDtoList);
+    }
+
+    @Override
+    public ResponseEntity<?> findStartedBookReview(int pageNum, int pageSize) {
+        List<BookEntity> bookEntityList = bookRepository.findAll().stream().filter(x-> x.getReviewStatus() == ReviewStatus.Started)
+                .toList();
+        List<BookResponseDto> responseDtoList = new ArrayList<>();
+
+        if(bookEntityList.isEmpty())
+            return new ResponseEntity<>("There are no 'started' reviews yet.", HttpStatus.NOT_FOUND);
+
+        bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize)
+                .map(
+                        bookEntity -> BookResponseDto.builder()
+                                .coverImage(bookEntity.getCoverImage())
+                                .title(bookEntity.getTitle())
+                                .author(bookEntity.getAuthor())
+                                .projectId(bookEntity.getProjectId())
+                                .build()
+                ).forEach(responseDtoList::add);
+
+        return ResponseEntity.ok()
+                .header("Book page number: ", String.valueOf(pageNum))
+                .header("Book page size: ", String.valueOf(pageSize))
+                .header("Book total count: ", String.valueOf(responseDtoList.size()))
+                .body(responseDtoList);
+    }
+
+    @Override
+    public ResponseEntity<?> findCompletedBookReview(int pageNum, int pageSize) {
+        List<BookEntity> bookEntityList = bookRepository.findAll().stream().filter(x-> x.getReviewStatus() == ReviewStatus.Completed)
+                .toList();
+        List<BookResponseDto> responseDtoList = new ArrayList<>();
+
+        if(bookEntityList.isEmpty())
+            return new ResponseEntity<>("There are no completed reviews yet.", HttpStatus.NOT_FOUND);
+
+        bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize)
+                .map(
+                        bookEntity -> BookResponseDto.builder()
+                                .coverImage(bookEntity.getCoverImage())
+                                .title(bookEntity.getTitle())
+                                .author(bookEntity.getAuthor())
+                                .projectId(bookEntity.getProjectId())
+                                .build()
+                ).forEach(responseDtoList::add);
+
+        return ResponseEntity.ok()
+                .header("Book page number: ", String.valueOf(pageNum))
+                .header("Book page size: ", String.valueOf(pageSize))
+                .header("Book total count: ", String.valueOf(responseDtoList.size()))
+                .body(responseDtoList);
+    }
+
     @Override
     public ResponseEntity<?> updateBook(BookUpdateDto bookUpdateDto) {
         BookEntity bookEntity = bookRepository.findByProjectId(bookUpdateDto.getProjectId())
-                .orElseThrow(()-> new ApiException(String.format("Book with ISBN: %s does not exist",
+                .orElseThrow(()-> new ApiException(String.format("Book with projectId: %s does not exist",
                         bookUpdateDto.getProjectId())));
 
         bookEntity.setCoverImage(bookUpdateDto.getCoverImage());
         bookEntity.setTitle(bookUpdateDto.getTitle());
         bookEntity.setAuthor(bookUpdateDto.getAuthor());
         bookEntity.setActiveStatus(true);
+        bookEntity.setReviewStatus(bookUpdateDto.getReviewStatus());
         bookEntity.setModifiedOn(LocalDateTime.now());
 
         //Save to repository

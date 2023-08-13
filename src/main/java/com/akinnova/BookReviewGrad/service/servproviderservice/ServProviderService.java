@@ -1,10 +1,13 @@
 package com.akinnova.BookReviewGrad.service.servproviderservice;
 
+import com.akinnova.BookReviewGrad.dto.bookdto.BookResponseDto;
 import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderDto;
 import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderResponseDto;
 import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderUpdateDto;
+import com.akinnova.BookReviewGrad.entity.BookEntity;
 import com.akinnova.BookReviewGrad.entity.ServProvider;
 import com.akinnova.BookReviewGrad.entity.enums.ApplicationStatus;
+import com.akinnova.BookReviewGrad.entity.enums.ReviewStatus;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.ServProviderRepository;
 import com.akinnova.BookReviewGrad.response.ResponseUtils;
@@ -97,7 +100,6 @@ public class ServProviderService implements IServProviderService{
         return ResponseEntity.ok(responseDto);
     }
 
-
     @Override
     public ResponseEntity<?> FindServiceProviderByEmail(String email) {
         ServProvider servProvider = servProviderRepository.findByEmail(email).filter(ServProvider::getActiveStatus)
@@ -114,6 +116,85 @@ public class ServProviderService implements IServProviderService{
         return ResponseEntity.ok(responseDto);
     }
 
+    // TODO: 13/08/2023 To complete the following methods
+    @Override
+    public ResponseEntity<?> FindReceivedApplications(int pageNum, int pageSize) {
+        List<ServProvider> servProviderList = servProviderRepository.findAll().stream().filter(x-> x.getApplicationStatus() == ApplicationStatus.Received)
+                .toList();
+        List<ServProviderResponseDto> responseDtoList = new ArrayList<>();
+
+        if(servProviderList.isEmpty())
+            return new ResponseEntity<>("There are no received applications yet.", HttpStatus.NOT_FOUND);
+
+        servProviderList.stream().filter(ServProvider::getActiveStatus).skip(pageNum).limit(pageSize)
+                .map(
+                        servProvider -> ServProviderResponseDto.builder()
+                                .profilePicture(servProvider.getProfilePicture())
+                                .firstName(servProvider.getFirstName())
+                                .lastName(servProvider.getLastName())
+                                .description(servProvider.getDescription())
+                                .build()
+                ).forEach(responseDtoList::add);
+
+        return ResponseEntity.ok()
+                .header("Service providers page number: ", String.valueOf(pageNum))
+                .header("Service providers page size: ", String.valueOf(pageSize))
+                .header("Service providers total count: ", String.valueOf(responseDtoList.size()))
+                .body(responseDtoList);
+    }
+
+    @Override
+    public ResponseEntity<?> FindReviewingApplications(int pageNum, int pageSize) {
+        List<ServProvider> servProviderList = servProviderRepository.findAll().stream().filter(x-> x.getApplicationStatus() == ApplicationStatus.Reviewing)
+                .toList();
+        List<ServProviderResponseDto> responseDtoList = new ArrayList<>();
+
+        if(servProviderList.isEmpty())
+            return new ResponseEntity<>("There are no applications in review yet.", HttpStatus.NOT_FOUND);
+
+        servProviderList.stream().filter(ServProvider::getActiveStatus).skip(pageNum).limit(pageSize)
+                .map(
+                        servProvider -> ServProviderResponseDto.builder()
+                                .profilePicture(servProvider.getProfilePicture())
+                                .firstName(servProvider.getFirstName())
+                                .lastName(servProvider.getLastName())
+                                .description(servProvider.getDescription())
+                                .build()
+                ).forEach(responseDtoList::add);
+
+        return ResponseEntity.ok()
+                .header("Service providers page number: ", String.valueOf(pageNum))
+                .header("Service providers page size: ", String.valueOf(pageSize))
+                .header("Service providers total count: ", String.valueOf(responseDtoList.size()))
+                .body(responseDtoList);
+    }
+
+    @Override
+    public ResponseEntity<?> FindConfirmedApplications(int pageNum, int pageSize) {
+        List<ServProvider> servProviderList = servProviderRepository.findAll().stream().filter(x-> x.getApplicationStatus() == ApplicationStatus.Confirmed)
+                .toList();
+        List<ServProviderResponseDto> responseDtoList = new ArrayList<>();
+
+        if(servProviderList.isEmpty())
+            return new ResponseEntity<>("There are no confirmed applications yet.", HttpStatus.NOT_FOUND);
+
+        servProviderList.stream().filter(ServProvider::getActiveStatus).skip(pageNum).limit(pageSize)
+                .map(
+                        servProvider -> ServProviderResponseDto.builder()
+                                .profilePicture(servProvider.getProfilePicture())
+                                .firstName(servProvider.getFirstName())
+                                .lastName(servProvider.getLastName())
+                                .description(servProvider.getDescription())
+                                .build()
+                ).forEach(responseDtoList::add);
+
+        return ResponseEntity.ok()
+                .header("Service providers page number: ", String.valueOf(pageNum))
+                .header("Service providers page size: ", String.valueOf(pageSize))
+                .header("Service providers total count: ", String.valueOf(responseDtoList.size()))
+                .body(responseDtoList);
+    }
+
     @Override
     public ResponseEntity<?> UpdateServiceProvider(ServProviderUpdateDto servProviderUpdateDto) {
         ServProvider servProvider = servProviderRepository.findByUsername(servProviderUpdateDto.getUsername()).filter(ServProvider::getActiveStatus)
@@ -122,6 +203,7 @@ public class ServProviderService implements IServProviderService{
         servProvider.setProfilePicture(servProviderUpdateDto.getProfilePicture());
         servProvider.setUsername(servProviderUpdateDto.getUsername());
         servProvider.setEmail(servProviderUpdateDto.getEmail());
+        servProvider.setApplicationStatus(servProviderUpdateDto.getApplicationStatus());
         servProvider.setDescription(servProviderUpdateDto.getDescription());
         servProvider.setModifiedOn(LocalDateTime.now());
 

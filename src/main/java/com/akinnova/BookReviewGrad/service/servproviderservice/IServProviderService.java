@@ -9,8 +9,10 @@ public interface IServProviderService {
     ResponseEntity<?> AddServiceProvider(ServProviderDto servProviderDto);
     ResponseEntity<?> AllServiceProviders(int pageNum, int pageSize);
     ResponseEntity<?> FindServiceProviderByUsername(String username);
-//    ResponseEntity<?> FindServiceProviderByPhoneNumber(String phoneNumber);
     ResponseEntity<?> FindServiceProviderByEmail(String email);
+    ResponseEntity<?> FindReceivedApplications(int pageNum, int pageSize);
+    ResponseEntity<?> FindReviewingApplications(int pageNum, int pageSize);
+    ResponseEntity<?> FindConfirmedApplications(int pageNum, int pageSize);
     ResponseEntity<?> UpdateServiceProvider(ServProviderUpdateDto servProviderUpdateDto);
     ResponseEntity<?> DeleteServiceProvider(String username);
 

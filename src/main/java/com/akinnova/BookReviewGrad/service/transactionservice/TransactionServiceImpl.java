@@ -12,8 +12,8 @@ import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.BookRepository;
 import com.akinnova.BookReviewGrad.repository.ServProviderRepository;
 import com.akinnova.BookReviewGrad.repository.TransactionRepository;
-import com.akinnova.BookReviewGrad.repository.UserRepository;
 import com.akinnova.BookReviewGrad.response.ResponseUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -23,20 +23,21 @@ import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements ITransactionService{
-    private final UserRepository userRepository;
+
+    @Autowired
+    private EmailServiceImpl emailService;
     private final ServProviderRepository servProviderRepository;
     private final TransactionRepository transactionRepository;
     private final BookRepository bookRepository;
-    private final EmailServiceImpl emailService;
 
     //Class Constructor
-    public TransactionServiceImpl(UserRepository userRepository, ServProviderRepository servProviderRepository, TransactionRepository transactionRepository,
-                                  BookRepository bookRepository, EmailServiceImpl emailService) {
-        this.userRepository = userRepository;
+    public TransactionServiceImpl( ServProviderRepository servProviderRepository,
+                                   TransactionRepository transactionRepository,
+                                  BookRepository bookRepository) {
+
         this.servProviderRepository = servProviderRepository;
         this.transactionRepository = transactionRepository;
         this.bookRepository = bookRepository;
-        this.emailService = emailService;
     }
 
 

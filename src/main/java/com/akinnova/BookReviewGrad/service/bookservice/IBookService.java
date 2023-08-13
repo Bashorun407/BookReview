@@ -12,6 +12,9 @@ public interface IBookService {
     ResponseEntity<?> findBookByAuthor(String author, int pageNum, int pageSize);
     ResponseEntity<?> findBookByTitle(String title, int pageNum, int pageSize);
     ResponseEntity<?> findBookByProjectId(String projectId);
+    ResponseEntity<?> findPendingBookReview(int pageNum, int pageSize);
+    ResponseEntity<?> findStartedBookReview(int pageNum, int pageSize);
+    ResponseEntity<?> findCompletedBookReview(int pageNum, int pageSize);
     ResponseEntity<?> updateBook(BookUpdateDto bookUpdateDto);
     ResponseEntity<?> deleteBook(String projectId);
     ResponseEntity<?> searchBook(String author, String title, String projectId, int pageNum, int pageSize);

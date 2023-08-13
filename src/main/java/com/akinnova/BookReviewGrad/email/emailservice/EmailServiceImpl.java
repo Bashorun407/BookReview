@@ -4,7 +4,6 @@ import com.akinnova.BookReviewGrad.email.emaildto.EmailDetail;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 
-@AllArgsConstructor
+
 @Service
 public class EmailServiceImpl implements IEmailService{
     @Autowired

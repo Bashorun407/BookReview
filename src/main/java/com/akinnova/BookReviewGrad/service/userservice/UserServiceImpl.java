@@ -7,6 +7,7 @@ import com.akinnova.BookReviewGrad.entity.ServProvider;
 import com.akinnova.BookReviewGrad.entity.UserEntity;
 import com.akinnova.BookReviewGrad.entity.UserRole;
 import com.akinnova.BookReviewGrad.entity.enums.ApplicationStatus;
+import com.akinnova.BookReviewGrad.entity.enums.UserRoleEnum;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.ServProviderRepository;
 import com.akinnova.BookReviewGrad.repository.UserRepository;
@@ -52,12 +53,13 @@ public class UserServiceImpl implements IUserService {
                         .username(userCreateDto.getUsername())
                         .email(userCreateDto.getEmail())
                         .password(userCreateDto.getPassword())
-                        .userRole(userCreateDto.getRoleName())
+                        .userRoleEnum(userCreateDto.getUserRoleEnum())
+                        //.userRole(userCreateDto.getRoleName())
                         .description(userCreateDto.getDescription())
                 .build());
 
         //if user role is "ServiceProvider"...create an object of service provider and saves to database
-        if(userCreateDto.getRoleName().startsWith("Ser") || userCreateDto.getRoleName().startsWith("ser")){
+        if(userCreateDto.getUserRoleEnum() == UserRoleEnum.Service_Provider){
             servProviderRepository.save(ServProvider.builder()
                             .profilePicture(userEntity.getProfilePicture())
                             .firstName(userEntity.getFirstName())
@@ -74,11 +76,18 @@ public class UserServiceImpl implements IUserService {
         }
 
 
-        //Save role to Role database if it doesn't already exist
-        if(!userRoleRepository.existsByRoleName(userEntity.getUserRole())){
-            userRoleRepository.save(UserRole.builder()
-                            .roleName(userEntity.getUserRole())
-                    .build());
+        //Save 'role' (i.e. UserRoleEnum type) to Role database if it doesn't already exist...The following if conditions
+        //Checks and saves the role name accordingly.
+        if(userCreateDto.getUserRoleEnum() == UserRoleEnum.Client && !userRoleRepository.existsByRoleName("Client")){
+            userRoleRepository.save(UserRole.builder().roleName("Client").build());
+            }
+
+        else if(userCreateDto.getUserRoleEnum() == UserRoleEnum.Service_Provider && !userRoleRepository.existsByRoleName("Service_Provider")){
+            userRoleRepository.save(UserRole.builder().roleName("Service_Provider").build());
+        }
+
+        else if(userCreateDto.getUserRoleEnum() == UserRoleEnum.Admin && !userRoleRepository.existsByRoleName("Admin")){
+            userRoleRepository.save(UserRole.builder().roleName("Admin").build());
         }
         //Response dto
         UserResponseDto responseDto = UserResponseDto.builder()
@@ -145,17 +154,97 @@ public class UserServiceImpl implements IUserService {
         return new ResponseEntity<>(responseDto, HttpStatus.FOUND);
     }
 
+    // TODO: 13/08/2023 To implement the following methods
     @Override
-    public ResponseEntity<?> updateUser(UserUpdateDto clientUpdateDto) {
-        UserEntity userEntity = userRepository.findByUsername(clientUpdateDto.getUsername()).filter(UserEntity::getActiveStatus)
-                .orElseThrow(()-> new ApiException(String.format(" There is no user by username: %s ", clientUpdateDto.getUsername())));
+    public ResponseEntity<?> FindClients(int pageNum, int pageSize) {
+        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == UserRoleEnum.Client)
+                .toList();
+        List<UserResponseDto> responseDtoList = new ArrayList<>();
 
-        userEntity.setProfilePicture(clientUpdateDto.getProfilePicture());
-        userEntity.setPhoneNumber(clientUpdateDto.getPhoneNumber());
-        userEntity.setUsername(clientUpdateDto.getUsername());
-        userEntity.setEmail(clientUpdateDto.getEmail());
-        userEntity.setPassword(clientUpdateDto.getPassword());
-        userEntity.setDescription(clientUpdateDto.getDescription());
+        if(clientList.isEmpty())
+            return new ResponseEntity<>("There are no Clients yet.", HttpStatus.NOT_FOUND);
+
+        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum).limit(pageSize)
+                .map(
+                        userEntity -> UserResponseDto.builder()
+                                .profilePicture(userEntity.getProfilePicture())
+                                .firstName(userEntity.getFirstName())
+                                .lastName(userEntity.getLastName())
+                                .description(userEntity.getDescription())
+                                .build()
+                ).forEach(responseDtoList::add);
+
+        return ResponseEntity.ok()
+                .header("User page number: ", String.valueOf(pageNum))
+                .header("User page size: ", String.valueOf(pageSize))
+                .header("User total count: ", String.valueOf(responseDtoList.size()))
+                .body(responseDtoList);
+    }
+
+    @Override
+    public ResponseEntity<?> FindServiceProviders(int pageNum, int pageSize) {
+        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == UserRoleEnum.Service_Provider)
+                .toList();
+        List<UserResponseDto> responseDtoList = new ArrayList<>();
+
+        if(clientList.isEmpty())
+            return new ResponseEntity<>("There are no Service Providers yet.", HttpStatus.NOT_FOUND);
+
+        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum).limit(pageSize)
+                .map(
+                        userEntity -> UserResponseDto.builder()
+                                .profilePicture(userEntity.getProfilePicture())
+                                .firstName(userEntity.getFirstName())
+                                .lastName(userEntity.getLastName())
+                                .description(userEntity.getDescription())
+                                .build()
+                ).forEach(responseDtoList::add);
+
+        return ResponseEntity.ok()
+                .header("User page number: ", String.valueOf(pageNum))
+                .header("User page size: ", String.valueOf(pageSize))
+                .header("User total count: ", String.valueOf(responseDtoList.size()))
+                .body(responseDtoList);
+    }
+
+    @Override
+    public ResponseEntity<?> FindAdmins(int pageNum, int pageSize) {
+        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == UserRoleEnum.Admin)
+                .toList();
+        List<UserResponseDto> responseDtoList = new ArrayList<>();
+
+        if(clientList.isEmpty())
+            return new ResponseEntity<>("There are no Admins yet.", HttpStatus.NOT_FOUND);
+
+        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum).limit(pageSize)
+                .map(
+                        userEntity -> UserResponseDto.builder()
+                                .profilePicture(userEntity.getProfilePicture())
+                                .firstName(userEntity.getFirstName())
+                                .lastName(userEntity.getLastName())
+                                .description(userEntity.getDescription())
+                                .build()
+                ).forEach(responseDtoList::add);
+
+        return ResponseEntity.ok()
+                .header("User page number: ", String.valueOf(pageNum))
+                .header("User page size: ", String.valueOf(pageSize))
+                .header("User total count: ", String.valueOf(responseDtoList.size()))
+                .body(responseDtoList);
+    }
+
+    @Override
+    public ResponseEntity<?> updateUser(UserUpdateDto userUpdateDto) {
+        UserEntity userEntity = userRepository.findByUsername(userUpdateDto.getUsername()).filter(UserEntity::getActiveStatus)
+                .orElseThrow(()-> new ApiException(String.format(" There is no user by username: %s ", userUpdateDto.getUsername())));
+
+        userEntity.setProfilePicture(userUpdateDto.getProfilePicture());
+        userEntity.setPhoneNumber(userUpdateDto.getPhoneNumber());
+        userEntity.setUsername(userUpdateDto.getUsername());
+        userEntity.setEmail(userUpdateDto.getEmail());
+        userEntity.setPassword(userUpdateDto.getPassword());
+        userEntity.setUserRoleEnum(userUpdateDto.getUserRoleEnum());
+        userEntity.setDescription(userUpdateDto.getDescription());
         userEntity.setModifiedOn(LocalDateTime.now());
 
         //Save to repository

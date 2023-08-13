@@ -1,13 +1,13 @@
 package com.akinnova.BookReviewGrad.dto.serviceproviderdto;
 
+import com.akinnova.BookReviewGrad.entity.enums.ApplicationStatus;
 import lombok.Data;
 
 @Data
 public class ServProviderUpdateDto {
     private String profilePicture;
-//    private String phoneNumber;
     private String username;
     private String email;
-//    private String password;
+    private ApplicationStatus applicationStatus;
     private String description;
 }

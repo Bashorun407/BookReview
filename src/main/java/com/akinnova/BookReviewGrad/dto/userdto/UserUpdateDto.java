@@ -1,5 +1,6 @@
 package com.akinnova.BookReviewGrad.dto.userdto;
 
+import com.akinnova.BookReviewGrad.entity.enums.UserRoleEnum;
 import lombok.Data;
 
 @Data
@@ -9,5 +10,6 @@ public class UserUpdateDto {
     private String username;
     private String email;
     private String password;
+    private UserRoleEnum userRoleEnum;
     private String description;
 }
