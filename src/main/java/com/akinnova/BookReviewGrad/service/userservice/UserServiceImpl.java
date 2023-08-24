@@ -7,7 +7,6 @@ import com.akinnova.BookReviewGrad.entity.ServProvider;
 import com.akinnova.BookReviewGrad.entity.UserEntity;
 import com.akinnova.BookReviewGrad.entity.UserRole;
 import com.akinnova.BookReviewGrad.entity.enums.ApplicationStatus;
-import com.akinnova.BookReviewGrad.entity.enums.UserRoleEnum;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.ServProviderRepository;
 import com.akinnova.BookReviewGrad.repository.UserRepository;
@@ -22,6 +21,8 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.akinnova.BookReviewGrad.entity.enums.UserRoleEnum.*;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -59,7 +60,7 @@ public class UserServiceImpl implements IUserService {
                 .build());
 
         //if user role is "ServiceProvider"...create an object of service provider and saves to database
-        if(userCreateDto.getUserRoleEnum() == UserRoleEnum.Service_Provider){
+        if(userCreateDto.getUserRoleEnum() == Service_Provider){
             servProviderRepository.save(ServProvider.builder()
                             .profilePicture(userEntity.getProfilePicture())
                             .firstName(userEntity.getFirstName())
@@ -78,30 +79,21 @@ public class UserServiceImpl implements IUserService {
 
         //Save 'role' (i.e. UserRoleEnum type) to Role database if it doesn't already exist...The following if conditions
         //Checks and saves the role name accordingly.
-        if(userCreateDto.getUserRoleEnum() == UserRoleEnum.Client && !userRoleRepository.existsByRoleName("Client")){
-            userRoleRepository.save(UserRole.builder().roleName("Client").build());
+        if(userCreateDto.getUserRoleEnum() == Client && !userRoleRepository.existsByRoleName(Client)){
+            userRoleRepository.save(UserRole.builder().roleName(Client).build());
             }
 
-        else if(userCreateDto.getUserRoleEnum() == UserRoleEnum.Service_Provider && !userRoleRepository.existsByRoleName("Service_Provider")){
-            userRoleRepository.save(UserRole.builder().roleName("Service_Provider").build());
+        else if(userCreateDto.getUserRoleEnum() == Service_Provider && !userRoleRepository.existsByRoleName(Service_Provider)){
+            userRoleRepository.save(UserRole.builder().roleName(Service_Provider).build());
         }
 
-        else if(userCreateDto.getUserRoleEnum() == UserRoleEnum.Admin && !userRoleRepository.existsByRoleName("Admin")){
-            userRoleRepository.save(UserRole.builder().roleName("Admin").build());
+        else if(userCreateDto.getUserRoleEnum() == ADMIN && !userRoleRepository.existsByRoleName(ADMIN)){
+            userRoleRepository.save(UserRole.builder().roleName(ADMIN).build());
         }
         //Response dto
-        UserResponseDto responseDto = UserResponseDto.builder()
-                .profilePicture(userEntity.getProfilePicture())
-                .firstName(userEntity.getFirstName())
-                .lastName(userEntity.getLastName())
-                .description(userEntity.getDescription())
-                .build();
+        UserResponseDto responseDto = new UserResponseDto(userEntity);
 
-        ResponsePojo<UserResponseDto> responsePojo = new ResponsePojo<>();
-        responsePojo.setMessage("New user added successfully");
-        responsePojo.setData(responseDto);
-
-        return responsePojo;
+        return new ResponsePojo<>(ResponseUtils.CREATED, true, "New user added successfully", responseDto);
     }
 
     @Override
@@ -110,20 +102,14 @@ public class UserServiceImpl implements IUserService {
         List<UserResponseDto> responseDtoList = new ArrayList<>();
 
         //Response dto
-        userEntityList.stream().skip(pageNum).limit(pageSize).map(
-                userEntity -> UserResponseDto.builder()
-                        .profilePicture(userEntity.getProfilePicture())
-                        .firstName(userEntity.getFirstName())
-                        .lastName(userEntity.getLastName())
-                        .description(userEntity.getDescription())
-                        .build()
+        userEntityList.stream().skip(pageNum - 1).limit(pageSize).map(
+                UserResponseDto::new
         ).forEach(responseDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("User page number: ", String.valueOf(pageNum))
-                .header("User page size: ", String.valueOf(pageSize))
-                .header("User total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
+        ResponsePojo<List<UserResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "All Service providers", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override
@@ -145,33 +131,23 @@ public class UserServiceImpl implements IUserService {
 
         //Preparing response dto
 
-        UserResponseDto responseDto = UserResponseDto.builder()
-                .profilePicture(userEntity.getProfilePicture())
-                .firstName(userEntity.getFirstName())
-                .lastName(userEntity.getLastName())
-                .description(userEntity.getDescription())
-                .build();
+        UserResponseDto responseDto = new  UserResponseDto(userEntity);
         return new ResponseEntity<>(responseDto, HttpStatus.FOUND);
     }
 
     // TODO: 13/08/2023 To implement the following methods
     @Override
     public ResponseEntity<?> FindClients(int pageNum, int pageSize) {
-        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == UserRoleEnum.Client)
+        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == Client)
                 .toList();
         List<UserResponseDto> responseDtoList = new ArrayList<>();
 
         if(clientList.isEmpty())
             return new ResponseEntity<>("There are no Clients yet.", HttpStatus.NOT_FOUND);
 
-        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum).limit(pageSize)
+        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum - 1).limit(pageSize)
                 .map(
-                        userEntity -> UserResponseDto.builder()
-                                .profilePicture(userEntity.getProfilePicture())
-                                .firstName(userEntity.getFirstName())
-                                .lastName(userEntity.getLastName())
-                                .description(userEntity.getDescription())
-                                .build()
+                        UserResponseDto::new
                 ).forEach(responseDtoList::add);
 
         return ResponseEntity.ok()
@@ -183,21 +159,16 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ResponseEntity<?> FindServiceProviders(int pageNum, int pageSize) {
-        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == UserRoleEnum.Service_Provider)
+        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == Service_Provider)
                 .toList();
         List<UserResponseDto> responseDtoList = new ArrayList<>();
 
         if(clientList.isEmpty())
             return new ResponseEntity<>("There are no Service Providers yet.", HttpStatus.NOT_FOUND);
 
-        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum).limit(pageSize)
+        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum - 1).limit(pageSize)
                 .map(
-                        userEntity -> UserResponseDto.builder()
-                                .profilePicture(userEntity.getProfilePicture())
-                                .firstName(userEntity.getFirstName())
-                                .lastName(userEntity.getLastName())
-                                .description(userEntity.getDescription())
-                                .build()
+                        UserResponseDto::new
                 ).forEach(responseDtoList::add);
 
         return ResponseEntity.ok()
@@ -209,21 +180,16 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ResponseEntity<?> FindAdmins(int pageNum, int pageSize) {
-        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == UserRoleEnum.Admin)
+        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == ADMIN)
                 .toList();
         List<UserResponseDto> responseDtoList = new ArrayList<>();
 
         if(clientList.isEmpty())
             return new ResponseEntity<>("There are no Admins yet.", HttpStatus.NOT_FOUND);
 
-        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum).limit(pageSize)
+        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum - 1).limit(pageSize)
                 .map(
-                        userEntity -> UserResponseDto.builder()
-                                .profilePicture(userEntity.getProfilePicture())
-                                .firstName(userEntity.getFirstName())
-                                .lastName(userEntity.getLastName())
-                                .description(userEntity.getDescription())
-                                .build()
+                        UserResponseDto::new
                 ).forEach(responseDtoList::add);
 
         return ResponseEntity.ok()

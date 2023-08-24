@@ -1,12 +1,10 @@
 package com.akinnova.BookReviewGrad.dto.transactiondto;
-
-import lombok.Builder;
+import com.akinnova.BookReviewGrad.entity.Transaction;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-@Builder
 public class TransactionResponseDto {
     private String firstName;
     private String lastName;
@@ -14,5 +12,14 @@ public class TransactionResponseDto {
     private Double amountPaid;
     private String invoiceCode;
     private LocalDateTime transactionDate;
+
+    public TransactionResponseDto(Transaction transaction){
+        this.firstName = transaction.getFirstName();
+        this.lastName = transaction.getLastName();
+        this.otherName = transaction.getOtherName();
+        this.amountPaid = transaction.getAmountPaid();
+        this.invoiceCode = transaction.getInvoiceCode();
+        this.transactionDate = transaction.getTransactionDate();
+    }
 
 }

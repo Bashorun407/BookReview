@@ -1,5 +1,6 @@
 package com.akinnova.BookReviewGrad.service.transactionservice;
 
+import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderResponseDto;
 import com.akinnova.BookReviewGrad.dto.transactiondto.TransactionDto;
 import com.akinnova.BookReviewGrad.dto.transactiondto.TransactionResponseDto;
 import com.akinnova.BookReviewGrad.email.emaildto.EmailDetail;
@@ -12,8 +13,9 @@ import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.BookRepository;
 import com.akinnova.BookReviewGrad.repository.ServProviderRepository;
 import com.akinnova.BookReviewGrad.repository.TransactionRepository;
+import com.akinnova.BookReviewGrad.response.ResponsePojo;
 import com.akinnova.BookReviewGrad.response.ResponseUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,29 +24,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TransactionServiceImpl implements ITransactionService{
 
-    @Autowired
+
     private EmailServiceImpl emailService;
     private final ServProviderRepository servProviderRepository;
     private final TransactionRepository transactionRepository;
     private final BookRepository bookRepository;
 
-    //Class Constructor
-    public TransactionServiceImpl( ServProviderRepository servProviderRepository,
-                                   TransactionRepository transactionRepository,
-                                  BookRepository bookRepository) {
-
-        this.servProviderRepository = servProviderRepository;
-        this.transactionRepository = transactionRepository;
-        this.bookRepository = bookRepository;
-    }
-
-
     @Override
     public ResponseEntity<?> addTransaction(TransactionDto transactionDto) {
         //Transaction has been created and saved to repository
-        Transaction transaction = transactionRepository.save(Transaction.builder()
+        transactionRepository.save(Transaction.builder()
                         .firstName(transactionDto.getFirstName())
                         .lastName(transactionDto.getLastName())
                         .otherName(transactionDto.getOtherName())
@@ -59,7 +51,7 @@ public class TransactionServiceImpl implements ITransactionService{
         BookEntity bookEntity = bookRepository.findByProjectId(transactionDto.getProjectId())
                 .orElseThrow(()-> new ApiException("There is no project by this id: " + transactionDto.getProjectId()));
 
-        //Update and Save changes to repository
+        //Once the book review project's money has been paid, update and save changes to repository
         bookEntity.setReviewStatus(ReviewStatus.Started);
         bookRepository.save(bookEntity);
 
@@ -96,6 +88,7 @@ public class TransactionServiceImpl implements ITransactionService{
 
     @Override
     public ResponseEntity<?> transactionByProviderId(String providerId, int pageNum, int pageSize) {
+
         List<Transaction> transactionList = transactionRepository.findByProviderId(providerId)
                 .orElseThrow(()-> new ApiException("There are no transaction with provider id: " + providerId));
 
@@ -103,22 +96,14 @@ public class TransactionServiceImpl implements ITransactionService{
 
         //preparing response dto
         transactionList.stream().skip(pageNum).limit(pageSize).map(
-                transaction -> TransactionResponseDto.builder()
-                        .firstName(transaction.getFirstName())
-                        .lastName(transaction.getLastName())
-                        .otherName(transaction.getOtherName())
-                        .amountPaid(transaction.getAmountPaid())
-                        .invoiceCode(transaction.getInvoiceCode())
-                        .transactionDate(transaction.getTransactionDate())
-                        .build()
+                TransactionResponseDto::new
         ).forEach(responseDtoList::add);
 
 
-        return ResponseEntity.ok()
-                .header("Transaction Page Number: ", String.valueOf(pageNum))
-                .header("Transaction page size: ", String.valueOf(pageSize))
-                .header("Transaction Total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
+        ResponsePojo<List<TransactionResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "Successful applications list", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override

@@ -23,9 +23,10 @@ public class BookEntity {
     private Long id;
     private String coverImage;
     private String title;
-    private StringBuffer content;
+    private String about;
     private String author;
     private String projectId;
+    @Enumerated(EnumType.STRING)
     private ReviewStatus reviewStatus;
     private Boolean activeStatus;
     @CreationTimestamp

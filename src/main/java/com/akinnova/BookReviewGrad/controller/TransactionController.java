@@ -1,4 +1,4 @@
-package com.akinnova.BookReviewGrad.controller.transactioncontroller;
+package com.akinnova.BookReviewGrad.controller;
 
 import com.akinnova.BookReviewGrad.dto.transactiondto.TransactionDto;
 import com.akinnova.BookReviewGrad.service.transactionservice.TransactionServiceImpl;

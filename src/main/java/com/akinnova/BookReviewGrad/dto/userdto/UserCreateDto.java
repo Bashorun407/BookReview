@@ -14,7 +14,6 @@ public class UserCreateDto {
     private String email;
     private String password;
     private UserRoleEnum userRoleEnum;
-    //private String roleName;
     private String specialization;
     private String description;
 }

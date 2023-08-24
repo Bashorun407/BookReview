@@ -8,6 +8,8 @@ public class ServProviderUpdateDto {
     private String profilePicture;
     private String username;
     private String email;
-    private ApplicationStatus applicationStatus;
+    private String password;
+    private String specialization;
     private String description;
+    private ApplicationStatus applicationStatus;
 }

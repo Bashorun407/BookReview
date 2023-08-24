@@ -24,6 +24,8 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    private final String[] WHITE_LIST_URL = {"/api/v1/book/auth/(.*)", "/api/v1/book/auth/(.*)"};
+
     //2) Security filter chain
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -31,8 +33,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize->
-                        authorize.requestMatchers(HttpMethod.POST, "/api/v1/book/auth/(.*)").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/book/auth/(.*)").permitAll()
+                        authorize.requestMatchers(WHITE_LIST_URL).permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/api/v1/book/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/book/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/comment/auth/**").permitAll()

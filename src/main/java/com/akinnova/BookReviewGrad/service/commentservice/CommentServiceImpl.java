@@ -1,11 +1,12 @@
 package com.akinnova.BookReviewGrad.service.commentservice;
-
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentDeleteDto;
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentDto;
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentResponseDto;
 import com.akinnova.BookReviewGrad.entity.Comment;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.CommentRepository;
+import com.akinnova.BookReviewGrad.response.ResponsePojo;
+import com.akinnova.BookReviewGrad.response.ResponseUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -46,11 +47,10 @@ public class CommentServiceImpl implements ICommentService{
                         .build()
         ).forEach(responseDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("Comment page number: ", String.valueOf(pageNum))
-                .header("Comment page size: ", String.valueOf(pageSize))
-                .header("Comments count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
+        ResponsePojo<List<CommentResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "All comments", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override
@@ -69,11 +69,10 @@ public class CommentServiceImpl implements ICommentService{
                         .build()
         ).forEach(respondDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("Comments Page Number: ", String.valueOf(pageNum))
-                .header("Comments Page Size: ", String.valueOf(pageSize))
-                .header("Comments count: ", String.valueOf(respondDtoList.size()))
-                .body(respondDtoList);
+        ResponsePojo<List<CommentResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "Comments by title", respondDtoList, pageNum, pageSize, respondDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override
@@ -92,11 +91,10 @@ public class CommentServiceImpl implements ICommentService{
                         .build()
         ).forEach(respondDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("Comments Page Number: ", String.valueOf(pageNum))
-                .header("Comments Page Size: ", String.valueOf(pageSize))
-                .header("Comments count: ", String.valueOf(respondDtoList.size()))
-                .body(respondDtoList);
+        ResponsePojo<List<CommentResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "Comments by username", respondDtoList, pageNum, pageSize, respondDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override
@@ -107,9 +105,9 @@ public class CommentServiceImpl implements ICommentService{
                 .orElseThrow(()-> new ApiException(String.format("Comments by username: %s not available", commentDeleteDto.getUsername())));
 
         //to remove a comment by user at a specific time
-        commentList.stream().filter(x -> x.getTitle().equals(commentDeleteDto.getTitle()))
+        commentList.stream().filter(x -> x.getTitle().equals(commentDeleteDto.getProjectId()))
                 .peek(comment -> {
-                    if (comment.getCommentTime().isEqual(commentDeleteDto.getDate()))
+                    if (comment.getCommentTime().isEqual(commentDeleteDto.getDateTime()))
                         commentRepository.delete(comment);
                 });
 

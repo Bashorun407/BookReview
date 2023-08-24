@@ -1,6 +1,5 @@
 package com.akinnova.BookReviewGrad.security;
 
-import com.akinnova.BookReviewGrad.entity.ServProvider;
 import com.akinnova.BookReviewGrad.entity.UserEntity;
 import com.akinnova.BookReviewGrad.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -30,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         //I do not know if subsequent code will work
         Set<GrantedAuthority> authorities = userEntity.getRoles().stream()
-                .map((role)-> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toSet());
+                .map((role)-> new SimpleGrantedAuthority(role.getRoleName().name())).collect(Collectors.toSet());
 
         return new User(userEntity.getUsername(), userEntity.getPassword(), authorities);
     }

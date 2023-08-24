@@ -1,4 +1,4 @@
-package com.akinnova.BookReviewGrad.controller.bookcontroller;
+package com.akinnova.BookReviewGrad.controller;
 
 import com.akinnova.BookReviewGrad.dto.bookdto.BookCreateDto;
 import com.akinnova.BookReviewGrad.dto.bookdto.BookResponseDto;

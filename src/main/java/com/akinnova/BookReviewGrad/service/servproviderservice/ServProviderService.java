@@ -1,15 +1,13 @@
 package com.akinnova.BookReviewGrad.service.servproviderservice;
 
-import com.akinnova.BookReviewGrad.dto.bookdto.BookResponseDto;
 import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderDto;
 import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderResponseDto;
 import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderUpdateDto;
-import com.akinnova.BookReviewGrad.entity.BookEntity;
 import com.akinnova.BookReviewGrad.entity.ServProvider;
 import com.akinnova.BookReviewGrad.entity.enums.ApplicationStatus;
-import com.akinnova.BookReviewGrad.entity.enums.ReviewStatus;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.ServProviderRepository;
+import com.akinnova.BookReviewGrad.response.ResponsePojo;
 import com.akinnova.BookReviewGrad.response.ResponseUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,43 +42,35 @@ public class ServProviderService implements IServProviderService{
 
                         .username(servProviderDto.getUsername())
                         .email(servProviderDto.getEmail())
+                        .password(servProviderDto.getPassword())
                         .specialization(servProviderDto.getSpecialization())
                         .description(servProviderDto.getDescription())
                         .applicationStatus(ApplicationStatus.Received)
                         .activeStatus(true)
                         .createdOn(LocalDateTime.now())
                 .build());
+
         //Response dto
-        ServProviderResponseDto responseDto = ServProviderResponseDto.builder()
-                .profilePicture(servProvider.getProfilePicture())
-                .firstName(servProvider.getFirstName())
-                .lastName(servProvider.getLastName())
-                .description(servProvider.getDescription())
-                .build();
+        ServProviderResponseDto responseDto = new ServProviderResponseDto(servProvider);
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<?> AllServiceProviders(int pageNum, int pageSize) {
+
         List<ServProvider> servProviderList = servProviderRepository.findAll();
         List<ServProviderResponseDto> responseDtoList = new ArrayList<>();
 
         servProviderList.stream().filter(ServProvider::getActiveStatus).skip(pageNum).limit(pageSize)
                 .map(
-                        servProvider -> ServProviderResponseDto.builder()
-                                .profilePicture(servProvider.getProfilePicture())
-                                .firstName(servProvider.getFirstName())
-                                .lastName(servProvider.getLastName())
-                                .description(servProvider.getDescription())
-                                .build()
+                        ServProviderResponseDto::new
                 ).forEach(responseDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("Service Provider Page: ", String.valueOf(pageNum))
-                .header("Service Provider Page Size: ", String.valueOf(pageSize))
-                .header("Service Provider Total Count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
+        ResponsePojo<List<ServProviderResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "All Service providers", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override
@@ -90,28 +80,19 @@ public class ServProviderService implements IServProviderService{
                 .orElseThrow(()-> new ApiException(String.format("There is no service provider with username: %s", username)));
 
         //Response dto
-        ServProviderResponseDto responseDto = ServProviderResponseDto.builder()
-                .profilePicture(servProvider.getProfilePicture())
-                .firstName(servProvider.getFirstName())
-                .lastName(servProvider.getLastName())
-                .description(servProvider.getProviderId())
-                .build();
+        ServProviderResponseDto responseDto = new ServProviderResponseDto(servProvider);
 
         return ResponseEntity.ok(responseDto);
     }
 
     @Override
     public ResponseEntity<?> FindServiceProviderByEmail(String email) {
+
         ServProvider servProvider = servProviderRepository.findByEmail(email).filter(ServProvider::getActiveStatus)
                 .orElseThrow(()-> new ApiException(String.format("There is no service provider with email: %s", email)));
 
         //Response dto
-        ServProviderResponseDto responseDto = ServProviderResponseDto.builder()
-                .profilePicture(servProvider.getProfilePicture())
-                .firstName(servProvider.getFirstName())
-                .lastName(servProvider.getLastName())
-                .description(servProvider.getProviderId())
-                .build();
+        ServProviderResponseDto responseDto = new ServProviderResponseDto(servProvider);
 
         return ResponseEntity.ok(responseDto);
     }
@@ -119,6 +100,7 @@ public class ServProviderService implements IServProviderService{
     // TODO: 13/08/2023 To complete the following methods
     @Override
     public ResponseEntity<?> FindReceivedApplications(int pageNum, int pageSize) {
+
         List<ServProvider> servProviderList = servProviderRepository.findAll().stream().filter(x-> x.getApplicationStatus() == ApplicationStatus.Received)
                 .toList();
         List<ServProviderResponseDto> responseDtoList = new ArrayList<>();
@@ -128,19 +110,13 @@ public class ServProviderService implements IServProviderService{
 
         servProviderList.stream().filter(ServProvider::getActiveStatus).skip(pageNum).limit(pageSize)
                 .map(
-                        servProvider -> ServProviderResponseDto.builder()
-                                .profilePicture(servProvider.getProfilePicture())
-                                .firstName(servProvider.getFirstName())
-                                .lastName(servProvider.getLastName())
-                                .description(servProvider.getDescription())
-                                .build()
+                        ServProviderResponseDto::new
                 ).forEach(responseDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("Service providers page number: ", String.valueOf(pageNum))
-                .header("Service providers page size: ", String.valueOf(pageSize))
-                .header("Service providers total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
+        ResponsePojo<List<ServProviderResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "Received Applications list", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override
@@ -154,19 +130,14 @@ public class ServProviderService implements IServProviderService{
 
         servProviderList.stream().filter(ServProvider::getActiveStatus).skip(pageNum).limit(pageSize)
                 .map(
-                        servProvider -> ServProviderResponseDto.builder()
-                                .profilePicture(servProvider.getProfilePicture())
-                                .firstName(servProvider.getFirstName())
-                                .lastName(servProvider.getLastName())
-                                .description(servProvider.getDescription())
-                                .build()
+                        ServProviderResponseDto::new
                 ).forEach(responseDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("Service providers page number: ", String.valueOf(pageNum))
-                .header("Service providers page size: ", String.valueOf(pageSize))
-                .header("Service providers total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
+        ResponsePojo<List<ServProviderResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "Applications in review list", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
+
     }
 
     @Override
@@ -180,19 +151,13 @@ public class ServProviderService implements IServProviderService{
 
         servProviderList.stream().filter(ServProvider::getActiveStatus).skip(pageNum).limit(pageSize)
                 .map(
-                        servProvider -> ServProviderResponseDto.builder()
-                                .profilePicture(servProvider.getProfilePicture())
-                                .firstName(servProvider.getFirstName())
-                                .lastName(servProvider.getLastName())
-                                .description(servProvider.getDescription())
-                                .build()
+                        ServProviderResponseDto::new
                 ).forEach(responseDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("Service providers page number: ", String.valueOf(pageNum))
-                .header("Service providers page size: ", String.valueOf(pageSize))
-                .header("Service providers total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
+        ResponsePojo<List<ServProviderResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "Confirmed applications list", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override
@@ -203,6 +168,7 @@ public class ServProviderService implements IServProviderService{
         servProvider.setProfilePicture(servProviderUpdateDto.getProfilePicture());
         servProvider.setUsername(servProviderUpdateDto.getUsername());
         servProvider.setEmail(servProviderUpdateDto.getEmail());
+        servProvider.setPassword(servProviderUpdateDto.getPassword());
         servProvider.setApplicationStatus(servProviderUpdateDto.getApplicationStatus());
         servProvider.setDescription(servProviderUpdateDto.getDescription());
         servProvider.setModifiedOn(LocalDateTime.now());

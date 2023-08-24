@@ -7,7 +7,7 @@ import lombok.Data;
 public class BookUpdateDto {
     private String coverImage;
     private String title;
-    private StringBuffer content;
+    private String about;
     private String author;
     private String projectId;
     private ReviewStatus reviewStatus;

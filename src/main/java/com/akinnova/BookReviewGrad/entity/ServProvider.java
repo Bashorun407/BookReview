@@ -33,8 +33,10 @@ public class ServProvider {
     private String providerId;
     private String username;
     private String email;
+    private String password;
     private String specialization;
     private String description;
+    @Enumerated(EnumType.STRING)
     private ApplicationStatus applicationStatus;
     private Boolean activeStatus;
 

@@ -1,22 +1,24 @@
-package com.akinnova.BookReviewGrad.controller.usercontroller;
+package com.akinnova.BookReviewGrad.controller;
 
 import com.akinnova.BookReviewGrad.dto.userdto.UserCreateDto;
 import com.akinnova.BookReviewGrad.dto.userdto.UserResponseDto;
 import com.akinnova.BookReviewGrad.dto.userdto.UserUpdateDto;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
 import com.akinnova.BookReviewGrad.service.userservice.UserServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user/auth")
+@AllArgsConstructor
 public class UserController {
 
     private final UserServiceImpl userService;
 
-    public UserController(UserServiceImpl userService) {
-        this.userService = userService;
-    }
+//    public UserController(UserServiceImpl userService) {
+//        this.userService = userService;
+//    }
 
     @PostMapping("/addUser")
     public ResponsePojo<UserResponseDto> addUser(@RequestBody UserCreateDto userCreateDto) {

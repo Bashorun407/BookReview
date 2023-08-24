@@ -1,4 +1,4 @@
-package com.akinnova.BookReviewGrad.controller.commentcontroller;
+package com.akinnova.BookReviewGrad.controller;
 
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentDeleteDto;
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentDto;

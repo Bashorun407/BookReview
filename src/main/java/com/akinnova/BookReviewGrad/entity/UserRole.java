@@ -1,5 +1,6 @@
 package com.akinnova.BookReviewGrad.entity;
 
+import com.akinnova.BookReviewGrad.entity.enums.UserRoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,8 @@ public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String roleName;
+
+    @Enumerated(EnumType.STRING)
+    private UserRoleEnum roleName;
 
 }

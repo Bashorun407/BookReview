@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 
 public interface IUserService {
 
-    ResponsePojo<UserResponseDto> addUser(UserCreateDto clientCreateDto);
+    ResponsePojo<UserResponseDto> addUser(UserCreateDto userCreateDto);
     ResponseEntity<?> allUsers(int pageNum, int pageSize);
     ResponseEntity<?> SearchUser(String username, String phoneNumber, String email);
     ResponseEntity<?> FindClients(int pageNum, int pageSize);
     ResponseEntity<?> FindServiceProviders(int pageNum, int pageSize);
     ResponseEntity<?> FindAdmins(int pageNum, int pageSize);
-    ResponseEntity<?> updateUser(UserUpdateDto clientUpdateDto);
+    ResponseEntity<?> updateUser(UserUpdateDto userUpdateDto);
     ResponseEntity<?> deleteUser(String username);
 
 }

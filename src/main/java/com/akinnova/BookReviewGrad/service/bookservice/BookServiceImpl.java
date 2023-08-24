@@ -35,24 +35,17 @@ public class BookServiceImpl implements IBookService {
                         .coverImage(bookCreateDto.getCoverImage())
                         .title(bookCreateDto.getTitle())
                         .author(bookCreateDto.getAuthor())
+                        .about(bookCreateDto.getAbout())
                         .projectId(ResponseUtils.generateBookSerialNumber(10, bookCreateDto.getTitle()))
                         .reviewStatus(ReviewStatus.Pending)
                         .activeStatus(true)
                         .createdOn(LocalDateTime.now())
                 .build());
 
-      BookResponseDto bookResponseDto = BookResponseDto.builder()
-              .coverImage(bookEntity.getCoverImage())
-              .title(bookEntity.getTitle())
-              .author(bookEntity.getAuthor())
-              .projectId(bookEntity.getProjectId())
-              .build();
+        BookResponseDto bookResponseDto = new BookResponseDto(bookEntity);
 
-      ResponsePojo<BookResponseDto> responsePojo = new ResponsePojo<>();
-      responsePojo.setMessage("Book added successfully");
-      responsePojo.setData(bookResponseDto);
-
-        return responsePojo;
+        return new ResponsePojo<>(ResponseUtils.CREATED, true,
+                "Book has been added.", bookResponseDto );
     }
 
     @Override
@@ -66,18 +59,13 @@ public class BookServiceImpl implements IBookService {
 
         //preparing response dto
         bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
-                bookEntity -> BookResponseDto.builder()
-                        .coverImage(bookEntity.getCoverImage())
-                        .title(bookEntity.getTitle())
-                        .author(bookEntity.getAuthor())
-                        .projectId(bookEntity.getProjectId())
-                        .build()
+                BookResponseDto::new
         ).forEach(responseDtoList::add);
-        return ResponseEntity.ok()
-                .header("Project page number: ", String.valueOf(pageNum))
-                .header("Project page size: ", String.valueOf(pageSize))
-                .header("Project total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
+
+        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "All books found", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override
@@ -90,19 +78,13 @@ public class BookServiceImpl implements IBookService {
 
         //preparing response dto
         bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
-                bookEntity -> BookResponseDto.builder()
-                        .coverImage(bookEntity.getCoverImage())
-                        .title(bookEntity.getTitle())
-                        .author(bookEntity.getAuthor())
-                        .projectId(bookEntity.getProjectId())
-                        .build()
+                BookResponseDto::new
         ).forEach(responseDtoList::add);
-        return ResponseEntity.ok()
-                .header("Project page number: ", String.valueOf(pageNum))
-                .header("Project page size: ", String.valueOf(pageSize))
-                .header("Project total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
-    }
+
+        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "Books by author", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);    }
 
     @Override
     public ResponseEntity<?> findBookByTitle(String title, int pageNum, int pageSize) {
@@ -114,19 +96,13 @@ public class BookServiceImpl implements IBookService {
 
         //preparing response dto
         bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
-                bookEntity -> BookResponseDto.builder()
-                        .coverImage(bookEntity.getCoverImage())
-                        .title(bookEntity.getTitle())
-                        .author(bookEntity.getAuthor())
-                        .projectId(bookEntity.getProjectId())
-                        .build()
+                BookResponseDto::new
         ).forEach(responseDtoList::add);
-        return ResponseEntity.ok()
-                .header("Project page number: ", String.valueOf(pageNum))
-                .header("Project page size: ", String.valueOf(pageSize))
-                .header("Project total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
 
+        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "Books by title", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override
@@ -135,14 +111,9 @@ public class BookServiceImpl implements IBookService {
         BookEntity bookEntity = bookRepository.findByProjectId(projectId)
                 .orElseThrow(()-> new ApiException("There are no projects with this project id: " + projectId));
 
-        BookResponseDto responseDto = BookResponseDto.builder()
-                .coverImage(bookEntity.getCoverImage())
-                .title(bookEntity.getTitle())
-                .author(bookEntity.getAuthor())
-                .projectId(bookEntity.getProjectId())
-                .build();
+        BookResponseDto bookResponseDto = new BookResponseDto(bookEntity);
 
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(bookResponseDto);
     }
 
     // TODO: 13/08/2023 To complete the following methods
@@ -157,19 +128,13 @@ public class BookServiceImpl implements IBookService {
 
         bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize)
                 .map(
-                        bookEntity -> BookResponseDto.builder()
-                                .coverImage(bookEntity.getCoverImage())
-                                .title(bookEntity.getTitle())
-                                .author(bookEntity.getAuthor())
-                                .projectId(bookEntity.getProjectId())
-                                .build()
+                        BookResponseDto::new
                 ).forEach(responseDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("Book page number: ", String.valueOf(pageNum))
-                .header("Book page size: ", String.valueOf(pageSize))
-                .header("Book total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
+        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "Books with pending review", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);
     }
 
     @Override
@@ -183,20 +148,13 @@ public class BookServiceImpl implements IBookService {
 
         bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize)
                 .map(
-                        bookEntity -> BookResponseDto.builder()
-                                .coverImage(bookEntity.getCoverImage())
-                                .title(bookEntity.getTitle())
-                                .author(bookEntity.getAuthor())
-                                .projectId(bookEntity.getProjectId())
-                                .build()
+                        BookResponseDto::new
                 ).forEach(responseDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("Book page number: ", String.valueOf(pageNum))
-                .header("Book page size: ", String.valueOf(pageSize))
-                .header("Book total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
-    }
+        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "Books with started review", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);    }
 
     @Override
     public ResponseEntity<?> findCompletedBookReview(int pageNum, int pageSize) {
@@ -209,20 +167,13 @@ public class BookServiceImpl implements IBookService {
 
         bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize)
                 .map(
-                        bookEntity -> BookResponseDto.builder()
-                                .coverImage(bookEntity.getCoverImage())
-                                .title(bookEntity.getTitle())
-                                .author(bookEntity.getAuthor())
-                                .projectId(bookEntity.getProjectId())
-                                .build()
+                        BookResponseDto::new
                 ).forEach(responseDtoList::add);
 
-        return ResponseEntity.ok()
-                .header("Book page number: ", String.valueOf(pageNum))
-                .header("Book page size: ", String.valueOf(pageSize))
-                .header("Book total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
-    }
+        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "All books found", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);    }
 
     @Override
     public ResponseEntity<?> updateBook(BookUpdateDto bookUpdateDto) {
@@ -277,18 +228,12 @@ public class BookServiceImpl implements IBookService {
         //Preparing response dto
         bookEntity.stream().skip(pageNum).limit(pageSize).filter(BookEntity::getActiveStatus)
                 .map(
-                        book -> BookResponseDto.builder()
-                                .coverImage(book.getCoverImage())
-                                .title(book.getTitle())
-                                .author(book.getAuthor())
-                                .build()
+                        BookResponseDto::new
                 ).forEach(responseDtoList::add);
 
 
-        return ResponseEntity.ok()
-                .header("Book Page Number: ", String.valueOf(pageNum))
-                .header("Book Page Size: ", String.valueOf(pageSize))
-                .header("Books total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
-    }
+        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
+                "All books found", responseDtoList, pageNum, pageSize, responseDtoList.size());
+
+        return ResponseEntity.ok(responsePojo);    }
 }

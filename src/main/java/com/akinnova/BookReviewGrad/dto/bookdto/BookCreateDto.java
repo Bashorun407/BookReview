@@ -6,6 +6,6 @@ import lombok.Data;
 public class BookCreateDto {
     private String coverImage;
     private String title;
-    private StringBuffer content;
+    private String about;
     private String author;
 }

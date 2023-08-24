@@ -1,4 +1,4 @@
-package com.akinnova.BookReviewGrad.controller.ratingcontroller;
+package com.akinnova.BookReviewGrad.controller;
 
 import com.akinnova.BookReviewGrad.dto.ratingdto.RatingDto;
 import com.akinnova.BookReviewGrad.service.ratingservice.RatingServiceImpl;

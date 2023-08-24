@@ -37,8 +37,8 @@ public class UserEntity {
     private String username;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
     private UserRoleEnum userRoleEnum;
-    //private String userRole;
     private String description;
     private Boolean activeStatus;
 
@@ -54,4 +54,5 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "roleName")
     )
     private Set<UserRole> roles;
+
 }

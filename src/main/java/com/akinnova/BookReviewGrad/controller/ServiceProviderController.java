@@ -1,4 +1,4 @@
-package com.akinnova.BookReviewGrad.controller.serviceprovidercontroller;
+package com.akinnova.BookReviewGrad.controller;
 
 import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderDto;
 import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderUpdateDto;
@@ -44,12 +44,14 @@ public class ServiceProviderController {
     }
 
     @GetMapping("/reviewedApps")
-    public ResponseEntity<?> FindReviewingApplications(int pageNum, int pageSize) {
+    public ResponseEntity<?> FindReviewingApplications(@RequestParam(defaultValue = "1") int pageNum,
+                                                       @RequestParam(defaultValue = "20") int pageSize) {
         return providerService.FindReviewingApplications(pageNum, pageSize);
     }
 
     @GetMapping("/confirmedApps")
-    public ResponseEntity<?> FindConfirmedApplications(int pageNum, int pageSize) {
+    public ResponseEntity<?> FindConfirmedApplications(@RequestParam(defaultValue = "1") int pageNum,
+                                                       @RequestParam(defaultValue = "20") int pageSize) {
         return providerService.FindConfirmedApplications(pageNum, pageSize);
     }
 

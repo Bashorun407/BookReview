@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class CommentDeleteDto {
-    private String title;
+    private String projectId;
     private String username;
-    private LocalDateTime date;
+    private LocalDateTime dateTime;
 }
