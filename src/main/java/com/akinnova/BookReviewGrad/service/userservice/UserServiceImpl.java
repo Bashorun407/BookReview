@@ -6,7 +6,8 @@ import com.akinnova.BookReviewGrad.dto.userdto.UserUpdateDto;
 import com.akinnova.BookReviewGrad.entity.ServProvider;
 import com.akinnova.BookReviewGrad.entity.UserEntity;
 import com.akinnova.BookReviewGrad.entity.UserRole;
-import com.akinnova.BookReviewGrad.entity.enums.ApplicationStatus;
+import com.akinnova.BookReviewGrad.enums.ApplicationStatus;
+import com.akinnova.BookReviewGrad.enums.ResponseType;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.ServProviderRepository;
 import com.akinnova.BookReviewGrad.repository.UserRepository;
@@ -19,10 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.akinnova.BookReviewGrad.entity.enums.UserRoleEnum.*;
+import static com.akinnova.BookReviewGrad.enums.UserRoleEnum.*;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -57,6 +57,7 @@ public class UserServiceImpl implements IUserService {
                         .userRoleEnum(userCreateDto.getUserRoleEnum())
                         //.userRole(userCreateDto.getRoleName())
                         .description(userCreateDto.getDescription())
+                        .activeStatus(true)
                 .build());
 
         //if user role is "ServiceProvider"...create an object of service provider and saves to database
@@ -91,25 +92,16 @@ public class UserServiceImpl implements IUserService {
             userRoleRepository.save(UserRole.builder().roleName(ADMIN).build());
         }
         //Response dto
-        UserResponseDto responseDto = new UserResponseDto(userEntity);
 
-        return new ResponsePojo<>(ResponseUtils.CREATED, true, "New user added successfully", responseDto);
+        return new ResponsePojo<>(ResponseType.SUCCESS, "New user added successfully", new UserResponseDto(userEntity));
     }
 
     @Override
     public ResponseEntity<?> allUsers(int pageNum, int pageSize) {
-        List<UserEntity> userEntityList = userRepository.findAll().stream().filter(UserEntity::getActiveStatus).toList();
-        List<UserResponseDto> responseDtoList = new ArrayList<>();
+        List<UserEntity> userEntityList = userRepository.findAll().stream()
+                .filter(UserEntity::getActiveStatus).toList();
 
-        //Response dto
-        userEntityList.stream().skip(pageNum - 1).limit(pageSize).map(
-                UserResponseDto::new
-        ).forEach(responseDtoList::add);
-
-        ResponsePojo<List<UserResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "All Service providers", responseDtoList, pageNum, pageSize, responseDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All Service providers", userEntityList.stream().skip(pageNum - 1).limit(pageSize).map(UserResponseDto::new)));
     }
 
     @Override
@@ -138,65 +130,42 @@ public class UserServiceImpl implements IUserService {
     // TODO: 13/08/2023 To implement the following methods
     @Override
     public ResponseEntity<?> FindClients(int pageNum, int pageSize) {
-        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == Client)
+        List<UserEntity> clientList = userRepository.findAll().stream()
+                .filter(UserEntity::getActiveStatus)
+                .filter(x-> x.getUserRoleEnum() == Client)
                 .toList();
-        List<UserResponseDto> responseDtoList = new ArrayList<>();
 
         if(clientList.isEmpty())
             return new ResponseEntity<>("There are no Clients yet.", HttpStatus.NOT_FOUND);
 
-        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum - 1).limit(pageSize)
-                .map(
-                        UserResponseDto::new
-                ).forEach(responseDtoList::add);
-
-        return ResponseEntity.ok()
-                .header("User page number: ", String.valueOf(pageNum))
-                .header("User page size: ", String.valueOf(pageSize))
-                .header("User total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All clients", clientList.stream().skip(pageNum - 1).limit(pageSize)
+                .map(UserResponseDto::new)));
     }
 
     @Override
     public ResponseEntity<?> FindServiceProviders(int pageNum, int pageSize) {
         List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == Service_Provider)
                 .toList();
-        List<UserResponseDto> responseDtoList = new ArrayList<>();
 
         if(clientList.isEmpty())
             return new ResponseEntity<>("There are no Service Providers yet.", HttpStatus.NOT_FOUND);
 
-        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum - 1).limit(pageSize)
-                .map(
-                        UserResponseDto::new
-                ).forEach(responseDtoList::add);
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All clients", clientList.stream().skip(pageNum - 1).limit(pageSize)
+                .map(UserResponseDto::new)));
 
-        return ResponseEntity.ok()
-                .header("User page number: ", String.valueOf(pageNum))
-                .header("User page size: ", String.valueOf(pageSize))
-                .header("User total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
     }
 
     @Override
     public ResponseEntity<?> FindAdmins(int pageNum, int pageSize) {
         List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == ADMIN)
                 .toList();
-        List<UserResponseDto> responseDtoList = new ArrayList<>();
 
         if(clientList.isEmpty())
             return new ResponseEntity<>("There are no Admins yet.", HttpStatus.NOT_FOUND);
 
-        clientList.stream().filter(UserEntity::getActiveStatus).skip(pageNum - 1).limit(pageSize)
-                .map(
-                        UserResponseDto::new
-                ).forEach(responseDtoList::add);
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All clients", clientList.stream().skip(pageNum - 1).limit(pageSize)
+                .map(UserResponseDto::new)));
 
-        return ResponseEntity.ok()
-                .header("User page number: ", String.valueOf(pageNum))
-                .header("User page size: ", String.valueOf(pageSize))
-                .header("User total count: ", String.valueOf(responseDtoList.size()))
-                .body(responseDtoList);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.akinnova.BookReviewGrad.controller;
 
 import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderDto;
 import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderUpdateDto;
-import com.akinnova.BookReviewGrad.service.servproviderservice.ServProviderService;
+import com.akinnova.BookReviewGrad.service.servproviderservice.ServProviderServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/provider/auth")
 public class ServiceProviderController {
 
-    private final ServProviderService providerService;
+    private final ServProviderServiceImpl providerService;
 
-    public ServiceProviderController(ServProviderService providerService) {
+    public ServiceProviderController(ServProviderServiceImpl providerService) {
         this.providerService = providerService;
     }
 

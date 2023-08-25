@@ -3,6 +3,7 @@ import com.akinnova.BookReviewGrad.dto.commentdto.CommentDeleteDto;
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentDto;
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentResponseDto;
 import com.akinnova.BookReviewGrad.entity.Comment;
+import com.akinnova.BookReviewGrad.enums.ResponseType;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.CommentRepository;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
@@ -38,19 +39,10 @@ public class CommentServiceImpl implements ICommentService{
     public ResponseEntity<?> allComments(int pageNum, int pageSize) {
 
         List<Comment> commentList = commentRepository.findAll();
-        List<CommentResponseDto> responseDtoList = new ArrayList<>();
 
-        commentList.stream().skip(pageNum).limit(pageSize).map(
-                comment -> CommentResponseDto.builder()
-                        .comment(comment.getComment())
-                        .commentTime(comment.getCommentTime())
-                        .build()
-        ).forEach(responseDtoList::add);
-
-        ResponsePojo<List<CommentResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "All comments", responseDtoList, pageNum, pageSize, responseDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
+                "All comments", commentList.stream().skip(pageNum).limit(pageSize)
+                .map(CommentResponseDto::new)));
     }
 
     @Override
@@ -58,21 +50,9 @@ public class CommentServiceImpl implements ICommentService{
         List<Comment> commentList = commentRepository.findByTitle(title)
                 .orElseThrow(()-> new ApiException(String.format("There are no comments by title: %s yet", title)));
 
-        //Response Dto list
-        List<CommentResponseDto> respondDtoList = new ArrayList<>();
-
-        //Preparing response dto
-        commentList.stream().skip(pageNum).limit(pageSize).map(
-                comment -> CommentResponseDto.builder()
-                        .comment(comment.getComment())
-                        .commentTime(comment.getCommentTime())
-                        .build()
-        ).forEach(respondDtoList::add);
-
-        ResponsePojo<List<CommentResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "Comments by title", respondDtoList, pageNum, pageSize, respondDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);
+        //Response
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
+                "Comments by title", commentList.stream().skip(pageNum).limit(pageSize).map(CommentResponseDto::new)));
     }
 
     @Override
@@ -80,21 +60,9 @@ public class CommentServiceImpl implements ICommentService{
         List<Comment> commentList = commentRepository.findByUsername(username)
                 .orElseThrow(()-> new ApiException(String.format("There are no comments by username: %s yet", username)));
 
-        //Response Dto list
-        List<CommentResponseDto> respondDtoList = new ArrayList<>();
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
+                "Comments by title", commentList.stream().skip(pageNum).limit(pageSize).map(CommentResponseDto::new)));
 
-        //Preparing response dto
-        commentList.stream().skip(pageNum).limit(pageSize).map(
-                comment -> CommentResponseDto.builder()
-                        .comment(comment.getComment())
-                        .commentTime(comment.getCommentTime())
-                        .build()
-        ).forEach(respondDtoList::add);
-
-        ResponsePojo<List<CommentResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "Comments by username", respondDtoList, pageNum, pageSize, respondDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);
     }
 
     @Override

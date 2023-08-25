@@ -1,6 +1,6 @@
 package com.akinnova.BookReviewGrad.entity;
 
-import com.akinnova.BookReviewGrad.entity.enums.ReviewStatus;
+import com.akinnova.BookReviewGrad.enums.ReviewStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

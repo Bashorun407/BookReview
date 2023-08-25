@@ -2,10 +2,10 @@ package com.akinnova.BookReviewGrad.service.ratingservice;
 
 import com.akinnova.BookReviewGrad.dto.ratingdto.RatingDto;
 import com.akinnova.BookReviewGrad.entity.Rating;
+import com.akinnova.BookReviewGrad.enums.ResponseType;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.RatingRepository;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
-import com.akinnova.BookReviewGrad.response.ResponseUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -69,9 +69,6 @@ private final RatingRepository ratingRepository;
         if(rateBookList.isEmpty())
             return new ResponseEntity<>("There are no reviews yet", HttpStatus.NO_CONTENT);
 
-        ResponsePojo<List<Rating>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "All books found", rateBookList, pageNum, pageSize, rateBookList.size());
-
-        return ResponseEntity.ok(responsePojo);
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All Ratings", rateBookList));
     }
 }

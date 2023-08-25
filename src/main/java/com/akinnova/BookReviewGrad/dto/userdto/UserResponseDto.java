@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-
 public class UserResponseDto {
     private String profilePicture;
     private String firstName;

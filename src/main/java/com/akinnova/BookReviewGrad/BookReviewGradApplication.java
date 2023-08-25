@@ -36,17 +36,17 @@ public class BookReviewGradApplication {
 		};
 	}
 
-	@Bean
-	@Transactional
-	public CommandLineRunner commandLineRunner(UserRepository userRepository){
-		log.info("i am in the commandline runner");
-		return args -> {
-			userRepository.findAll().stream().peek(p-> {
-				p.setActiveStatus(true);
-				userRepository.save(p);
-				System.out.println("I have updated this guy " );
-			}).toList();
-		};
-	}
+//	@Bean
+//	@Transactional
+//	public CommandLineRunner commandLineRunner(UserRepository userRepository){
+//		log.info("i am in the commandline runner");
+//		return args -> {
+//			userRepository.findAll().stream().peek(p-> {
+//				p.setActiveStatus(true);
+//				userRepository.save(p);
+//				System.out.println("I have updated this guy " );
+//			}).toList();
+//		};
+//	}
 
 }

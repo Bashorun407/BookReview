@@ -1,4 +1,4 @@
-package com.akinnova.BookReviewGrad.entity.enums;
+package com.akinnova.BookReviewGrad.enums;
 
 public enum ApplicationStatus {
     Received, Reviewing, Confirmed

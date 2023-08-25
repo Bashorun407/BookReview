@@ -4,9 +4,11 @@ import com.akinnova.BookReviewGrad.dto.bookdto.BookCreateDto;
 import com.akinnova.BookReviewGrad.dto.bookdto.BookResponseDto;
 import com.akinnova.BookReviewGrad.dto.bookdto.BookUpdateDto;
 import com.akinnova.BookReviewGrad.entity.BookEntity;
-import com.akinnova.BookReviewGrad.entity.enums.ReviewStatus;
+import com.akinnova.BookReviewGrad.enums.ResponseType;
+import com.akinnova.BookReviewGrad.enums.ReviewStatus;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.BookRepository;
+
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
 import com.akinnova.BookReviewGrad.response.ResponseUtils;
 import org.springframework.http.HttpStatus;
@@ -44,7 +46,7 @@ public class BookServiceImpl implements IBookService {
 
         BookResponseDto bookResponseDto = new BookResponseDto(bookEntity);
 
-        return new ResponsePojo<>(ResponseUtils.CREATED, true,
+        return new ResponsePojo<>(ResponseType.SUCCESS,
                 "Book has been added.", bookResponseDto );
     }
 
@@ -55,17 +57,9 @@ public class BookServiceImpl implements IBookService {
         if (bookEntityList.isEmpty())
             return new ResponseEntity<>("There are no projects currently", HttpStatus.NOT_FOUND);
 
-        List<BookResponseDto> responseDtoList = new ArrayList<>();
-
-        //preparing response dto
-        bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
-                BookResponseDto::new
-        ).forEach(responseDtoList::add);
-
-        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "All books found", responseDtoList, pageNum, pageSize, responseDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
+                "All books found", bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
+                BookResponseDto::new).toList()));
     }
 
     @Override
@@ -74,17 +68,11 @@ public class BookServiceImpl implements IBookService {
         List<BookEntity> bookEntityList = bookRepository.findByAuthor(author)
                 .orElseThrow(()-> new ApiException("There are no projects by this author: " + author));
 
-        List<BookResponseDto> responseDtoList = new ArrayList<>();
-
-        //preparing response dto
-        bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
-                BookResponseDto::new
-        ).forEach(responseDtoList::add);
-
-        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "Books by author", responseDtoList, pageNum, pageSize, responseDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);    }
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
+                String.format(ResponseUtils.FOUND_MESSAGE, author), bookEntityList.stream().filter(BookEntity::getActiveStatus)
+                .skip(pageNum).limit(pageSize).map(
+                BookResponseDto::new)));
+    }
 
     @Override
     public ResponseEntity<?> findBookByTitle(String title, int pageNum, int pageSize) {
@@ -92,17 +80,9 @@ public class BookServiceImpl implements IBookService {
         List<BookEntity> bookEntityList = bookRepository.findByTitle(title)
                 .orElseThrow(()-> new ApiException("There are no projects by this title: " + title));
 
-        List<BookResponseDto> responseDtoList = new ArrayList<>();
-
-        //preparing response dto
-        bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
-                BookResponseDto::new
-        ).forEach(responseDtoList::add);
-
-        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "Books by title", responseDtoList, pageNum, pageSize, responseDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
+                String.format(ResponseUtils.FOUND_MESSAGE, title), bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
+                BookResponseDto::new)));
     }
 
     @Override
@@ -111,9 +91,7 @@ public class BookServiceImpl implements IBookService {
         BookEntity bookEntity = bookRepository.findByProjectId(projectId)
                 .orElseThrow(()-> new ApiException("There are no projects with this project id: " + projectId));
 
-        BookResponseDto bookResponseDto = new BookResponseDto(bookEntity);
-
-        return ResponseEntity.ok(bookResponseDto);
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS, String.format(ResponseUtils.FOUND_MESSAGE, projectId), new BookResponseDto(bookEntity)));
     }
 
     // TODO: 13/08/2023 To complete the following methods
@@ -121,59 +99,45 @@ public class BookServiceImpl implements IBookService {
     public ResponseEntity<?> findPendingBookReview(int pageNum, int pageSize) {
         List<BookEntity> bookEntityList = bookRepository.findAll().stream().filter(x-> x.getReviewStatus() == ReviewStatus.Pending)
                 .toList();
-        List<BookResponseDto> responseDtoList = new ArrayList<>();
 
         if(bookEntityList.isEmpty())
             return new ResponseEntity<>("There are no pending reviews yet.", HttpStatus.NOT_FOUND);
 
-        bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize)
-                .map(
-                        BookResponseDto::new
-                ).forEach(responseDtoList::add);
-
-        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "Books with pending review", responseDtoList, pageNum, pageSize, responseDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
+                "Books with pending reviews", bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
+                BookResponseDto::new)));
     }
 
     @Override
     public ResponseEntity<?> findStartedBookReview(int pageNum, int pageSize) {
-        List<BookEntity> bookEntityList = bookRepository.findAll().stream().filter(x-> x.getReviewStatus() == ReviewStatus.Started)
+        List<BookEntity> bookEntityList = bookRepository.findAll().stream()
+                .filter(x-> x.getReviewStatus() == ReviewStatus.Started)
+                .filter(BookEntity::getActiveStatus)
                 .toList();
-        List<BookResponseDto> responseDtoList = new ArrayList<>();
 
         if(bookEntityList.isEmpty())
             return new ResponseEntity<>("There are no 'started' reviews yet.", HttpStatus.NOT_FOUND);
 
-        bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize)
-                .map(
-                        BookResponseDto::new
-                ).forEach(responseDtoList::add);
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
+                "Books with pending reviews", bookEntityList.stream().skip(pageNum).limit(pageSize).map(
+                BookResponseDto::new)));
 
-        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "Books with started review", responseDtoList, pageNum, pageSize, responseDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);    }
+    }
 
     @Override
     public ResponseEntity<?> findCompletedBookReview(int pageNum, int pageSize) {
-        List<BookEntity> bookEntityList = bookRepository.findAll().stream().filter(x-> x.getReviewStatus() == ReviewStatus.Completed)
+        List<BookEntity> bookEntityList = bookRepository.findAll().stream()
+                .filter(BookEntity::getActiveStatus)
+                .filter(x-> x.getReviewStatus() == ReviewStatus.Completed)
                 .toList();
-        List<BookResponseDto> responseDtoList = new ArrayList<>();
 
         if(bookEntityList.isEmpty())
-            return new ResponseEntity<>("There are no completed reviews yet.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponsePojo<>(ResponseType.FAILED, "Completed foods"), HttpStatus.NOT_FOUND);
 
-        bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize)
-                .map(
-                        BookResponseDto::new
-                ).forEach(responseDtoList::add);
-
-        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "All books found", responseDtoList, pageNum, pageSize, responseDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);    }
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
+                "Books with pending reviews", bookEntityList.stream().skip(pageNum).limit(pageSize).map(
+                BookResponseDto::new)));
+    }
 
     @Override
     public ResponseEntity<?> updateBook(BookUpdateDto bookUpdateDto) {
@@ -211,7 +175,6 @@ public class BookServiceImpl implements IBookService {
     @Override
     public ResponseEntity<?> searchBook(String author, String title, String projectId, int pageNum, int pageSize) {
         List<BookEntity> bookEntity = new ArrayList<>();
-        List<BookResponseDto> responseDtoList = new ArrayList<>();
 
         if(StringUtils.hasText(author))
             bookEntity = bookRepository.findByAuthor(author)
@@ -226,14 +189,8 @@ public class BookServiceImpl implements IBookService {
                     .orElseThrow(()-> new ApiException(String.format("There are no books with this serial number: %s", projectId))));
 
         //Preparing response dto
-        bookEntity.stream().skip(pageNum).limit(pageSize).filter(BookEntity::getActiveStatus)
-                .map(
-                        BookResponseDto::new
-                ).forEach(responseDtoList::add);
 
-
-        ResponsePojo<List<BookResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "All books found", responseDtoList, pageNum, pageSize, responseDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);    }
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS, "Book specified was found.",bookEntity.stream().skip(pageNum).limit(pageSize).filter(BookEntity::getActiveStatus)
+                .map(BookResponseDto::new)));
+    }
 }

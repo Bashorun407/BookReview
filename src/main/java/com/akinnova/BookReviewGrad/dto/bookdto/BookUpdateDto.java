@@ -1,6 +1,6 @@
 package com.akinnova.BookReviewGrad.dto.bookdto;
 
-import com.akinnova.BookReviewGrad.entity.enums.ReviewStatus;
+import com.akinnova.BookReviewGrad.enums.ReviewStatus;
 import lombok.Data;
 
 @Data

@@ -1,6 +1,6 @@
 package com.akinnova.BookReviewGrad.dto.userdto;
 
-import com.akinnova.BookReviewGrad.entity.enums.UserRoleEnum;
+import com.akinnova.BookReviewGrad.enums.UserRoleEnum;
 import lombok.Data;
 
 @Data

@@ -1,6 +1,5 @@
 package com.akinnova.BookReviewGrad.service.transactionservice;
 
-import com.akinnova.BookReviewGrad.dto.serviceproviderdto.ServProviderResponseDto;
 import com.akinnova.BookReviewGrad.dto.transactiondto.TransactionDto;
 import com.akinnova.BookReviewGrad.dto.transactiondto.TransactionResponseDto;
 import com.akinnova.BookReviewGrad.email.emaildto.EmailDetail;
@@ -8,7 +7,8 @@ import com.akinnova.BookReviewGrad.email.emailservice.EmailServiceImpl;
 import com.akinnova.BookReviewGrad.entity.BookEntity;
 import com.akinnova.BookReviewGrad.entity.ServProvider;
 import com.akinnova.BookReviewGrad.entity.Transaction;
-import com.akinnova.BookReviewGrad.entity.enums.ReviewStatus;
+import com.akinnova.BookReviewGrad.enums.ResponseType;
+import com.akinnova.BookReviewGrad.enums.ReviewStatus;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.BookRepository;
 import com.akinnova.BookReviewGrad.repository.ServProviderRepository;
@@ -20,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -92,18 +91,8 @@ public class TransactionServiceImpl implements ITransactionService{
         List<Transaction> transactionList = transactionRepository.findByProviderId(providerId)
                 .orElseThrow(()-> new ApiException("There are no transaction with provider id: " + providerId));
 
-        List<TransactionResponseDto> responseDtoList = new ArrayList<>();
-
-        //preparing response dto
-        transactionList.stream().skip(pageNum).limit(pageSize).map(
-                TransactionResponseDto::new
-        ).forEach(responseDtoList::add);
-
-
-        ResponsePojo<List<TransactionResponseDto>> responsePojo =new ResponsePojo<>(ResponseUtils.FOUND, true,
-                "Successful applications list", responseDtoList, pageNum, pageSize, responseDtoList.size());
-
-        return ResponseEntity.ok(responsePojo);
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
+                "Successful applications list",transactionList.stream().skip(pageNum).limit(pageSize).map(TransactionResponseDto::new)));
     }
 
     @Override
@@ -112,6 +101,6 @@ public class TransactionServiceImpl implements ITransactionService{
         Transaction transaction = transactionRepository.findByInvoiceCode(transactionCode)
                 .orElseThrow(()-> new ApiException("There is no transaction with transaction code: " + transactionCode));
 
-        return ResponseEntity.ok(transaction);
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, String.format(ResponseUtils.FOUND_MESSAGE, transactionCode), new TransactionResponseDto(transaction)));
     }
 }

@@ -1,6 +1,6 @@
 package com.akinnova.BookReviewGrad.entity;
 
-import com.akinnova.BookReviewGrad.entity.enums.UserRoleEnum;
+import com.akinnova.BookReviewGrad.enums.UserRoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
