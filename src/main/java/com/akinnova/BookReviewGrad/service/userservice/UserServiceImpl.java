@@ -58,6 +58,7 @@ public class UserServiceImpl implements IUserService {
                         //.userRole(userCreateDto.getRoleName())
                         .description(userCreateDto.getDescription())
                         .activeStatus(true)
+                        .createdOn(LocalDateTime.now())
                 .build());
 
         //if user role is "ServiceProvider"...create an object of service provider and saves to database
