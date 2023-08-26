@@ -57,9 +57,8 @@ public class BookServiceImpl implements IBookService {
         if (bookEntityList.isEmpty())
             return new ResponseEntity<>("There are no projects currently", HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
-                "All books found", bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
-                BookResponseDto::new).toList()));
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS, "All books found",
+                bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum - 1).limit(pageSize).map(BookResponseDto::new).toList()));
     }
 
     @Override
@@ -70,8 +69,7 @@ public class BookServiceImpl implements IBookService {
 
         return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
                 String.format(ResponseUtils.FOUND_MESSAGE, author), bookEntityList.stream().filter(BookEntity::getActiveStatus)
-                .skip(pageNum).limit(pageSize).map(
-                BookResponseDto::new)));
+                .skip(pageNum - 1).limit(pageSize).map(BookResponseDto::new)));
     }
 
     @Override
@@ -81,8 +79,8 @@ public class BookServiceImpl implements IBookService {
                 .orElseThrow(()-> new ApiException("There are no projects by this title: " + title));
 
         return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
-                String.format(ResponseUtils.FOUND_MESSAGE, title), bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
-                BookResponseDto::new)));
+                String.format(ResponseUtils.FOUND_MESSAGE, title),
+                bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum - 1).limit(pageSize).map(BookResponseDto::new)));
     }
 
     @Override
@@ -97,31 +95,32 @@ public class BookServiceImpl implements IBookService {
     // TODO: 13/08/2023 To complete the following methods
     @Override
     public ResponseEntity<?> findPendingBookReview(int pageNum, int pageSize) {
-        List<BookEntity> bookEntityList = bookRepository.findAll().stream().filter(x-> x.getReviewStatus() == ReviewStatus.Pending)
+
+        List<BookEntity> bookEntityList = bookRepository.findAll().stream()
+                .filter(BookEntity::getActiveStatus)
+                .filter(x-> x.getReviewStatus() == ReviewStatus.Pending)
                 .toList();
 
         if(bookEntityList.isEmpty())
             return new ResponseEntity<>("There are no pending reviews yet.", HttpStatus.NOT_FOUND);
 
         return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
-                "Books with pending reviews", bookEntityList.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(
-                BookResponseDto::new)));
+                "Books with pending reviews", bookEntityList.stream().skip(pageNum - 1).limit(pageSize).map(BookResponseDto::new)));
     }
 
     @Override
     public ResponseEntity<?> findStartedBookReview(int pageNum, int pageSize) {
         List<BookEntity> bookEntityList = bookRepository.findAll().stream()
-                .filter(x-> x.getReviewStatus() == ReviewStatus.Started)
                 .filter(BookEntity::getActiveStatus)
+                .filter(x-> x.getReviewStatus() == ReviewStatus.Started)
                 .toList();
 
         if(bookEntityList.isEmpty())
             return new ResponseEntity<>("There are no 'started' reviews yet.", HttpStatus.NOT_FOUND);
 
         return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
-                "Books with pending reviews", bookEntityList.stream().skip(pageNum).limit(pageSize).map(
+                "Books with pending reviews", bookEntityList.stream().skip(pageNum - 1).limit(pageSize).map(
                 BookResponseDto::new)));
-
     }
 
     @Override
@@ -134,9 +133,8 @@ public class BookServiceImpl implements IBookService {
         if(bookEntityList.isEmpty())
             return new ResponseEntity<>(new ResponsePojo<>(ResponseType.FAILED, "Completed foods"), HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
-                "Books with pending reviews", bookEntityList.stream().skip(pageNum).limit(pageSize).map(
-                BookResponseDto::new)));
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS, "Books with pending reviews",
+                bookEntityList.stream().skip(pageNum - 1).limit(pageSize).map(BookResponseDto::new)));
     }
 
     @Override
@@ -190,7 +188,7 @@ public class BookServiceImpl implements IBookService {
 
         //Preparing response dto
 
-        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS, "Book specified was found.",bookEntity.stream().skip(pageNum).limit(pageSize).filter(BookEntity::getActiveStatus)
-                .map(BookResponseDto::new)));
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS, "Book specified was found.",
+                bookEntity.stream().filter(BookEntity::getActiveStatus).skip(pageNum).limit(pageSize).map(BookResponseDto::new)));
     }
 }

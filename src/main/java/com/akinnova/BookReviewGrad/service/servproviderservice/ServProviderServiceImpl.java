@@ -25,7 +25,6 @@ public class ServProviderServiceImpl implements IServProviderService{
         this.servProviderRepository = servProviderRepository;
     }
 
-
     @Override
     public ResponseEntity<?> AddServiceProvider(ServProviderDto servProviderDto) {
         boolean check = servProviderRepository.existsByUsername(servProviderDto.getUsername())
@@ -39,7 +38,6 @@ public class ServProviderServiceImpl implements IServProviderService{
                         .firstName(servProviderDto.getFirstName())
                         .lastName(servProviderDto.getLastName())
                         .providerId(ResponseUtils.generateUniqueIdentifier(10, servProviderDto.getUsername()))
-
                         .username(servProviderDto.getUsername())
                         .email(servProviderDto.getEmail())
                         .password(servProviderDto.getPassword())
@@ -62,8 +60,7 @@ public class ServProviderServiceImpl implements IServProviderService{
         List<ServProvider> servProviderList = servProviderRepository.findAll();
 
         return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All Service providers", servProviderList.stream()
-                .filter(ServProvider::getActiveStatus).skip(pageNum).limit(pageSize)
-                .map(ServProviderResponseDto::new)));
+                .filter(ServProvider::getActiveStatus).skip(pageNum - 1).limit(pageSize).map(ServProviderResponseDto::new)));
     }
 
     @Override
@@ -72,7 +69,8 @@ public class ServProviderServiceImpl implements IServProviderService{
         ServProvider servProvider = servProviderRepository.findByUsername(username).filter(ServProvider::getActiveStatus)
                 .orElseThrow(()-> new ApiException(String.format("There is no service provider with username: %s", username)));
 
-        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, String.format("Service provider with username: %s found", username), new ServProviderResponseDto(servProvider)));
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, String.format("Service provider with username: %s found", username),
+                new ServProviderResponseDto(servProvider)));
     }
 
     @Override
@@ -81,7 +79,8 @@ public class ServProviderServiceImpl implements IServProviderService{
         ServProvider servProvider = servProviderRepository.findByEmail(email).filter(ServProvider::getActiveStatus)
                 .orElseThrow(()-> new ApiException(String.format("There is no service provider with email: %s", email)));
 
-        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, String.format("Service provider with email: %s found", email), new ServProviderResponseDto(servProvider)));
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, String.format("Service provider with email: %s found", email),
+                new ServProviderResponseDto(servProvider)));
     }
 
     // TODO: 13/08/2023 To complete the following methods
@@ -89,45 +88,43 @@ public class ServProviderServiceImpl implements IServProviderService{
     public ResponseEntity<?> FindReceivedApplications(int pageNum, int pageSize) {
 
         List<ServProvider> servProviderList = servProviderRepository.findAll().stream()
-                .filter(x-> x.getApplicationStatus() == ApplicationStatus.Received)
                 .filter(ServProvider::getActiveStatus)
+                .filter(x-> x.getApplicationStatus() == ApplicationStatus.Received)
                 .toList();
 
         if(servProviderList.isEmpty())
             return new ResponseEntity<>("There are no received applications yet.", HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All Service providers", servProviderList.stream()
-                .skip(pageNum).limit(pageSize)
-                .map(ServProviderResponseDto::new)));
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All received applications", servProviderList.stream()
+                .skip(pageNum - 1).limit(pageSize).map(ServProviderResponseDto::new)));
     }
 
     @Override
     public ResponseEntity<?> FindReviewingApplications(int pageNum, int pageSize) {
         List<ServProvider> servProviderList = servProviderRepository.findAll().stream()
-                .filter(x-> x.getApplicationStatus() == ApplicationStatus.Reviewing)
                 .filter(ServProvider::getActiveStatus)
+                .filter(x-> x.getApplicationStatus() == ApplicationStatus.Reviewing)
                 .toList();
 
         if(servProviderList.isEmpty())
             return new ResponseEntity<>("There are no applications in review yet.", HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All Service providers", servProviderList.stream()
-                .skip(pageNum).limit(pageSize)
-                .map(ServProviderResponseDto::new)));
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All reviewed applications", servProviderList.stream()
+                .skip(pageNum - 1).limit(pageSize).map(ServProviderResponseDto::new)));
     }
 
     @Override
     public ResponseEntity<?> FindConfirmedApplications(int pageNum, int pageSize) {
         List<ServProvider> servProviderList = servProviderRepository.findAll().stream()
-                .filter(x-> x.getApplicationStatus() == ApplicationStatus.Confirmed)
                 .filter(ServProvider::getActiveStatus)
+                .filter(x-> x.getApplicationStatus() == ApplicationStatus.Confirmed)
                 .toList();
 
         if(servProviderList.isEmpty())
             return new ResponseEntity<>("There are no confirmed applications yet.", HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All Service providers", servProviderList.stream()
-                .skip(pageNum).limit(pageSize)
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All confirmed applications", servProviderList.stream()
+                .skip(pageNum - 1).limit(pageSize)
                 .map(ServProviderResponseDto::new)));
 
     }
@@ -142,6 +139,7 @@ public class ServProviderServiceImpl implements IServProviderService{
         servProvider.setEmail(servProviderUpdateDto.getEmail());
         servProvider.setPassword(servProviderUpdateDto.getPassword());
         servProvider.setApplicationStatus(servProviderUpdateDto.getApplicationStatus());
+        servProvider.setSpecialization(servProviderUpdateDto.getSpecialization());
         servProvider.setDescription(servProviderUpdateDto.getDescription());
         servProvider.setModifiedOn(LocalDateTime.now());
 

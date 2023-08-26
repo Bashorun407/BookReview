@@ -7,12 +7,10 @@ import com.akinnova.BookReviewGrad.enums.ResponseType;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.CommentRepository;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
-import com.akinnova.BookReviewGrad.response.ResponseUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,9 +38,8 @@ public class CommentServiceImpl implements ICommentService{
 
         List<Comment> commentList = commentRepository.findAll();
 
-        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
-                "All comments", commentList.stream().skip(pageNum).limit(pageSize)
-                .map(CommentResponseDto::new)));
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS, "All comments",
+                commentList.stream().skip(pageNum - 1).limit(pageSize).map(CommentResponseDto::new)));
     }
 
     @Override
@@ -51,8 +48,8 @@ public class CommentServiceImpl implements ICommentService{
                 .orElseThrow(()-> new ApiException(String.format("There are no comments by title: %s yet", title)));
 
         //Response
-        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
-                "Comments by title", commentList.stream().skip(pageNum).limit(pageSize).map(CommentResponseDto::new)));
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS, "Comments by title",
+                commentList.stream().skip(pageNum - 1).limit(pageSize).map(CommentResponseDto::new)));
     }
 
     @Override
@@ -60,9 +57,8 @@ public class CommentServiceImpl implements ICommentService{
         List<Comment> commentList = commentRepository.findByUsername(username)
                 .orElseThrow(()-> new ApiException(String.format("There are no comments by username: %s yet", username)));
 
-        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
-                "Comments by title", commentList.stream().skip(pageNum).limit(pageSize).map(CommentResponseDto::new)));
-
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS, "Comments by title",
+                commentList.stream().skip(pageNum - 1).limit(pageSize).map(CommentResponseDto::new)));
     }
 
     @Override

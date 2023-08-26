@@ -91,8 +91,8 @@ public class TransactionServiceImpl implements ITransactionService{
         List<Transaction> transactionList = transactionRepository.findByProviderId(providerId)
                 .orElseThrow(()-> new ApiException("There are no transaction with provider id: " + providerId));
 
-        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS,
-                "Successful applications list",transactionList.stream().skip(pageNum).limit(pageSize).map(TransactionResponseDto::new)));
+        return ResponseEntity.ok().body(new ResponsePojo<>(ResponseType.SUCCESS, "Successful applications list",
+                transactionList.stream().skip(pageNum - 1).limit(pageSize).map(TransactionResponseDto::new)));
     }
 
     @Override

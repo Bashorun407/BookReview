@@ -77,7 +77,6 @@ public class UserServiceImpl implements IUserService {
                     .build());
         }
 
-
         //Save 'role' (i.e. UserRoleEnum type) to Role database if it doesn't already exist...The following if conditions
         //Checks and saves the role name accordingly.
         if(userCreateDto.getUserRoleEnum() == Client && !userRoleRepository.existsByRoleName(Client)){
@@ -101,7 +100,8 @@ public class UserServiceImpl implements IUserService {
         List<UserEntity> userEntityList = userRepository.findAll().stream()
                 .filter(UserEntity::getActiveStatus).toList();
 
-        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All Service providers", userEntityList.stream().skip(pageNum - 1).limit(pageSize).map(UserResponseDto::new)));
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All Service providers",
+                userEntityList.stream().skip(pageNum - 1).limit(pageSize).map(UserResponseDto::new)));
     }
 
     @Override
@@ -121,10 +121,7 @@ public class UserServiceImpl implements IUserService {
             userEntity = userRepository.findByEmail(username).filter(UserEntity::getActiveStatus)
                     .orElseThrow(()-> new ApiException(String.format("There is no user by username: %s ", email)));
 
-        //Preparing response dto
-
-        UserResponseDto responseDto = new  UserResponseDto(userEntity);
-        return new ResponseEntity<>(responseDto, HttpStatus.FOUND);
+        return new ResponseEntity<>(new  UserResponseDto(userEntity), HttpStatus.FOUND);
     }
 
     // TODO: 13/08/2023 To implement the following methods
@@ -138,34 +135,37 @@ public class UserServiceImpl implements IUserService {
         if(clientList.isEmpty())
             return new ResponseEntity<>("There are no Clients yet.", HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All clients", clientList.stream().skip(pageNum - 1).limit(pageSize)
-                .map(UserResponseDto::new)));
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All clients", clientList.stream()
+                .skip(pageNum - 1).limit(pageSize).map(UserResponseDto::new)));
     }
 
     @Override
     public ResponseEntity<?> FindServiceProviders(int pageNum, int pageSize) {
-        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == Service_Provider)
+        List<UserEntity> ServiceProvidersList = userRepository.findAll().stream()
+                .filter(UserEntity::getActiveStatus)
+                .filter(x-> x.getUserRoleEnum() == Service_Provider)
                 .toList();
 
-        if(clientList.isEmpty())
+        if(ServiceProvidersList.isEmpty())
             return new ResponseEntity<>("There are no Service Providers yet.", HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All clients", clientList.stream().skip(pageNum - 1).limit(pageSize)
-                .map(UserResponseDto::new)));
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All service providers", ServiceProvidersList.stream()
+                .skip(pageNum - 1).limit(pageSize).map(UserResponseDto::new)));
 
     }
 
     @Override
     public ResponseEntity<?> FindAdmins(int pageNum, int pageSize) {
-        List<UserEntity> clientList = userRepository.findAll().stream().filter(x-> x.getUserRoleEnum() == ADMIN)
+        List<UserEntity> adminList = userRepository.findAll().stream()
+                .filter(UserEntity::getActiveStatus)
+                .filter(x-> x.getUserRoleEnum() == ADMIN)
                 .toList();
 
-        if(clientList.isEmpty())
+        if(adminList.isEmpty())
             return new ResponseEntity<>("There are no Admins yet.", HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All clients", clientList.stream().skip(pageNum - 1).limit(pageSize)
-                .map(UserResponseDto::new)));
-
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All admins", adminList.stream()
+                .skip(pageNum - 1).limit(pageSize).map(UserResponseDto::new)));
     }
 
     @Override
