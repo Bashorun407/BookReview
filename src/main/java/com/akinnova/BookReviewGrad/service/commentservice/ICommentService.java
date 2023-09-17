@@ -8,7 +8,7 @@ public interface ICommentService {
 
     ResponseEntity<?> addComment(CommentDto commentDto);
     ResponseEntity<?> allComments(int pageNum, int pageSize);
-    ResponseEntity<?> findCommentByTitle(String title, int pageNum, int pageSize);
+    //ResponseEntity<?> findCommentByTitle(String title, int pageNum, int pageSize);
     ResponseEntity<?> findCommentByUsername(String username, int pageNum, int pageSize);
     ResponseEntity<?> deleteComment(CommentDeleteDto commentDeleteDto);
 }

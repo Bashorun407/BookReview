@@ -1,0 +1,5 @@
+package com.akinnova.BookReviewGrad.enums;
+
+public enum Category {
+    EDIT , PROOFREADING, REFERENCING, COPYRIGHTING, RESEARCH, ACADEMIC_PROJECT, BOOK_WRITING, SCRIPT_WRITING
+}

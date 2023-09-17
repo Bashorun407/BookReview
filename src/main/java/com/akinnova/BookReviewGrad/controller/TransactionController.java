@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/transaction/auth")
 public class TransactionController {
-
     private final TransactionServiceImpl transactionService;
 
     public TransactionController(TransactionServiceImpl transactionService) {

@@ -23,7 +23,7 @@ public class Transaction {
     private String lastName;
     private String otherName;
     private String projectId;
-    private String providerId;
+    private String userId;
     private Double amountPaid;
     private String invoiceCode;
     @CreationTimestamp

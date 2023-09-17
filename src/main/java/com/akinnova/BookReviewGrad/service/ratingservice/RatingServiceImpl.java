@@ -5,7 +5,9 @@ import com.akinnova.BookReviewGrad.entity.Rating;
 import com.akinnova.BookReviewGrad.enums.ResponseType;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.RatingRepository;
+import com.akinnova.BookReviewGrad.repository.UserRepository;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
+import com.akinnova.BookReviewGrad.response.ResponseUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,50 +17,78 @@ import java.util.List;
 
 @Service
 public class RatingServiceImpl implements IRatingService {
-private final RatingRepository ratingRepository;
+    private final RatingRepository ratingRepository;
+    private final UserRepository userRepository;
 
-    public RatingServiceImpl(RatingRepository ratingRepository) {
+    public RatingServiceImpl(RatingRepository ratingRepository, UserRepository userRepository) {
         this.ratingRepository = ratingRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public ResponseEntity<?> rateBook(RatingDto rateDto) {
-        //If user has reviewed a book before, retrieve the exact record and edit
-        Rating userRate = ratingRepository.findByTitle(rateDto.getTitle())
-                .orElse(ratingRepository.save(Rating.builder()
-                        .title(rateDto.getTitle())
-                        .starRating(rateDto.getStarRating())
-                        .rateCount((long)1)
-                        .averageRating((double)rateDto.getStarRating())
-                        .rateTime(LocalDateTime.now())
-                        .build()));
-        //obtains the current average rating
-        double currentAverage = userRate.getAverageRating();
-        //obtains the current rate counts (i.e. number of rates given)
-        long currentCount = userRate.getRateCount();
+        //Checks if username is in user repository
+        userRepository.findByUsername(rateDto.getUsername())
+                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, rateDto.getUsername())));
 
-        userRate.setStarRating(rateDto.getStarRating());
-        userRate.setRateCount(userRate.getRateCount() + 1);
+        Rating rating = ratingRepository.findByUsername(rateDto.getUsername())
+                .orElse(ratingRepository.save(Rating.builder()
+                        .username(rateDto.getUsername())
+                                .starRating(rateDto.getStarRating())
+                                .rateCount((long)1)
+                                .averageRating((double)rateDto.getStarRating())
+                                .rateTime(LocalDateTime.now())
+                        .build()));
+//        Rating userRate = ratingRepository.findAll().stream().filter(x-> x.getUsername().getUsername().equals(rateDto.getUsername()))
+//                .findFirst().orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, rateDto.getUsername())));
+        //If user has reviewed a book before, retrieve the exact record and edit
+
+
+//        Rating userRate =ratingRepository.findByUsername(rateDto.getUsername())
+//                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, rateDto.getUsername())));
+
+//        //Create a new rating for a user that has not been rated before
+//        if (userRate.getStarRating() == null){
+//            ratingRepository.save(Rating.builder()
+//                    .username(userRate.getUsername())
+//                    .starRating(rateDto.getStarRating())
+//                    .rateCount((long)1)
+//                    .averageRating((double)rateDto.getStarRating())
+//                    .rateTime(LocalDateTime.now())
+//                    .build());
+//        }
+
+        //obtains the current average rating
+        double currentAverage = rating.getAverageRating();
+        //obtains the current rate counts (i.e. number of rates given)
+        long currentCount = rating.getRateCount();
+
+        rating.setStarRating(rateDto.getStarRating());
+        rating.setRateCount(rating.getRateCount() + 1);
         //To calculate the new average: Product of former average and former count summed with new rating and all
         //...divided with new count (i.e. former count + 1
-        userRate.setAverageRating(((currentAverage * currentCount) + rateDto.getStarRating())
+        rating.setAverageRating(((currentAverage * currentCount) + rateDto.getStarRating())
                 / (currentCount + 1));
         //Save update into the database
-        ratingRepository.save(userRate);
+        ratingRepository.save(rating);
+
 
         return new ResponseEntity<>("Thanks for your review", HttpStatus.ACCEPTED);
     }
 
     @Override
-    public ResponseEntity<?> titleRates(String title) {
+    public ResponseEntity<?> serviceProviderRates(String username) {
 
         //To retrieve all reviews for a book by title
-        Rating rateBook = ratingRepository.findByTitle(title)
-                .orElseThrow(()->
-                        new ApiException(String.format("There are no reviews for book with this title %s: yet", title)));
+//        Rating rateBook = ratingRepository.findByUsername(username)
+//                .orElseThrow(()->
+//                        new ApiException(String.format("There are no reviews for user:  %s yet", username)));
 
-        return new ResponseEntity<>(String.format("Rate for book title %s: %f from %d users", title, rateBook.getAverageRating(),
-                rateBook.getRateCount() ), HttpStatus.FOUND);
+        Rating rate = ratingRepository.findAll().stream().filter(x-> x.getUsername().equals(username))
+                .findFirst().orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, username)));
+
+        return new ResponseEntity<>(String.format("Rate for book title %s: %f from %d users", username, rate.getAverageRating(),
+                rate.getRateCount() ), HttpStatus.FOUND);
     }
 
     @Override
@@ -69,6 +99,6 @@ private final RatingRepository ratingRepository;
         if(rateBookList.isEmpty())
             return new ResponseEntity<>("There are no reviews yet", HttpStatus.NO_CONTENT);
 
-        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All Ratings", rateBookList));
+        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All rates", rateBookList));
     }
 }

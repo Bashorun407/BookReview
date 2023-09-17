@@ -1,0 +1,63 @@
+
+2023-09-17 01:13:38,914 INFO c.a.B.BookReviewGradApplication [restartedMain] Starting BookReviewGradApplication using Java 17.0.7 with PID 18212 (C:\Users\oluwaseyi.akinbobola\Desktop\Java Projects\BookReviewGrad\build\classes\java\main started by Oluwaseyi.Akinbobola in C:\Users\oluwaseyi.akinbobola\Desktop\Java Projects\BookReviewGrad)
+2023-09-17 01:13:38,915 DEBUG c.a.B.BookReviewGradApplication [restartedMain] Running with Spring Boot v3.1.2, Spring v6.0.11
+2023-09-17 01:13:38,916 INFO c.a.B.BookReviewGradApplication [restartedMain] The following 1 profile is active: "BookReviewGrad"
+2023-09-17 01:13:38,994 INFO o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-09-17 01:13:38,994 INFO o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-09-17 01:13:40,208 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-09-17 01:13:40,375 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 158 ms. Found 6 JPA repository interfaces.
+2023-09-17 01:13:41,537 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2023-09-17 01:13:41,550 INFO o.a.c.h.Http11NioProtocol [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2023-09-17 01:13:41,555 INFO o.a.c.c.StandardService [restartedMain] Starting service [Tomcat]
+2023-09-17 01:13:41,555 INFO o.a.c.c.StandardEngine [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.11]
+2023-09-17 01:13:41,674 INFO o.a.c.c.C.[.[.[/] [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-09-17 01:13:41,674 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 2679 ms
+2023-09-17 01:13:41,878 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-09-17 01:13:41,959 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 6.2.6.Final
+2023-09-17 01:13:41,963 INFO o.h.c.Environment [restartedMain] HHH000406: Using bytecode reflection optimizer
+2023-09-17 01:13:42,163 INFO o.h.b.i.BytecodeProviderInitiator [restartedMain] HHH000021: Bytecode provider name : bytebuddy
+2023-09-17 01:13:42,374 INFO o.s.o.j.p.SpringPersistenceUnitInfo [restartedMain] No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-09-17 01:13:42,396 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2023-09-17 01:13:42,883 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1a96320
+2023-09-17 01:13:42,887 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2023-09-17 01:13:43,386 INFO o.h.b.i.BytecodeProviderInitiator [restartedMain] HHH000021: Bytecode provider name : bytebuddy
+2023-09-17 01:13:44,310 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-09-17 01:13:45,301 INFO o.s.o.j.LocalContainerEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-09-17 01:13:45,834 DEBUG c.a.B.s.JwtAuthenticationFilter [restartedMain] Filter 'jwtAuthenticationFilter' configured for use
+2023-09-17 01:13:46,186 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-09-17 01:13:46,997 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@142541e6, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@69ee688a, org.springframework.security.web.context.SecurityContextHolderFilter@67c8599f, org.springframework.security.web.header.HeaderWriterFilter@e9db565, org.springframework.web.filter.CorsFilter@340794f6, org.springframework.security.web.authentication.logout.LogoutFilter@2cb1979e, com.akinnova.BookReviewGrad.security.JwtAuthenticationFilter@5eb50e5a, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@341925e5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@57ea74a0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@d11c776, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4b743c67, org.springframework.security.web.session.SessionManagementFilter@370a1556, org.springframework.security.web.access.ExceptionTranslationFilter@bbc3e61, org.springframework.security.web.access.intercept.AuthorizationFilter@72b57dd0]
+2023-09-17 01:13:47,415 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-09-17 01:13:47,427 INFO o.a.c.h.Http11NioProtocol [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2023-09-17 01:13:47,463 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2023-09-17 01:13:47,473 INFO c.a.B.BookReviewGradApplication [restartedMain] Started BookReviewGradApplication in 9.077 seconds (process running for 9.97)
+2023-09-17 01:21:10,107 INFO c.a.B.BookReviewGradApplication [restartedMain] Starting BookReviewGradApplication using Java 17.0.7 with PID 28784 (C:\Users\oluwaseyi.akinbobola\Desktop\Java Projects\BookReviewGrad\build\classes\java\main started by Oluwaseyi.Akinbobola in C:\Users\oluwaseyi.akinbobola\Desktop\Java Projects\BookReviewGrad)
+2023-09-17 01:21:10,108 DEBUG c.a.B.BookReviewGradApplication [restartedMain] Running with Spring Boot v3.1.2, Spring v6.0.11
+2023-09-17 01:21:10,108 INFO c.a.B.BookReviewGradApplication [restartedMain] The following 1 profile is active: "BookReviewGrad"
+2023-09-17 01:21:10,189 INFO o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-09-17 01:21:10,190 INFO o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-09-17 01:21:11,365 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-09-17 01:21:11,492 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 116 ms. Found 6 JPA repository interfaces.
+2023-09-17 01:21:12,545 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8081 (http)
+2023-09-17 01:21:12,558 INFO o.a.c.h.Http11NioProtocol [restartedMain] Initializing ProtocolHandler ["http-nio-8081"]
+2023-09-17 01:21:12,561 INFO o.a.c.c.StandardService [restartedMain] Starting service [Tomcat]
+2023-09-17 01:21:12,562 INFO o.a.c.c.StandardEngine [restartedMain] Starting Servlet engine: [Apache Tomcat/10.1.11]
+2023-09-17 01:21:12,677 INFO o.a.c.c.C.[.[.[/] [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-09-17 01:21:12,678 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 2488 ms
+2023-09-17 01:21:12,868 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-09-17 01:21:12,956 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 6.2.6.Final
+2023-09-17 01:21:12,960 INFO o.h.c.Environment [restartedMain] HHH000406: Using bytecode reflection optimizer
+2023-09-17 01:21:13,149 INFO o.h.b.i.BytecodeProviderInitiator [restartedMain] HHH000021: Bytecode provider name : bytebuddy
+2023-09-17 01:21:13,346 INFO o.s.o.j.p.SpringPersistenceUnitInfo [restartedMain] No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-09-17 01:21:13,369 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2023-09-17 01:21:13,745 INFO c.z.h.p.HikariPool [restartedMain] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3405e1d7
+2023-09-17 01:21:13,747 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2023-09-17 01:21:14,182 INFO o.h.b.i.BytecodeProviderInitiator [restartedMain] HHH000021: Bytecode provider name : bytebuddy
+2023-09-17 01:21:14,882 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-09-17 01:21:15,229 INFO o.s.o.j.LocalContainerEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-09-17 01:21:15,678 DEBUG c.a.B.s.JwtAuthenticationFilter [restartedMain] Filter 'jwtAuthenticationFilter' configured for use
+2023-09-17 01:21:16,014 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-09-17 01:21:16,738 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@558f4045, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@43851660, org.springframework.security.web.context.SecurityContextHolderFilter@4eef4bc4, org.springframework.security.web.header.HeaderWriterFilter@795a5c7b, org.springframework.web.filter.CorsFilter@4699b7da, org.springframework.security.web.authentication.logout.LogoutFilter@5d51bd9e, com.akinnova.BookReviewGrad.security.JwtAuthenticationFilter@17f74197, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@611ef044, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@36cba43b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@11695b3f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@41d79c1, org.springframework.security.web.session.SessionManagementFilter@73b98636, org.springframework.security.web.access.ExceptionTranslationFilter@25bedb19, org.springframework.security.web.access.intercept.AuthorizationFilter@4fb80c78]
+2023-09-17 01:21:17,170 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-09-17 01:21:17,184 INFO o.a.c.h.Http11NioProtocol [restartedMain] Starting ProtocolHandler ["http-nio-8081"]
+2023-09-17 01:21:17,214 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8081 (http) with context path ''
+2023-09-17 01:21:17,227 INFO c.a.B.BookReviewGradApplication [restartedMain] Started BookReviewGradApplication in 7.606 seconds (process running for 8.435)

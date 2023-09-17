@@ -20,9 +20,9 @@ public class RatingController {
         return ratingService.rateBook(rateDto);
     }
 
-    @GetMapping("/title/{title}")
-    public ResponseEntity<?> titleRates(@PathVariable String title) {
-        return ratingService.titleRates(title);
+    @GetMapping("/provider/{username}")
+    public ResponseEntity<?> serviceProviderRates(@PathVariable String username) {
+        return ratingService.serviceProviderRates(username);
     }
 
     @GetMapping("/allRates")

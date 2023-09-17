@@ -1,6 +1,6 @@
 package com.akinnova.BookReviewGrad.entity;
 
-import com.akinnova.BookReviewGrad.enums.UserRoleEnum;
+import com.akinnova.BookReviewGrad.enums.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.EnumSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -38,7 +39,16 @@ public class UserEntity {
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
-    private UserRoleEnum userRoleEnum;
+    private UserType userType;
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+    @Enumerated(EnumType.STRING)
+    private ServiceProviderSpecialization specialization;
+    private Double chargePerHour;
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus applicationStatus;
+    @Enumerated(EnumType.STRING)
+    private ApplicationReviewStatus reviewStatus;
     private String description;
     private Boolean activeStatus;
 
@@ -53,6 +63,9 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
             inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "roleName")
     )
-    private Set<UserRole> roles;
+    private Set<UserRoles> roles;
 
+    private EnumSet<UserRole> enumRoles;
+
+    //private Rating rating;
 }
