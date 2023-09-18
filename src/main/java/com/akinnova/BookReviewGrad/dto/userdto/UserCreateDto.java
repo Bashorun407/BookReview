@@ -4,7 +4,6 @@ import lombok.Data;
 import org.apache.catalina.User;
 
 @Data
-
 public class UserCreateDto {
     private String firstName;
     private String lastName;

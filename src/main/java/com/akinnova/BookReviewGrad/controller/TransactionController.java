@@ -14,6 +14,8 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
+    // TODO: 18/09/2023 Transaction should be able to consume api from payment platforms 
+
     @PostMapping("/addTransaction")
     public ResponseEntity<?> addTransaction(@RequestBody TransactionDto transactionDto) {
         return transactionService.addTransaction(transactionDto);

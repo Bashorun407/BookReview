@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 public interface IUserService {
 
     ResponsePojo<UserResponseDto> addUser(UserCreateDto userCreateDto);
+    ResponsePojo<UserResponseDto> addAdmin(UserCreateDto userCreateDto);
     ResponseEntity<?> allUsers(int pageNum, int pageSize);
     //ResponseEntity<?> SearchUser(String username, String phoneNumber, String email);
     ResponseEntity<?> FindClients(int pageNum, int pageSize);

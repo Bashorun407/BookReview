@@ -250,12 +250,12 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
-    public ResponseEntity<?> adminProjectUpdate(String projectId, ProjectAdminUpdateDto adminUpdateDto) {
+    public ResponseEntity<?> projectLevelUpdate(String projectId, ProjectAdminUpdateDto updateDto) {
         Project project = projectRepository.findByProjectId(projectId)
                 .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_PROJECT_BY_ID,
                         projectId)));
 
-        project.setProjectLevelApproval(adminUpdateDto.getProjectLevelApproval());
+        project.setProjectLevelApproval(updateDto.getProjectLevelApproval());
 
         projectRepository.save(project);
         logger.info("Admin(Client or Admin) has updated the project");

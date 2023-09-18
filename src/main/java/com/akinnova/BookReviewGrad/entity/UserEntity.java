@@ -40,8 +40,8 @@ public class UserEntity {
     private String password;
     @Enumerated(EnumType.STRING)
     private UserType userType;
-    @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+//    @Enumerated(EnumType.STRING)
+//    private UserRole userRole;
     @Enumerated(EnumType.STRING)
     private ServiceProviderSpecialization specialization;
     private Double chargePerHour;
@@ -57,15 +57,14 @@ public class UserEntity {
     @UpdateTimestamp
     private LocalDateTime modifiedOn;
 
-    //Many-to-many relationship with role
+//    Many-to-many relationship with role
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role_relationship",
             joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
             inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "roleName")
     )
-    private Set<UserRoles> roles;
+    private Set<UserRoles> roleName;
 
-    private EnumSet<UserRole> enumRoles;
+//    private EnumSet<UserRole> enumRoles;
 
-    //private Rating rating;
 }

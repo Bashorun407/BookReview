@@ -1,10 +1,11 @@
 package com.akinnova.BookReviewGrad.service.authservice;
 
 import com.akinnova.BookReviewGrad.dto.login.LoginDto;
-import com.akinnova.BookReviewGrad.entity.UserEntity;
-import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.UserRepository;
-import com.akinnova.BookReviewGrad.security.JwtTokenProvider;
+
+import com.akinnova.BookReviewGrad.security.config.JwtTokenProvider;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+@Slf4j
 public class AuthServiceImpl implements IAuthService{
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
@@ -32,26 +34,35 @@ public class AuthServiceImpl implements IAuthService{
     @Override
     public AuthResponse login(LoginDto loginDto) {
 
-        boolean isUserExist = userRepository.existsByUsername(loginDto.getUsername());
+        boolean isUserExist = userRepository.existsByEmail(loginDto.getEmail());
+        log.info("User Status: "+ isUserExist);
 
-        Authentication authentication;
 //            authResponse = ;
 //        AuthResponse authResponse = new AuthResponse();
 
         if(isUserExist){
-            UserEntity user = userRepository.findByUsername(loginDto.getUsername()).orElseThrow(()-> new ApiException("Username not found"));
-
-            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), loginDto.getPassword()));
-
+//            Authentication authentication;
+//
+//            UserEntity user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()-> new ApiException("Username not found"));
+//
+//            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+//
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
+            );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            authentication.getName();
+            authentication.getCredentials();
             return AuthResponse.builder()
                     .token(jwtTokenProvider.generateToken(authentication))
                     .build();
         }else {
             return AuthResponse.builder()
-                    .token("User doe not exist")
+                    .token("User does not exist")
                     .build();
         }
 
     }
+
 }

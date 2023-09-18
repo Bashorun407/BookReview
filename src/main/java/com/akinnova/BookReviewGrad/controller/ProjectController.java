@@ -1,28 +1,31 @@
 package com.akinnova.BookReviewGrad.controller;
 
 import com.akinnova.BookReviewGrad.dto.projectdto.*;
+import com.akinnova.BookReviewGrad.dto.ratingdto.RatingDto;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
+import com.akinnova.BookReviewGrad.service.projectservice.IProjectService;
 import com.akinnova.BookReviewGrad.service.projectservice.ProjectServiceImpl;
+import com.akinnova.BookReviewGrad.service.ratingservice.IRatingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/project/auth")
+@RequestMapping("/api/v1/project")
 public class ProjectController {
 
-    private final ProjectServiceImpl projectService;
-    public ProjectController(ProjectServiceImpl projectService) {
+    private final IProjectService projectService;
+    private final IRatingService ratingService;
+    public ProjectController(ProjectServiceImpl projectService, IRatingService ratingService) {
         this.projectService = projectService;
+        this.ratingService = ratingService;
     }
 
+    //Project
     @PostMapping("/addProject")
     public ResponsePojo<ProjectResponseDto> addProject(@RequestBody ProjectCreateDto projectCreateDto) {
         return projectService.addProject(projectCreateDto);
     }
-    @GetMapping("/allProjects")
-    public ResponseEntity<?> findAllProjects(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
-        return projectService.findAllProjects(pageNum, pageSize);
-    }
+
 
     @GetMapping("/username/{username}")
     public ResponseEntity<?> findProjectByOwner(@PathVariable(name = "username") String username, @RequestParam(defaultValue = "1") int pageNum,
@@ -41,23 +44,7 @@ public class ProjectController {
         return projectService.findProjectByProjectId(projectId);
     }
 
-    @GetMapping("/pending")
-    public ResponseEntity<?> findPendingProjects(@RequestParam(defaultValue = "1") int pageNum,
-                                                 @RequestParam(defaultValue = "10") int pageSize) {
-        return projectService.findPendingProjects(pageNum, pageSize);
-    }
 
-    @GetMapping("/started")
-    public ResponseEntity<?> findStartedProjects(@RequestParam(defaultValue = "1") int pageNum,
-                                                 @RequestParam(defaultValue = "10") int pageSize) {
-        return projectService.findStartedProjects(pageNum, pageSize);
-    }
-
-    @GetMapping("/completed")
-    public ResponseEntity<?> findCompletedProjects(@RequestParam(defaultValue = "1") int pageNum,
-                                                   @RequestParam(defaultValue = "10") int pageSize) {
-        return projectService.findCompletedProjects(pageNum, pageSize);
-    }
 
     @PutMapping("/update/{projectId}")
     public ResponseEntity<?> updateProject(@PathVariable String projectId, @RequestBody ProjectUpdateDto projectUpdateDto) {
@@ -70,8 +57,8 @@ public class ProjectController {
     }
 
     @PutMapping("/adminUpdate/{projectId}")
-    public ResponseEntity<?> adminProjectUpdate(@PathVariable String projectId, @RequestBody ProjectAdminUpdateDto adminUpdateDto) {
-        return projectService.adminProjectUpdate(projectId, adminUpdateDto);
+    public ResponseEntity<?> projectLevelUpdate(@PathVariable String projectId, @RequestBody ProjectAdminUpdateDto adminUpdateDto) {
+        return projectService.projectLevelUpdate(projectId, adminUpdateDto);
     }
     @DeleteMapping("/delete/{projectId}")
     public ResponseEntity<?> deleteProject(@PathVariable String projectId) {
@@ -86,5 +73,17 @@ public class ProjectController {
 //                                           @RequestParam(defaultValue = "10") int pageSize) {
 //        return projectService.searchProject(username, title, projectId, pageNum, pageSize);
 //    }
+
+
+    //Rating
+    @PostMapping("/rate")
+    public ResponseEntity<?> rateBook(@RequestBody RatingDto rateDto) {
+        return ratingService.rateBook(rateDto);
+    }
+
+    @GetMapping("/provider/{username}")
+    public ResponseEntity<?> serviceProviderRates(@PathVariable String username) {
+        return ratingService.serviceProviderRates(username);
+    }
 
 }

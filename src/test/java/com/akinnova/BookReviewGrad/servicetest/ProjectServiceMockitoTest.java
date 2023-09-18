@@ -290,7 +290,6 @@ public class ProjectServiceMockitoTest {
                 .username("Jade")
                 .email("jade@gmail.com")
                 .password(passwordEncoder.encode("1234"))
-                .userRole(REGULAR_USER)
                 .userType(CLIENT)
                 .specialization(ServiceProviderSpecialization.NONE)
                 .applicationStatus(NOT_SENT)
@@ -307,7 +306,6 @@ public class ProjectServiceMockitoTest {
                 .username("BashOlu")
                 .email("bash@gmail.com")
                 .password(passwordEncoder.encode("4567"))
-                .userRole(REGULAR_USER)
                 .userType(SERVICE_PROVIDER)
                 .specialization(ServiceProviderSpecialization.EDITOR)
                 .applicationStatus(SENT)
@@ -466,7 +464,6 @@ public class ProjectServiceMockitoTest {
                 .username("Jade")
                 .email("jade@gmail.com")
                 .password(passwordEncoder.encode("1234"))
-                .userRole(REGULAR_USER)
                 .userType(CLIENT)
                 .specialization(ServiceProviderSpecialization.NONE)
                 .applicationStatus(NOT_SENT)
@@ -483,7 +480,6 @@ public class ProjectServiceMockitoTest {
                 .username("BashOlu")
                 .email("bash@gmail.com")
                 .password(passwordEncoder.encode("4567"))
-                .userRole(REGULAR_USER)
                 .userType(SERVICE_PROVIDER)
                 .specialization(ServiceProviderSpecialization.EDITOR)
                 .applicationStatus(SENT)
@@ -558,7 +554,6 @@ public class ProjectServiceMockitoTest {
                 .username("Jade")
                 .email("jade@gmail.com")
                 .password(passwordEncoder.encode("1234"))
-                .userRole(REGULAR_USER)
                 .userType(CLIENT)
                 .specialization(ServiceProviderSpecialization.NONE)
                 .applicationStatus(NOT_SENT)
@@ -575,7 +570,6 @@ public class ProjectServiceMockitoTest {
                 .username("BashOlu")
                 .email("bash@gmail.com")
                 .password(passwordEncoder.encode("4567"))
-                .userRole(REGULAR_USER)
                 .userType(SERVICE_PROVIDER)
                 .specialization(ServiceProviderSpecialization.EDITOR)
                 .applicationStatus(SENT)
@@ -644,7 +638,7 @@ public class ProjectServiceMockitoTest {
         when(projectRepository.findByProjectId(projectId)).thenReturn(Optional.of(projectList.get(1)));
         when(projectRepository.save(projectList.get(1))).thenReturn(projectList.get(1));
         //doNothing().when(emailService.sendSimpleEmail(any()));
-        assertEquals(expectedResult, projectService.adminProjectUpdate(projectId, projectUpdateDto));
+        assertEquals(expectedResult, projectService.projectLevelUpdate(projectId, projectUpdateDto));
     }
 
     @Test

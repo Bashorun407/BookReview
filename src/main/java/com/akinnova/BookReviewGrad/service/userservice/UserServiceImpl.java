@@ -4,10 +4,13 @@ import com.akinnova.BookReviewGrad.dto.userdto.*;
 import com.akinnova.BookReviewGrad.email.emaildto.EmailDetail;
 import com.akinnova.BookReviewGrad.email.emailservice.EmailServiceImpl;
 import com.akinnova.BookReviewGrad.entity.UserEntity;
+import com.akinnova.BookReviewGrad.entity.UserRoles;
 import com.akinnova.BookReviewGrad.enums.ResponseType;
 import com.akinnova.BookReviewGrad.enums.ServiceProviderSpecialization;
+import com.akinnova.BookReviewGrad.enums.UserRole;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.UserRepository;
+import com.akinnova.BookReviewGrad.repository.UserRoleRepository;
 import com.akinnova.BookReviewGrad.response.EmailResponse;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
 import com.akinnova.BookReviewGrad.response.ResponseUtils;
@@ -18,9 +21,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,20 +41,26 @@ public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailServiceImpl emailService;
+    private final UserRoleRepository roleRepository;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailServiceImpl emailService) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailServiceImpl emailService, UserRoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public ResponsePojo<UserResponseDto> addUser(UserCreateDto userCreateDto) {
         boolean check = userRepository.existsByUsername(userCreateDto.getUsername());
 
-        if(check)
-            throw new ApiException(String.format(ResponseUtils.USER_EXISTS, userCreateDto.getUsername()));
 
+        if(check)
+            return new ResponsePojo<>(ResponseType.FAILED, String.format(ResponseUtils.USER_EXISTS, userCreateDto.getUsername()));
+            //throw new ApiException(String.format(ResponseUtils.USER_EXISTS, userCreateDto.getUsername()));
+        UserRoles role = roleRepository.findByRoleName(REGULAR_USER.toString()).orElseThrow(() ->
+                new IllegalArgumentException("Role with the provided name not found")
+        );
         //Add and save new client to repository
         UserEntity userEntity = userRepository.save(UserEntity.builder()
                 .firstName(userCreateDto.getFirstName())
@@ -62,8 +71,52 @@ public class UserServiceImpl implements IUserService {
                 // TODO: 04/09/2023 password encoder should be used here
                 //.password(userCreateDto.getPassword())
                 .password(passwordEncoder.encode(userCreateDto.getPassword()))
-                .userRole(REGULAR_USER)
+                .roleName(Collections.singleton(role))
+                .userType(CLIENT)
+                .specialization(ServiceProviderSpecialization.NONE)
+                .applicationStatus(NOT_SENT)
+                .reviewStatus(NOT_CONFIRMED)
+                .activeStatus(true)
+                .createdOn(LocalDateTime.now())
+                .build());
 
+        logger.info("A new user has been added.");
+        // TODO: 04/09/2023 Email should be sent to users after registering.
+
+        //Sending email to the project owner that a new project has been created.
+        EmailDetail emailDetail = EmailDetail.builder()
+                .recipient(userEntity.getEmail())
+                .subject(EmailResponse.USER_CREATION_SUBJECT)
+                .body(String.format(EmailResponse.USER_CREATION_MAIL, userEntity.getLastName(), userEntity.getUserId()))
+                .build();
+
+        emailService.sendSimpleEmail(emailDetail);
+
+        return new ResponsePojo<>(ResponseType.SUCCESS, ResponseUtils.USER_ADDED, new UserResponseDto(userEntity));
+    }
+
+    @Override
+    public ResponsePojo<UserResponseDto> addAdmin(UserCreateDto userCreateDto) {
+        boolean check = userRepository.existsByUsername(userCreateDto.getUsername());
+
+
+        if(check)
+            return new ResponsePojo<>(ResponseType.FAILED, String.format(ResponseUtils.USER_EXISTS, userCreateDto.getUsername()));
+        //throw new ApiException(String.format(ResponseUtils.USER_EXISTS, userCreateDto.getUsername()));
+        UserRoles role = roleRepository.findByRoleName(ADMIN.toString()).orElseThrow(() ->
+                new IllegalArgumentException("Role with the provided name not found")
+        );
+        //Add and save new client to repository
+        UserEntity userEntity = userRepository.save(UserEntity.builder()
+                .firstName(userCreateDto.getFirstName())
+                .lastName(userCreateDto.getLastName())
+                .userId(Utility.generateUniqueIdentifier(10, userCreateDto.getUsername()))
+                .username(userCreateDto.getUsername())
+                .email(userCreateDto.getEmail())
+                // TODO: 04/09/2023 password encoder should be used here
+                //.password(userCreateDto.getPassword())
+                .password(passwordEncoder.encode(userCreateDto.getPassword()))
+                .roleName(Collections.singleton(role))
                 .userType(CLIENT)
                 .specialization(ServiceProviderSpecialization.NONE)
                 .applicationStatus(NOT_SENT)
@@ -148,7 +201,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ResponseEntity<?> FindRegularUsers(int pageNum, int pageSize) {
         List<UserEntity> userEntityList = userRepository.findAll().stream()
-                .filter(x-> x.getUserRole() == REGULAR_USER)
+                .filter(x-> x.getRoleName().equals( "REGULAR_USER"))
                 .filter(UserEntity::getActiveStatus)
                 .sorted(Comparator.comparing(UserEntity::getLastName).thenComparing(UserEntity::getFirstName))
                 .toList();
@@ -163,7 +216,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ResponseEntity<?> FindAdmins(int pageNum, int pageSize) {
         List<UserEntity> userEntityList = userRepository.findAll().stream()
-                .filter(x-> x.getUserRole() == ADMIN)
+                .filter(x-> x.getRoleName().equals("ADMIN"))
                 .filter(UserEntity::getActiveStatus)
                 .sorted(Comparator.comparing(UserEntity::getLastName).thenComparing(UserEntity::getFirstName))
                 .toList();
@@ -238,8 +291,11 @@ public class UserServiceImpl implements IUserService {
     public ResponseEntity<?> jobRoleUpdate(String username, AdminUpdateDto adminUpdateDto) {
         UserEntity userEntity = userRepository.findByUsername(username)
                 .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, username)));
+        UserRoles role = roleRepository.findByRoleName("ADMIN").orElseThrow(() ->
+                new IllegalArgumentException("Role with the provided name not found")
+        );
 
-        userEntity.setUserRole(adminUpdateDto.getUserRole());
+        userEntity.setRoleName(Collections.singleton(role));
         userEntity.setUserType(adminUpdateDto.getUserType());
         userEntity.setReviewStatus(adminUpdateDto.getReviewStatus());
 
