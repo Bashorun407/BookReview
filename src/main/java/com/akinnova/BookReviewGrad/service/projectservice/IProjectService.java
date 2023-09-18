@@ -14,6 +14,7 @@ public interface IProjectService {
     ResponseEntity<?> findStartedProjects(int pageNum, int pageSize);
     ResponseEntity<?> findCompletedProjects(int pageNum, int pageSize);
     ResponseEntity<?> updateProject(String projectId, ProjectUpdateDto projectUpdateDto);
+    ResponseEntity<?> addServiceProvider(String projectId, SelectServiceProviderDto serviceProviderDto);
     ResponseEntity<?> serviceProviderProjectUpdate(String projectId, ProjectServiceProviderUpdateDto serviceProviderUpdateDto);
     ResponseEntity<?> projectLevelUpdate(String projectId, ProjectAdminUpdateDto adminUpdateDto);
     ResponseEntity<?> deleteProject(String projectId);

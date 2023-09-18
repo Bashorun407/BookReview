@@ -1,12 +1,14 @@
 package com.akinnova.BookReviewGrad.controller;
 
 import com.akinnova.BookReviewGrad.dto.login.LoginDto;
+import com.akinnova.BookReviewGrad.dto.ratingdto.RatingDto;
 import com.akinnova.BookReviewGrad.dto.userdto.UserCreateDto;
 import com.akinnova.BookReviewGrad.dto.userdto.UserResponseDto;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
 import com.akinnova.BookReviewGrad.service.authservice.AuthResponse;
 import com.akinnova.BookReviewGrad.service.authservice.AuthServiceImpl;
 import com.akinnova.BookReviewGrad.service.authservice.IAuthService;
+import com.akinnova.BookReviewGrad.service.ratingservice.IRatingService;
 import com.akinnova.BookReviewGrad.service.userservice.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ public class AuthController {
 
     private final IAuthService authService;
     private final IUserService userService;
+    private final IRatingService ratingService;
 
     @PostMapping("/addUser")
     public ResponsePojo<UserResponseDto> addUser(@RequestBody UserCreateDto userCreateDto) {
@@ -42,4 +45,9 @@ public class AuthController {
         return userService.FindServiceProviders(pageNum, pageSize);
     }
 
+    //Rating
+    @PostMapping("/rate")
+    public ResponseEntity<?> rateProvider(@RequestBody RatingDto rateDto) {
+        return ratingService.rateProvider(rateDto);
+    }
 }

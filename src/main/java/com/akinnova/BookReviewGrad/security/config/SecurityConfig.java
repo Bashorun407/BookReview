@@ -38,6 +38,8 @@ public class SecurityConfig {
 //            "api/attendee/**"
 //    };
 
+    private final String[] WHITE_LIST_URL = {"/api/v1/rates/auth/**", "/api/v1/auth/**"};
+
     public SecurityConfig(CustomUserDetailsService userDetailsService, JwtAuthenticationFilter jwtAuthenticationFilter){
         this.userDetailsService = userDetailsService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
@@ -69,10 +71,10 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/api/v1/auth/**").permitAll()
+                                .requestMatchers(WHITE_LIST_URL).permitAll()
                                 .requestMatchers("/api/v1/test/**").permitAll()
                                 .requestMatchers("/api/v1/comment/**").hasAnyAuthority("REGULAR_USER","ADMIN")
-                                .requestMatchers("/api/v1/project/**").hasAuthority("REGULAR_USER")
+                                .requestMatchers("/api/v1/project/**").hasAnyAuthority("REGULAR_USER", "ADMIN")
                                 .requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
                 )

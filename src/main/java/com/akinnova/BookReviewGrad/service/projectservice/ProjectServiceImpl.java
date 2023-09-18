@@ -201,6 +201,47 @@ public class ProjectServiceImpl implements IProjectService {
     }
 
     @Override
+    public ResponseEntity<?> addServiceProvider(String projectId, SelectServiceProviderDto serviceProviderDto) {
+
+        Project project = projectRepository.findByProjectId(projectId)
+                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_PROJECT_BY_ID,
+                        projectId)));
+        project.setServiceProviderUsername(serviceProviderDto.getServiceProviderUsername());
+
+        projectRepository.save(project);
+        // TODO: 05/09/2023 Email should be sent to the project owner that a service provider has accepted the project
+
+        //Getting the details of the user
+        UserEntity user = userRepository.findByUsername(serviceProviderDto.getServiceProviderUsername())
+                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, serviceProviderDto.getServiceProviderUsername())));
+
+        //Sending email to the project owner that a service provider the owner selected has accepted the offer.
+        if(project.getJobAcceptanceStatus().equals(JobAcceptanceStatus.ACCEPTED)){
+            EmailDetail emailDetail = EmailDetail.builder()
+                    .recipient(user.getEmail())
+                    .subject(EmailResponse.PROJECT_UPDATE_SUBJECT)
+                    .body(String.format(EmailResponse.PROJECT_SERVICE_UPDATE_MAIL, project.getClientUsername(),
+                            serviceProviderDto.getServiceProviderUsername(), project.getTitle() , project.getProjectId(), user.getChargePerHour()))
+                    .build();
+
+            emailService.sendSimpleEmail(emailDetail);
+        }
+
+        //Sending email to the project owner that the service provider has completed the project
+        else if(project.getProjectCompletion().equals(COMPLETED)){
+            EmailDetail emailDetail = EmailDetail.builder()
+                    .recipient(user.getEmail())
+                    .subject(EmailResponse.PROJECT_UPDATE_SUBJECT)
+                    .body(String.format(EmailResponse.PROJECT_COMPLETION_MAIL, project.getClientUsername(), project.getTitle() , project.getProjectId()))
+                    .build();
+
+            emailService.sendSimpleEmail(emailDetail);
+        }
+
+        return ResponseEntity.ok(ResponseUtils.PROJECT_UPDATE_SUCCESSFUL);
+    }
+
+    @Override
     public ResponseEntity<?> serviceProviderProjectUpdate(String projectId, ProjectServiceProviderUpdateDto serviceProviderUpdateDto) {
         Project project = projectRepository.findByProjectId(projectId)
                 .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_PROJECT_BY_ID,

@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PutMapping("/providerUpdate/{username}")
-    public ResponseEntity<?> serviceProviderUpdate(@PathVariable String username, ServiceProviderUpdateDto providerUpdateDto) {
+    public ResponseEntity<?> serviceProviderUpdate(@PathVariable String username, @RequestBody ServiceProviderUpdateDto providerUpdateDto) {
         return userService.serviceProviderUpdate(username, providerUpdateDto);
     }
 

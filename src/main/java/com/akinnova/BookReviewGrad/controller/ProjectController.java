@@ -51,6 +51,10 @@ public class ProjectController {
         return projectService.updateProject(projectId, projectUpdateDto);
     }
 
+    @PutMapping("/addServiceProvider/{projectId}")
+    public ResponseEntity<?> addServiceProvider(@PathVariable String projectId, @RequestBody SelectServiceProviderDto serviceProviderDto) {
+        return projectService.addServiceProvider(projectId, serviceProviderDto);
+    }
     @PutMapping("/serviceProviderUpdate/{projectId}")
     public ResponseEntity<?> serviceProviderProjectUpdate(@PathVariable String projectId, @RequestBody ProjectServiceProviderUpdateDto serviceProviderUpdateDto) {
         return projectService.serviceProviderProjectUpdate(projectId, serviceProviderUpdateDto);
@@ -64,6 +68,11 @@ public class ProjectController {
     public ResponseEntity<?> deleteProject(@PathVariable String projectId) {
         return projectService.deleteProject(projectId);
     }
+
+    @GetMapping("/provider/{username}")
+    public ResponseEntity<?> serviceProviderRates(@PathVariable String username) {
+        return ratingService.serviceProviderRates(username);
+    }
 //
 //    @GetMapping("/search")
 //    public ResponseEntity<?> searchProject(@RequestParam(required = false) String username,
@@ -74,16 +83,5 @@ public class ProjectController {
 //        return projectService.searchProject(username, title, projectId, pageNum, pageSize);
 //    }
 
-
-    //Rating
-    @PostMapping("/rate")
-    public ResponseEntity<?> rateBook(@RequestBody RatingDto rateDto) {
-        return ratingService.rateBook(rateDto);
-    }
-
-    @GetMapping("/provider/{username}")
-    public ResponseEntity<?> serviceProviderRates(@PathVariable String username) {
-        return ratingService.serviceProviderRates(username);
-    }
 
 }

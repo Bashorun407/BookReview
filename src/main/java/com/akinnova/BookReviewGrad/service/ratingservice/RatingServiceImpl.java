@@ -26,7 +26,7 @@ public class RatingServiceImpl implements IRatingService {
     }
 
     @Override
-    public ResponseEntity<?> rateBook(RatingDto rateDto) {
+    public ResponseEntity<?> rateProvider(RatingDto rateDto) {
         //Checks if username is in user repository
         userRepository.findByUsername(rateDto.getUsername())
                 .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, rateDto.getUsername())));
