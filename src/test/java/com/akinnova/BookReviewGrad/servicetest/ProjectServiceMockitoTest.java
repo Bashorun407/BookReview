@@ -8,6 +8,7 @@ import com.akinnova.BookReviewGrad.enums.*;
 import com.akinnova.BookReviewGrad.repository.ProjectRepository;
 import com.akinnova.BookReviewGrad.repository.UserRepository;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
+import com.akinnova.BookReviewGrad.response.ResponseType;
 import com.akinnova.BookReviewGrad.response.ResponseUtils;
 import com.akinnova.BookReviewGrad.service.projectservice.ProjectServiceImpl;
 import com.akinnova.BookReviewGrad.utilities.Utility;
@@ -33,7 +34,6 @@ import static com.akinnova.BookReviewGrad.enums.ProjectLevelApproval.NOT_SATISFI
 import static com.akinnova.BookReviewGrad.enums.ProjectStartApproval.NOT_APPROVED;
 import static com.akinnova.BookReviewGrad.enums.ApplicationReviewStatus.CONFIRMED;
 import static com.akinnova.BookReviewGrad.enums.ApplicationReviewStatus.NOT_CONFIRMED;
-import static com.akinnova.BookReviewGrad.enums.UserRole.REGULAR_USER;
 import static com.akinnova.BookReviewGrad.enums.UserType.CLIENT;
 import static com.akinnova.BookReviewGrad.enums.UserType.SERVICE_PROVIDER;
 import static org.junit.jupiter.api.Assertions.assertEquals;

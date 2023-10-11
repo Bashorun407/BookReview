@@ -3,12 +3,10 @@ import com.akinnova.BookReviewGrad.dto.commentdto.CommentDeleteDto;
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentDto;
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentResponseDto;
 import com.akinnova.BookReviewGrad.entity.Comment;
-import com.akinnova.BookReviewGrad.enums.ResponseType;
+import com.akinnova.BookReviewGrad.response.ResponseType;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.CommentRepository;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

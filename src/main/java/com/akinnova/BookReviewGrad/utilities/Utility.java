@@ -75,4 +75,5 @@ public class Utility {
     //Compact form of rateFunction
     public static int rateFunc(int rate){
         return (rate >= 1 && rate <= 5) ? rate : 0;
-    }}
+    }
+}

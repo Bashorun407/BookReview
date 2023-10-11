@@ -1,9 +1,6 @@
 package com.akinnova.BookReviewGrad.response;
 
-import com.akinnova.BookReviewGrad.enums.ResponseType;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class ResponsePojo <T>{

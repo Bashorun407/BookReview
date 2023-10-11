@@ -2,7 +2,7 @@ package com.akinnova.BookReviewGrad.service.ratingservice;
 
 import com.akinnova.BookReviewGrad.dto.ratingdto.RatingDto;
 import com.akinnova.BookReviewGrad.entity.Rating;
-import com.akinnova.BookReviewGrad.enums.ResponseType;
+import com.akinnova.BookReviewGrad.response.ResponseType;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.RatingRepository;
 import com.akinnova.BookReviewGrad.repository.UserRepository;
@@ -31,6 +31,9 @@ public class RatingServiceImpl implements IRatingService {
         userRepository.findByUsername(rateDto.getUsername())
                 .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, rateDto.getUsername())));
 
+        if(rateDto.getStarRating() > 5 || rateDto.getStarRating()<1){
+            return new ResponseEntity<>("Value given is invalid. Choose a value between 1 and 5", HttpStatus.ACCEPTED);
+        }
         Rating rating = ratingRepository.findByUsername(rateDto.getUsername())
                 .orElse(ratingRepository.save(Rating.builder()
                         .username(rateDto.getUsername())

@@ -1,4 +1,4 @@
-package com.akinnova.BookReviewGrad.enums;
+package com.akinnova.BookReviewGrad.response;
 
 public enum ResponseType {
     SUCCESS, FAILED, PROCESSING

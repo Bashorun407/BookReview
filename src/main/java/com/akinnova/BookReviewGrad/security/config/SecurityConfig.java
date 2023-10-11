@@ -38,7 +38,7 @@ public class SecurityConfig {
 //            "api/attendee/**"
 //    };
 
-    private final String[] WHITE_LIST_URL = {"/api/v1/rates/auth/**", "/api/v1/auth/**"};
+    private final String[] WHITE_LIST_URL = {"/api/v1/rates/auth/**", "/api/v1/auth/**", "/api/v1/transaction/auth"};
 
     public SecurityConfig(CustomUserDetailsService userDetailsService, JwtAuthenticationFilter jwtAuthenticationFilter){
         this.userDetailsService = userDetailsService;

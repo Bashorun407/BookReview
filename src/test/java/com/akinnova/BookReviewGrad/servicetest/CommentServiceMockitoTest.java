@@ -3,7 +3,7 @@ package com.akinnova.BookReviewGrad.servicetest;
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentDto;
 import com.akinnova.BookReviewGrad.dto.commentdto.CommentResponseDto;
 import com.akinnova.BookReviewGrad.entity.Comment;
-import com.akinnova.BookReviewGrad.enums.ResponseType;
+import com.akinnova.BookReviewGrad.response.ResponseType;
 import com.akinnova.BookReviewGrad.repository.CommentRepository;
 import com.akinnova.BookReviewGrad.response.ResponsePojo;
 import com.akinnova.BookReviewGrad.service.commentservice.CommentServiceImpl;

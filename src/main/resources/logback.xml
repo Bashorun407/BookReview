@@ -21,7 +21,7 @@
             </encoder>
         </appender>
 
-        <logger name="com.akinnova.BookReviewGrad" level="debug" additivity="false">
+        <logger name="com.akinnova" level="debug" additivity="false">
             <appender-ref ref="FILE-ROLLING"/>
         </logger>
 

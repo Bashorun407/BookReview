@@ -6,7 +6,7 @@ import com.akinnova.BookReviewGrad.email.emailservice.EmailServiceImpl;
 import com.akinnova.BookReviewGrad.entity.Project;
 import com.akinnova.BookReviewGrad.entity.UserEntity;
 import com.akinnova.BookReviewGrad.enums.JobAcceptanceStatus;
-import com.akinnova.BookReviewGrad.enums.ResponseType;
+import com.akinnova.BookReviewGrad.response.ResponseType;
 import com.akinnova.BookReviewGrad.exception.ApiException;
 import com.akinnova.BookReviewGrad.repository.ProjectRepository;
 

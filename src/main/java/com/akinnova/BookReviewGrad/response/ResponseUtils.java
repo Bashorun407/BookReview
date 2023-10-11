@@ -1,6 +1,5 @@
 package com.akinnova.BookReviewGrad.response;
 
-import java.util.Random;
 
 public class ResponseUtils {
     //The following are HTTP status codes
