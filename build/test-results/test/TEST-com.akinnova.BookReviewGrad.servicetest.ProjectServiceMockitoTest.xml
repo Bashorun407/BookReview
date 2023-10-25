@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2023-10-25T16:46:23" hostname="SEYI-IACADEMY" time="0.211">
+  <properties/>
+  <testcase name="test_findAllProjects()" classname="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" time="0.03"/>
+  <testcase name="test_findProjectByOwner()" classname="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" time="0.011"/>
+  <testcase name="test_findProjectByProjectId()" classname="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" time="0.01"/>
+  <testcase name="test_findPendingProjects()" classname="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" time="0.014"/>
+  <testcase name="test_findStartedProjects()" classname="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" time="0.011"/>
+  <testcase name="test_findCompletedProjects()" classname="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" time="0.009"/>
+  <testcase name="test_updateProject()" classname="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" time="0.019"/>
+  <testcase name="test_deleteProject()" classname="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" time="0.009"/>
+  <testcase name="test_serviceProviderProjectUpdate()" classname="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" time="0.012"/>
+  <testcase name="test_adminProjectUpdate()" classname="com.akinnova.BookReviewGrad.servicetest.ProjectServiceMockitoTest" time="0.009"/>
+  <system-out><![CDATA[
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.2)
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

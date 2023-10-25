@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.akinnova.BookReviewGrad.servicetest.UserServiceMockitoTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2023-10-25T16:46:24" hostname="SEYI-IACADEMY" time="0.097">
+  <properties/>
+  <testcase name="test_allUsers()" classname="com.akinnova.BookReviewGrad.servicetest.UserServiceMockitoTest" time="0.012"/>
+  <testcase name="test_findClients()" classname="com.akinnova.BookReviewGrad.servicetest.UserServiceMockitoTest" time="0.008"/>
+  <testcase name="test_findServiceProviders()" classname="com.akinnova.BookReviewGrad.servicetest.UserServiceMockitoTest" time="0.01"/>
+  <testcase name="test_noClients()" classname="com.akinnova.BookReviewGrad.servicetest.UserServiceMockitoTest" time="0.003"/>
+  <testcase name="test_findRegularUsers()" classname="com.akinnova.BookReviewGrad.servicetest.UserServiceMockitoTest" time="0.008"/>
+  <testcase name="test_updateUser()" classname="com.akinnova.BookReviewGrad.servicetest.UserServiceMockitoTest" time="0.008"/>
+  <testcase name="test_serviceProviderUpdate()" classname="com.akinnova.BookReviewGrad.servicetest.UserServiceMockitoTest" time="0.006"/>
+  <testcase name="test_deleteUser()" classname="com.akinnova.BookReviewGrad.servicetest.UserServiceMockitoTest" time="0.008"/>
+  <system-out><![CDATA[
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.2)
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

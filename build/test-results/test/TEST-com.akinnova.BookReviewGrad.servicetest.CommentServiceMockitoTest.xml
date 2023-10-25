@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.akinnova.BookReviewGrad.servicetest.CommentServiceMockitoTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-10-25T16:46:23" hostname="SEYI-IACADEMY" time="0.182">
+  <properties/>
+  <testcase name="test_addComment()" classname="com.akinnova.BookReviewGrad.servicetest.CommentServiceMockitoTest" time="0.123"/>
+  <testcase name="test_allComments()" classname="com.akinnova.BookReviewGrad.servicetest.CommentServiceMockitoTest" time="0.019"/>
+  <testcase name="test_commentByUsername()" classname="com.akinnova.BookReviewGrad.servicetest.CommentServiceMockitoTest" time="0.027"/>
+  <system-out><![CDATA[
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.2)
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
