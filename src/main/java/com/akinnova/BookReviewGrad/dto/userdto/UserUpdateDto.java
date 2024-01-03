@@ -1,7 +1,6 @@
 package com.akinnova.BookReviewGrad.dto.userdto;
 
-import com.akinnova.BookReviewGrad.entity.UserEntity;
-import com.akinnova.BookReviewGrad.enums.UserRole;
+import com.akinnova.BookReviewGrad.entity.User;
 import lombok.Data;
 
 @Data
@@ -13,7 +12,7 @@ public class UserUpdateDto {
     private String email;
     private String password;
 
-    public UserUpdateDto(UserEntity user){
+    public UserUpdateDto(User user){
         this.username = user.getUsername();
         this.profilePicture = user.getProfilePicture();
         this.dateOfBirth = user.getDateOfBirth();

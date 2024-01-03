@@ -1,6 +1,6 @@
 //package com.akinnova.BookReviewGrad.security;
 //
-//import com.akinnova.BookReviewGrad.entity.UserEntity;
+//import com.akinnova.BookReviewGrad.entity.User;
 //import com.akinnova.BookReviewGrad.repository.UserRepository;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,7 +25,7 @@
 //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //
-//        UserEntity userEntity = userRepository.findByEmail(username)
+//        User userEntity = userRepository.findByEmail(username)
 //                .orElseThrow(()-> new UsernameNotFoundException("user with this username not found" + username));
 //
 //        Set<GrantedAuthority> authorities1 = userEntity.getEnumRoles().stream()

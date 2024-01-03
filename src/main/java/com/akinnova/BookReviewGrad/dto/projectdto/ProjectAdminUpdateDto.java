@@ -1,6 +1,6 @@
 package com.akinnova.BookReviewGrad.dto.projectdto;
 
-import com.akinnova.BookReviewGrad.enums.ProjectLevelApproval;
+import com.akinnova.BookReviewGrad.enums.ProjectLevelCompletionApproval;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,11 +10,11 @@ import lombok.Data;
 public class ProjectAdminUpdateDto {
    // private String projectId;
    @Enumerated(EnumType.STRING)
-    private ProjectLevelApproval projectLevelApproval;
+    private ProjectLevelCompletionApproval projectLevelCompletionApproval;
 
-    public ProjectAdminUpdateDto(ProjectLevelApproval projectLevelApproval) {
+    public ProjectAdminUpdateDto(ProjectLevelCompletionApproval projectLevelCompletionApproval) {
         //this.projectId = projectId;
-        this.projectLevelApproval = projectLevelApproval;
+        this.projectLevelCompletionApproval = projectLevelCompletionApproval;
     }
 
     public ProjectAdminUpdateDto(){}
