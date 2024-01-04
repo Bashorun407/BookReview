@@ -1,12 +1,7 @@
 package com.akinnova.BookReviewGrad.entity;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,5 +15,22 @@ public class Comment extends BaseInfo {
     private Long id;
     private String comment;
     private String username;
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj == null)
+            return false;
+        if(this == obj)
+            return true;
+        if(getClass() != obj.getClass())
+            return false;
+
+        return id != null && id.equals(((Comment) obj).id);
+    }
+
+    @Override
+    public int hashCode(){
+        return 2020;
+    }
 
 }

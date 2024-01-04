@@ -1,16 +1,14 @@
 package com.akinnova.BookReviewGrad.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @Entity
 @Table(name = "rating_table")
@@ -18,12 +16,28 @@ public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "service_provider_name", referencedColumnName = "username")
-    private String username;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
     private Integer starRating;
     private Long rateCount;
     private Double averageRating;
     private LocalDateTime rateTime;
 
+    @Override
+    public boolean equals(Object obj){
+        if(obj == null)
+            return false;
+        if(this == obj)
+            return true;
+        if(getClass() != obj.getClass())
+            return false;
+
+        return id != null && id.equals(((Rating) obj).id);
+    }
+
+    @Override
+    public int hashCode(){
+        return 2023;
+    }
 }

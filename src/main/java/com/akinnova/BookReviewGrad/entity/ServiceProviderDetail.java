@@ -52,6 +52,6 @@ public class ServiceProviderDetail extends BaseInfo implements Serializable {
 
     @Override
     public int hashCode(){
-        return Objects.hash(id);
+        return 2024;
     }
 }

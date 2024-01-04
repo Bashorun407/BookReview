@@ -36,17 +36,11 @@ public class User extends BaseInfo implements Serializable {
     private UserType userType;
     private boolean isProfileComplete;
     private Boolean activeStatus;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Project> projects = new ArrayList<>();
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Project> projects = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "users")
-//    @JoinTable(
-//            name = "user_project_report",
-//            joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "project_report", referencedColumnName = "id")
-//    )
-    private Set<ProjectReport> projectReports = new LinkedHashSet<>();
-
+    private List<UserRole> roles = new ArrayList<>();
 
 //    Many-to-many relationship with role
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -56,26 +50,29 @@ public class User extends BaseInfo implements Serializable {
 //    )
 //    private Set<RoleName> roleName;
 
-//    private EnumSet<RoleName> enumRoles;
-    public void addUserRole(Project project){
-        this.projects.add(project);
-        project.setUser(this);
-    }
 
-    public void removeUserRole(Project project){
-        project.setUser(null);
-        this.projects.remove(project);
-    }
+//    @ManyToMany(mappedBy = "users")
+//    private Set<ProjectReport> projectReports = new LinkedHashSet<>();
 
-    public void removeUserRoles(){
-        Iterator<Project> iterator = this.projects.iterator();
-
-        while(iterator.hasNext()){
-            Project project = iterator.next();
-            project.setUser(null);
-            iterator.remove();
-        }
-    }
+//    public void addProject(Project project){
+//        this.projects.add(project);
+//        project.setUser(this);
+//    }
+//
+//    public void removeProject(Project project){
+//        project.setUser(null);
+//        this.projects.remove(project);
+//    }
+//
+//    public void removeProjects(){
+//        Iterator<Project> iterator = this.projects.iterator();
+//
+//        while(iterator.hasNext()){
+//            Project project = iterator.next();
+//            project.setUser(null);
+//            iterator.remove();
+//        }
+//    }
     @Override
     public boolean equals(Object obj){
         if(obj == null)
@@ -90,6 +87,6 @@ public class User extends BaseInfo implements Serializable {
 
     @Override
     public int hashCode(){
-        return Objects.hash(id);
+        return 2026;
     }
 }

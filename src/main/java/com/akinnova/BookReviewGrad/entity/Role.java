@@ -1,10 +1,12 @@
 package com.akinnova.BookReviewGrad.entity;
 
-import com.akinnova.BookReviewGrad.enums.*;
+import com.akinnova.BookReviewGrad.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,19 +14,18 @@ import java.io.Serializable;
 @Setter
 @Builder
 @Entity
-public class Project extends BaseInfo implements Serializable {
-
+public class Role extends BaseInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String imageUrl;
-    private String title;
-    private Category category;
-    //private ProjectFormat projectFormat;
+    private RoleName roleName;
 
-    @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "id")
-    private User user;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserRole> users = new ArrayList<>();
+//    @MapsId
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user", referencedColumnName = "id")
+//    private User user;
 
     @Override
     public boolean equals(Object obj){
@@ -35,11 +36,11 @@ public class Project extends BaseInfo implements Serializable {
         if(getClass() != obj.getClass())
             return false;
 
-        return id != null && id.equals(((Project) obj).id);
+        return id != null && id.equals(((Role) obj).id);
     }
 
     @Override
     public int hashCode(){
-        return 2021;
+        return 2027;
     }
 }

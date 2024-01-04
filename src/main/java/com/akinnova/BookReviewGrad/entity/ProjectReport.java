@@ -9,7 +9,6 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -24,7 +23,6 @@ public class ProjectReport extends BaseInfo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@MapsId
     @OneToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
@@ -39,12 +37,12 @@ public class ProjectReport extends BaseInfo implements Serializable {
     @Enumerated(EnumType.STRING)
     private ProjectCompletionStatus projectCompletionStatus;
     private Boolean activeStatus;
-    @ManyToMany
-    @JoinTable(name = "project_report_user",
-            joinColumns = @JoinColumn(name = "project_report_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
-    )
-    private Set<User> users;
+//    @ManyToMany
+//    @JoinTable(name = "project_report_user",
+//            joinColumns = @JoinColumn(name = "project_report_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    )
+//    private Set<User> users;
 
     @Override
     public boolean equals(Object obj){
@@ -60,6 +58,6 @@ public class ProjectReport extends BaseInfo implements Serializable {
 
     @Override
     public int hashCode(){
-        return Objects.hash(id);
+        return 2022;
     }
 }
