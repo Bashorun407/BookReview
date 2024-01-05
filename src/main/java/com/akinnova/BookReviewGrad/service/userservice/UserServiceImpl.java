@@ -3,7 +3,7 @@
 //import com.akinnova.BookReviewGrad.dto.userdto.*;
 //import com.akinnova.BookReviewGrad.email.emaildto.EmailDetail;
 //import com.akinnova.BookReviewGrad.email.emailservice.EmailServiceImpl;
-//import com.akinnova.BookReviewGrad.entity.User;
+//import com.akinnova.BookReviewGrad.entity.UserEntity;
 //import com.akinnova.BookReviewGrad.entity.RoleName;
 //import com.akinnova.BookReviewGrad.response.ResponseType;
 //import com.akinnova.BookReviewGrad.enums.ServiceProviderSpecialization;
@@ -61,7 +61,7 @@
 //                new IllegalArgumentException("Role with the provided name not found")
 //        );
 //        //Add and save new client to repository
-//        User userEntity = userRepository.save(User.builder()
+//        UserEntity userEntity = userRepository.save(UserEntity.builder()
 //                .firstName(userCreateDto.getFirstName())
 //                .lastName(userCreateDto.getLastName())
 //                .userId(Utility.generateUniqueIdentifier(10, userCreateDto.getUsername()))
@@ -79,7 +79,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        logger.info("A new user has been added.");
+//        logger.info("A new userEntity has been added.");
 //        // TODO: 04/09/2023 Email should be sent to users after registering.
 //
 //        //Sending email to the project owner that a new project has been created.
@@ -106,7 +106,7 @@
 //                new IllegalArgumentException("Role with the provided name not found")
 //        );
 //        //Add and save new client to repository
-//        User userEntity = userRepository.save(User.builder()
+//        UserEntity userEntity = userRepository.save(UserEntity.builder()
 //                .firstName(userCreateDto.getFirstName())
 //                .lastName(userCreateDto.getLastName())
 //                .userId(Utility.generateUniqueIdentifier(10, userCreateDto.getUsername()))
@@ -124,7 +124,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        logger.info("A new user has been added.");
+//        logger.info("A new userEntity has been added.");
 //        // TODO: 04/09/2023 Email should be sent to users after registering.
 //
 //        //Sending email to the project owner that a new project has been created.
@@ -141,24 +141,24 @@
 //
 //    @Override
 //    public ResponseEntity<?> allUsers(int pageNum, int pageSize) {
-//        List<User> userEntityList = userRepository.findAll().stream().filter(User::getActiveStatus).toList();
+//        List<UserEntity> userEntityList = userRepository.findAll().stream().filter(UserEntity::getActiveStatus).toList();
 //
 //        return ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, "All users", userEntityList.stream()
-//                .sorted(Comparator.comparing(User::getLastName).thenComparing(User::getFirstName))
+//                .sorted(Comparator.comparing(UserEntity::getLastName).thenComparing(UserEntity::getFirstName))
 //                .skip(pageNum - 1).limit(pageSize).map(UserResponseDto::new).collect(Collectors.toList())));
 //    }
 //
 ////    @Override
 ////    public ResponseEntity<?> SearchUser(String username, String phoneNumber, String email) {
 ////
-////        User userEntity = new User();
+////        UserEntity userEntity = new UserEntity();
 ////
 ////        if(StringUtils.hasText(username))
-////            userEntity = userRepository.findByUsername(username).filter(User::getActiveStatus)
+////            userEntity = userRepository.findByUsername(username).filter(UserEntity::getActiveStatus)
 ////                    .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, username)));
 ////
 ////        if(StringUtils.hasText(email))
-////            userEntity = userRepository.findByEmail(username).filter(User::getActiveStatus)
+////            userEntity = userRepository.findByEmail(username).filter(UserEntity::getActiveStatus)
 ////                    .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, email)));
 ////
 ////        return new ResponseEntity<>(new UserResponseDto(userEntity), HttpStatus.FOUND);
@@ -167,10 +167,10 @@
 //    // TODO: 13/08/2023 To implement the following methods
 //    @Override
 //    public ResponseEntity<?> FindClients(int pageNum, int pageSize) {
-//        List<User> userEntityList = userRepository.findAll().stream()
+//        List<UserEntity> userEntityList = userRepository.findAll().stream()
 //                .filter(x-> x.getUserType() == CLIENT)
-//                .filter(User::getActiveStatus)
-//                .sorted(Comparator.comparing(User::getLastName).thenComparing(User::getFirstName))
+//                .filter(UserEntity::getActiveStatus)
+//                .sorted(Comparator.comparing(UserEntity::getLastName).thenComparing(UserEntity::getFirstName))
 //                .toList();
 //
 //        if(userEntityList.isEmpty())
@@ -182,11 +182,11 @@
 //
 //    @Override
 //    public ResponseEntity<?> FindServiceProviders(int pageNum, int pageSize) {
-//        List<User> userEntityList = userRepository.findAll().stream()
+//        List<UserEntity> userEntityList = userRepository.findAll().stream()
 //                .filter(x-> x.getUserType() == SERVICE_PROVIDER)
-//                .filter(User::getActiveStatus)
-//                .sorted(Comparator.comparing(User::getLastName).thenComparing(User::getFirstName))
-//                .sorted(Comparator.comparingDouble(User::getChargePerHour))
+//                .filter(UserEntity::getActiveStatus)
+//                .sorted(Comparator.comparing(UserEntity::getLastName).thenComparing(UserEntity::getFirstName))
+//                .sorted(Comparator.comparingDouble(UserEntity::getChargePerHour))
 //                .toList();
 //
 //        if(userEntityList.isEmpty())
@@ -199,10 +199,10 @@
 //
 //    @Override
 //    public ResponseEntity<?> FindRegularUsers(int pageNum, int pageSize) {
-//        List<User> userEntityList = userRepository.findAll().stream()
+//        List<UserEntity> userEntityList = userRepository.findAll().stream()
 //                .filter(x-> x.getRoleName().equals( "REGULAR_USER"))
-//                .filter(User::getActiveStatus)
-//                .sorted(Comparator.comparing(User::getLastName).thenComparing(User::getFirstName))
+//                .filter(UserEntity::getActiveStatus)
+//                .sorted(Comparator.comparing(UserEntity::getLastName).thenComparing(UserEntity::getFirstName))
 //                .toList();
 //
 //        if(userEntityList.isEmpty())
@@ -214,10 +214,10 @@
 //
 //    @Override
 //    public ResponseEntity<?> FindAdmins(int pageNum, int pageSize) {
-//        List<User> userEntityList = userRepository.findAll().stream()
+//        List<UserEntity> userEntityList = userRepository.findAll().stream()
 //                .filter(x-> x.getRoleName().equals("ADMIN"))
-//                .filter(User::getActiveStatus)
-//                .sorted(Comparator.comparing(User::getLastName).thenComparing(User::getFirstName))
+//                .filter(UserEntity::getActiveStatus)
+//                .sorted(Comparator.comparing(UserEntity::getLastName).thenComparing(UserEntity::getFirstName))
 //                .toList();
 //
 //        if(userEntityList.isEmpty())
@@ -231,7 +231,7 @@
 //
 //    @Override
 //    public ResponseEntity<?> updateUser(UserUpdateDto userUpdateDto) {
-//        User userEntity = userRepository.findByUsername(userUpdateDto.getUsername())
+//        UserEntity userEntity = userRepository.findByUsername(userUpdateDto.getUsername())
 //                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, userUpdateDto.getUsername())));
 //
 //        userEntity.setProfilePicture(userUpdateDto.getProfilePicture());
@@ -244,9 +244,9 @@
 //
 //        //Save to repository
 //        userRepository.save(userEntity);
-//        logger.info("User details has been modified.");
+//        logger.info("UserEntity details has been modified.");
 //
-//        // TODO: 04/09/2023 Email should be sent to user to notify for update
+//        // TODO: 04/09/2023 Email should be sent to userEntity to notify for update
 //        //Sending email to the project owner that a new project has been created.
 //        EmailDetail emailDetail = EmailDetail.builder()
 //                .recipient(userEntity.getEmail())
@@ -261,7 +261,7 @@
 //
 //    @Override
 //    public ResponseEntity<?> serviceProviderUpdate(String username, ServiceProviderUpdateDto providerUpdateDto) {
-//        User userEntity = userRepository.findByUsername(username)
+//        UserEntity userEntity = userRepository.findByUsername(username)
 //                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, username)));
 //
 //        userEntity.setUserType(providerUpdateDto.getUserType());
@@ -288,7 +288,7 @@
 //
 //    @Override
 //    public ResponseEntity<?> jobRoleUpdate(String username, AdminUpdateDto adminUpdateDto) {
-//        User userEntity = userRepository.findByUsername(username)
+//        UserEntity userEntity = userRepository.findByUsername(username)
 //                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, username)));
 //        RoleName role = roleRepository.findByRoleName("ADMIN").orElseThrow(() ->
 //                new IllegalArgumentException("Role with the provided name not found")
@@ -300,21 +300,21 @@
 //
 //        //Save to repository
 //        userRepository.save(userEntity);
-//        logger.info("Admin has updated user details.");
+//        logger.info("Admin has updated userEntity details.");
 //        return ResponseEntity.ok(ResponseUtils.USER_UPDATE_MESSAGE);
 //
 //    }
 //
 //    @Override
 //    public ResponseEntity<?> deleteUser(String username) {
-//        User userEntity = userRepository.findByUsername(username).filter(User::getActiveStatus)
+//        UserEntity userEntity = userRepository.findByUsername(username).filter(UserEntity::getActiveStatus)
 //                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, username)));
 //
 //        //Only resets active status to 'false'
 //        userEntity.setActiveStatus(false);
 //        //Save to database
 //        userRepository.save(userEntity);
-//        logger.info("User details has been deleted...soft delete.");
+//        logger.info("UserEntity details has been deleted...soft delete.");
 //
 //        return ResponseEntity.ok(ResponseUtils.USER_DELETE_MESSAGE);
 //    }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * this class serves as a many-to-many or junction class between User and Role classes
+ * this class serves as a many-to-many or junction class between UserEntity and Role classes
  */
 @Getter
 @Setter
@@ -22,10 +22,10 @@ public class UserRole implements Serializable {
     @EmbeddedId
     private UserRoleId id;
 
-    @MapsId("userId")
+    @MapsId("id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
-    @MapsId("roleId")
+    private UserEntity userEntity;
+    @MapsId("id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 
@@ -35,10 +35,10 @@ public class UserRole implements Serializable {
     public UserRole() {
     }
 
-    public UserRole(User user, Role role) {
-        this.user = user;
+    public UserRole(UserEntity userEntity, Role role) {
+        this.userEntity = userEntity;
         this.role = role;
-        this.id = new UserRoleId(user.getId(), role.getId());
+        this.id = new UserRoleId(userEntity.getId(), role.getId());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class UserRole implements Serializable {
 
         final UserRole other = (UserRole) obj;
 
-        if(!Objects.equals(this.user, other.user)){
+        if(!Objects.equals(this.userEntity, other.userEntity)){
             return false;
         }
 
@@ -62,7 +62,7 @@ public class UserRole implements Serializable {
     @Override
     public int hashCode(){
         int hash = 7;
-        hash = 31 * hash + Objects.hashCode(this.user);
+        hash = 31 * hash + Objects.hashCode(this.userEntity);
         hash = 31 * hash + Objects.hashCode(this.role);
 
         return hash;

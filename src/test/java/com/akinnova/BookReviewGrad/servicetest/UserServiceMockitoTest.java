@@ -2,7 +2,7 @@
 //
 //import com.akinnova.BookReviewGrad.dto.userdto.*;
 //import com.akinnova.BookReviewGrad.email.emailservice.EmailServiceImpl;
-//import com.akinnova.BookReviewGrad.entity.User;
+//import com.akinnova.BookReviewGrad.entity.UserEntity;
 //import com.akinnova.BookReviewGrad.response.ResponseType;
 //import com.akinnova.BookReviewGrad.enums.ServiceProviderSpecialization;
 //import com.akinnova.BookReviewGrad.repository.UserRepository;
@@ -57,7 +57,7 @@
 ////    @Order(1)
 ////    public void test_addUser(){
 ////
-////        //User Create Dto
+////        //UserEntity Create Dto
 //////        UserCreateDto userCreateDto = UserCreateDto.builder()
 //////                .firstName("John")
 //////                .lastName("Ade")
@@ -69,7 +69,7 @@
 ////        UserCreateDto userCreateDto = new UserCreateDto("John", "Ade", "Jade", "jade@gmail.com", "1234");
 ////
 ////
-////        User user = User.builder()
+////        UserEntity userEntity = UserEntity.builder()
 ////                .id(1L)
 ////                .firstName("John")
 ////                .lastName("Ade")
@@ -86,11 +86,11 @@
 ////                .createdOn(LocalDateTime.now())
 ////                .build();
 ////
-////        ResponsePojo<UserResponseDto> expectedResult = new ResponsePojo<>(ResponseType.SUCCESS, ResponseUtils.USER_ADDED, new UserResponseDto(user));
+////        ResponsePojo<UserResponseDto> expectedResult = new ResponsePojo<>(ResponseType.SUCCESS, ResponseUtils.USER_ADDED, new UserResponseDto(userEntity));
 ////
 ////        //This is where the Mocking begins
-////        when(userRepository.save(user)).thenReturn(user);
-////        when(user)
+////        when(userRepository.save(userEntity)).thenReturn(userEntity);
+////        when(userEntity)
 ////        //doNothing().when(emailService.sendSimpleEmail(any()));
 ////
 ////        assertEquals(expectedResult, userService.addUser(userCreateDto));
@@ -100,9 +100,9 @@
 //    @Test
 //    @Order(2)
 //    public void test_allUsers(){
-//        List<User> userList = new ArrayList<>();
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -118,7 +118,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Ola")
 //                .lastName("Ade")
@@ -145,9 +145,9 @@
 //    @Test
 //    @Order(3)
 //    public void test_findClients(){
-//        List<User> userList = new ArrayList<>();
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -163,7 +163,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Ola")
 //                .lastName("Ade")
@@ -189,9 +189,9 @@
 //    @Test
 //    @Order(4)
 //    public void test_findServiceProviders(){
-//        List<User> userList = new ArrayList<>();
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -207,7 +207,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Ola")
 //                .lastName("Ade")
@@ -235,9 +235,9 @@
 //    public void test_noClients(){
 //
 //        //Testing the response if there are no clients
-//        List<User> userList = new ArrayList<>();
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -253,7 +253,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Ola")
 //                .lastName("Ade")
@@ -276,9 +276,9 @@
 //    @Test
 //    @Order(6)
 //    public void test_findRegularUsers(){
-//        List<User> userList = new ArrayList<>();
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -294,7 +294,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Ola")
 //                .lastName("Ade")
@@ -320,9 +320,9 @@
 ////    @Test
 ////    @Order(7)
 ////    public void test_findAdmins(){
-////        List<User> userList = new ArrayList<>();
+////        List<UserEntity> userList = new ArrayList<>();
 ////
-////        userList.add(User.builder()
+////        userList.add(UserEntity.builder()
 ////                .id(1L)
 ////                .firstName("John")
 ////                .lastName("Ade")
@@ -338,7 +338,7 @@
 ////                .createdOn(LocalDateTime.now())
 ////                .build());
 ////
-////        userList.add(User.builder()
+////        userList.add(UserEntity.builder()
 ////                .id(2L)
 ////                .firstName("Ola")
 ////                .lastName("Ade")
@@ -364,9 +364,9 @@
 //    @Test
 //    @Order(8)
 //    public void test_updateUser(){
-//        List<User> userList = new ArrayList<>();
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -382,7 +382,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Ola")
 //                .lastName("Ade")
@@ -398,10 +398,10 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        //Username of user to update
+//        //Username of userEntity to update
 //        String username = userList.get(1).getUsername();
-//        //User to update
-//        //User user = userRepository.findByUsername(username).orElseThrow();
+//        //UserEntity to update
+//        //UserEntity userEntity = userRepository.findByUsername(username).orElseThrow();
 //
 //        UserUpdateDto userUpdateDto = new UserUpdateDto(userList.get(1));
 //
@@ -415,9 +415,9 @@
 //    @Test
 //    @Order(9)
 //    public void test_serviceProviderUpdate(){
-//        List<User> userList = new ArrayList<>();
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -433,7 +433,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Ola")
 //                .lastName("Ade")
@@ -449,10 +449,10 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        //Username of user to update
+//        //Username of userEntity to update
 //        String username = userList.get(1).getUsername();
-//        //User to update
-//        //User user = userRepository.findByUsername(username).orElseThrow();
+//        //UserEntity to update
+//        //UserEntity userEntity = userRepository.findByUsername(username).orElseThrow();
 //
 //        //Service provider dto that will be passed to the method to update service provider
 //        ServiceProviderUpdateDto serviceProviderUpdateDto = new ServiceProviderUpdateDto(userList.get(1));
@@ -466,9 +466,9 @@
 ////    @Test
 ////    @Order(10)
 ////    public void test_jobRoleUpdate(){
-////        List<User> userList = new ArrayList<>();
+////        List<UserEntity> userList = new ArrayList<>();
 ////
-////        userList.add(User.builder()
+////        userList.add(UserEntity.builder()
 ////                .id(1L)
 ////                .firstName("John")
 ////                .lastName("Ade")
@@ -484,7 +484,7 @@
 ////                .createdOn(LocalDateTime.now())
 ////                .build());
 ////
-////        userList.add(User.builder()
+////        userList.add(UserEntity.builder()
 ////                .id(2L)
 ////                .firstName("Ola")
 ////                .lastName("Ade")
@@ -500,24 +500,24 @@
 ////                .createdOn(LocalDateTime.now())
 ////                .build());
 ////
-////        //Username of user to update
+////        //Username of userEntity to update
 ////        String username = userList.get(1).getUsername();
-////        //User to update
-////        User user = new User();
+////        //UserEntity to update
+////        UserEntity userEntity = new UserEntity();
 ////
 ////        //AdminUpdateDto is the dto that will be passed to the jobRole method
 ////        //AdminUpdateDto adminUpdateDto = AdminUpdateDto.builder().username(username).userRole(ADMIN).userType(SERVICE_PROVIDER).reviewStatus(REVIEWING).build();
 ////        AdminUpdateDto adminUpdateDto = new AdminUpdateDto(ADMIN, SERVICE_PROVIDER, REVIEWING);
-////        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+////        when(userRepository.findByUsername(username)).thenReturn(Optional.of(userEntity));
 ////        assertEquals(ResponseEntity.ok(ResponseUtils.USER_UPDATE_MESSAGE), userService.jobRoleUpdate(username, adminUpdateDto));
 ////    }
 //
 //    @Test
 //    @Order(11)
 //    public void test_deleteUser(){
-//        List<User> userList = new ArrayList<>();
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -533,7 +533,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Ola")
 //                .lastName("Ade")
@@ -549,7 +549,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        //Username of user to update
+//        //Username of userEntity to update
 //        String username = userList.get(1).getUsername();
 //
 //        when(userRepository.findByUsername(username)).thenReturn(Optional.of(userList.get(1)));

@@ -27,7 +27,7 @@
 //
 //    @Override
 //    public ResponseEntity<?> rateProvider(RatingDto rateDto) {
-//        //Checks if username is in user repository
+//        //Checks if username is in userEntity repository
 //        userRepository.findByUsername(rateDto.getUsername())
 //                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, rateDto.getUsername())));
 //
@@ -44,13 +44,13 @@
 //                        .build()));
 ////        Rating userRate = ratingRepository.findAll().stream().filter(x-> x.getUsername().getUsername().equals(rateDto.getUsername()))
 ////                .findFirst().orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, rateDto.getUsername())));
-//        //If user has reviewed a book before, retrieve the exact record and edit
+//        //If userEntity has reviewed a book before, retrieve the exact record and edit
 //
 //
 ////        Rating userRate =ratingRepository.findByUsername(rateDto.getUsername())
 ////                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, rateDto.getUsername())));
 //
-////        //Create a new rating for a user that has not been rated before
+////        //Create a new rating for a userEntity that has not been rated before
 ////        if (userRate.getStarRating() == null){
 ////            ratingRepository.save(Rating.builder()
 ////                    .username(userRate.getUsername())
@@ -85,7 +85,7 @@
 //        //To retrieve all reviews for a book by title
 ////        Rating rateBook = ratingRepository.findByUsername(username)
 ////                .orElseThrow(()->
-////                        new ApiException(String.format("There are no reviews for user:  %s yet", username)));
+////                        new ApiException(String.format("There are no reviews for userEntity:  %s yet", username)));
 //
 //        Rating rate = ratingRepository.findAll().stream().filter(x-> x.getUsername().equals(username))
 //                .findFirst().orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, username)));

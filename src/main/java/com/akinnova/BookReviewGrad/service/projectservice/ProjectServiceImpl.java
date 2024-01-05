@@ -4,7 +4,7 @@
 //import com.akinnova.BookReviewGrad.email.emaildto.EmailDetail;
 //import com.akinnova.BookReviewGrad.email.emailservice.EmailServiceImpl;
 //import com.akinnova.BookReviewGrad.entity.Project;
-//import com.akinnova.BookReviewGrad.entity.User;
+//import com.akinnova.BookReviewGrad.entity.UserEntity;
 //import com.akinnova.BookReviewGrad.enums.JobAcceptanceStatus;
 //import com.akinnova.BookReviewGrad.response.ResponseType;
 //import com.akinnova.BookReviewGrad.exception.ApiException;
@@ -64,13 +64,13 @@
 //
 //        logger.info("Project has been successfully created");
 //
-//        //Getting the details of the user
-//        User user = userRepository.findByUsername(project.getClientUsername())
+//        //Getting the details of the userEntity
+//        UserEntity userEntity = userRepository.findByUsername(project.getClientUsername())
 //                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME , projectCreateDto.getClientUsername())));
 //
 //        //Sending email to the project owner that a new project has been created.
 //        EmailDetail emailDetail = EmailDetail.builder()
-//                .recipient(user.getEmail())
+//                .recipient(userEntity.getEmail())
 //                .subject(EmailResponse.PROJECT_CREATION_SUBJECT)
 //                .body(String.format(EmailResponse.PROJECT_CREATION_MAIL, projectCreateDto.getTitle(), project.getProjectId()))
 //                .build();
@@ -184,14 +184,14 @@
 //
 //        logger.info("Project has been updated successfully");
 //
-//        //Getting the details of the user
-//        User user = userRepository.findByUsername(project.getClientUsername())
+//        //Getting the details of the userEntity
+//        UserEntity userEntity = userRepository.findByUsername(project.getClientUsername())
 //                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, project.getClientUsername())));
 //
 //
 //        //Sending email to the owner of the project
 //        EmailDetail emailDetail = EmailDetail.builder()
-//                .recipient(user.getEmail())
+//                .recipient(userEntity.getEmail())
 //                .subject(EmailResponse.PROJECT_UPDATE_SUBJECT)
 //                .body(String.format(EmailResponse.PROJECT_UPDATE_MAIL, project.getTitle(), project.getProjectId()))
 //                .build();
@@ -211,17 +211,17 @@
 //        projectRepository.save(project);
 //        // TODO: 05/09/2023 Email should be sent to the project owner that a service provider has accepted the project
 //
-//        //Getting the details of the user
-//        User user = userRepository.findByUsername(serviceProviderDto.getServiceProviderUsername())
+//        //Getting the details of the userEntity
+//        UserEntity userEntity = userRepository.findByUsername(serviceProviderDto.getServiceProviderUsername())
 //                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, serviceProviderDto.getServiceProviderUsername())));
 //
 //        //Sending email to the project owner that a service provider the owner selected has accepted the offer.
 //        if(project.getJobAcceptanceStatus().equals(JobAcceptanceStatus.ACCEPTED)){
 //            EmailDetail emailDetail = EmailDetail.builder()
-//                    .recipient(user.getEmail())
+//                    .recipient(userEntity.getEmail())
 //                    .subject(EmailResponse.PROJECT_UPDATE_SUBJECT)
 //                    .body(String.format(EmailResponse.PROJECT_SERVICE_UPDATE_MAIL, project.getClientUsername(),
-//                            serviceProviderDto.getServiceProviderUsername(), project.getTitle() , project.getProjectId(), user.getChargePerHour()))
+//                            serviceProviderDto.getServiceProviderUsername(), project.getTitle() , project.getProjectId(), userEntity.getChargePerHour()))
 //                    .build();
 //
 //            emailService.sendSimpleEmail(emailDetail);
@@ -230,7 +230,7 @@
 //        //Sending email to the project owner that the service provider has completed the project
 //        else if(project.getProjectCompletionStatus().equals(COMPLETED)){
 //            EmailDetail emailDetail = EmailDetail.builder()
-//                    .recipient(user.getEmail())
+//                    .recipient(userEntity.getEmail())
 //                    .subject(EmailResponse.PROJECT_UPDATE_SUBJECT)
 //                    .body(String.format(EmailResponse.PROJECT_COMPLETION_MAIL, project.getClientUsername(), project.getTitle() , project.getProjectId()))
 //                    .build();
@@ -259,17 +259,17 @@
 //
 //        // TODO: 05/09/2023 Email should be sent to the project owner that a service provider has accepted the project
 //
-//        //Getting the details of the user
-//        User user = userRepository.findByUsername(serviceProviderUpdateDto.getServiceProviderUsername())
+//        //Getting the details of the userEntity
+//        UserEntity userEntity = userRepository.findByUsername(serviceProviderUpdateDto.getServiceProviderUsername())
 //                .orElseThrow(()-> new ApiException(String.format(ResponseUtils.NO_USER_BY_USERNAME, serviceProviderUpdateDto.getServiceProviderUsername())));
 //
 //        //Sending email to the project owner that a service provider the owner selected has accepted the offer.
 //        if(project.getJobAcceptanceStatus().equals(JobAcceptanceStatus.ACCEPTED)){
 //            EmailDetail emailDetail = EmailDetail.builder()
-//                    .recipient(user.getEmail())
+//                    .recipient(userEntity.getEmail())
 //                    .subject(EmailResponse.PROJECT_UPDATE_SUBJECT)
 //                    .body(String.format(EmailResponse.PROJECT_SERVICE_UPDATE_MAIL, project.getClientUsername(),
-//                            serviceProviderUpdateDto.getServiceProviderUsername(), project.getTitle() , project.getProjectId(), user.getChargePerHour()))
+//                            serviceProviderUpdateDto.getServiceProviderUsername(), project.getTitle() , project.getProjectId(), userEntity.getChargePerHour()))
 //                    .build();
 //
 //            emailService.sendSimpleEmail(emailDetail);
@@ -278,7 +278,7 @@
 //        //Sending email to the project owner that the service provider has completed the project
 //        else if(project.getProjectCompletionStatus().equals(COMPLETED)){
 //            EmailDetail emailDetail = EmailDetail.builder()
-//                    .recipient(user.getEmail())
+//                    .recipient(userEntity.getEmail())
 //                    .subject(EmailResponse.PROJECT_UPDATE_SUBJECT)
 //                    .body(String.format(EmailResponse.PROJECT_COMPLETION_MAIL, project.getClientUsername(), project.getTitle() , project.getProjectId()))
 //                    .build();

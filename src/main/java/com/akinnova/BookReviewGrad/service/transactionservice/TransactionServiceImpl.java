@@ -6,7 +6,7 @@
 //import com.akinnova.BookReviewGrad.email.emailservice.EmailServiceImpl;
 //import com.akinnova.BookReviewGrad.entity.Project;
 //import com.akinnova.BookReviewGrad.entity.Transaction;
-//import com.akinnova.BookReviewGrad.entity.User;
+//import com.akinnova.BookReviewGrad.entity.UserEntity;
 //import com.akinnova.BookReviewGrad.enums.ProjectStartApproval;
 //import com.akinnova.BookReviewGrad.response.ResponseType;
 //import com.akinnova.BookReviewGrad.exception.ApiException;
@@ -54,8 +54,8 @@
 //        project.setProjectStartApproval(ProjectStartApproval.APPROVED);
 //        bookRepository.save(project);
 //
-//        //Then notification is sent to Service provider selected by user
-//        User userEntity = userRepository.findByUserId(transactionDto.getUserId())
+//        //Then notification is sent to Service provider selected by userEntity
+//        UserEntity userEntity = userRepository.findByUserId(transactionDto.getUserId())
 //                .orElseThrow(()-> new ApiException(ResponseUtils.NO_SERVICE_PROVIDER_BY_ID + transactionDto.getUserId()));
 //
 //        //Email object preparation

@@ -1,6 +1,6 @@
 //package com.akinnova.BookReviewGrad.dto.userdto;
 //
-//import com.akinnova.BookReviewGrad.entity.User;
+//import com.akinnova.BookReviewGrad.entity.UserEntity;
 //import com.akinnova.BookReviewGrad.enums.ServiceProviderApplicationStatus;
 //import com.akinnova.BookReviewGrad.enums.ServiceProviderSpecialization;
 //import com.akinnova.BookReviewGrad.enums.UserType;
@@ -20,13 +20,13 @@
 //    private ServiceProviderApplicationStatus serviceProviderApplicationStatus;
 //    private Boolean activeStatus;
 //
-//    public ServiceProviderUpdateDto(User user){
-//        //this.username = user.getUsername();
-//        this.userType = user.getUserType();
-//        this.specialization = user.getSpecialization();
-//        this.description = user.getDescription();
-//        this.chargePerHour = user.getChargePerHour();
-//        this.serviceProviderApplicationStatus = user.getServiceProviderApplicationStatus();
+//    public ServiceProviderUpdateDto(UserEntity userEntity){
+//        //this.username = userEntity.getUsername();
+//        this.userType = userEntity.getUserType();
+//        this.specialization = userEntity.getSpecialization();
+//        this.description = userEntity.getDescription();
+//        this.chargePerHour = userEntity.getChargePerHour();
+//        this.serviceProviderApplicationStatus = userEntity.getServiceProviderApplicationStatus();
 //        this.activeStatus = true;
 //    }
 //

@@ -8,7 +8,7 @@
 //import org.springframework.web.bind.annotation.*;
 //
 //@RestController
-//@RequestMapping("/api/v1/user/auth")
+//@RequestMapping("/api/v1/userEntity/auth")
 //@AllArgsConstructor
 //public class UserController {
 //    private final UserServiceImpl userService;
@@ -35,7 +35,7 @@
 //        return userService.serviceProviderUpdate(username, providerUpdateDto);
 //    }
 //
-//    // TODO: 18/09/2023 There should be user update to upload image
+//    // TODO: 18/09/2023 There should be userEntity update to upload image
 //    @DeleteMapping("/delete/{username}")
 //    public ResponseEntity<?> deleteUser(@PathVariable String username) {
 //        return userService.deleteUser(username);

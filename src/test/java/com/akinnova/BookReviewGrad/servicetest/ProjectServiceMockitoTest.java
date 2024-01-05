@@ -3,7 +3,7 @@
 //import com.akinnova.BookReviewGrad.dto.projectdto.*;
 //import com.akinnova.BookReviewGrad.email.emailservice.EmailServiceImpl;
 //import com.akinnova.BookReviewGrad.entity.Project;
-//import com.akinnova.BookReviewGrad.entity.User;
+//import com.akinnova.BookReviewGrad.entity.UserEntity;
 //import com.akinnova.BookReviewGrad.enums.*;
 //import com.akinnova.BookReviewGrad.repository.ProjectRepository;
 //import com.akinnova.BookReviewGrad.repository.UserRepository;
@@ -79,7 +79,7 @@
 ////                .createdOn(LocalDateTime.now())
 ////                .build();
 ////
-////        User user = User.builder()
+////        UserEntity userEntity = UserEntity.builder()
 ////                .id(1L)
 ////                .firstName("Olu")
 ////                .lastName("Dotun")
@@ -104,7 +104,7 @@
 ////        ResponsePojo<ProjectResponseDto> responsePojo = new ResponsePojo<>(ResponseType.SUCCESS, ResponseUtils.PROJECT_CREATION_MESSAGE, projectResponseDto);
 ////        when(projectRepository.save(project)).thenReturn(project);
 ////        // Mock userRepository to return userEntity when findByUsername is called
-////        when(userRepository.findByUsername(project.getClientUsername())).thenReturn(Optional.of(user));
+////        when(userRepository.findByUsername(project.getClientUsername())).thenReturn(Optional.of(userEntity));
 ////        //when(userEntity.getEmail()).thenReturn("olu@gmail.com");
 ////        //doNothing().when(emailService).sendSimpleEmail(any()); // Mock emailService call
 ////
@@ -279,10 +279,10 @@
 //
 //        String projectId = projectList.get(1).getProjectId();
 //
-//        //User List...which will act as user repository
-//        List<User> userList = new ArrayList<>();
+//        //UserEntity List...which will act as userEntity repository
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -298,7 +298,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Bashorun")
 //                .lastName("Olu")
@@ -314,7 +314,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        String username = userList.get(1).getUsername(); //Username to find user
+//        String username = userList.get(1).getUsername(); //Username to find userEntity
 //
 //
 //        ResponseEntity<ResponsePojo<Object>> expectedResult = ResponseEntity.ok(new ResponsePojo<>(ResponseType.SUCCESS, String.format(ResponseUtils.FOUND_MESSAGE, projectId), new ProjectResponseDto(projectList.get(1))));
@@ -453,10 +453,10 @@
 //
 //        String projectId = projectList.get(1).getProjectId(); //Used to find project
 //
-//        //User List...which will act as user repository
-//        List<User> userList = new ArrayList<>();
+//        //UserEntity List...which will act as userEntity repository
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -472,7 +472,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Bashorun")
 //                .lastName("Olu")
@@ -488,7 +488,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        String username = userList.get(1).getUsername(); //Username to find user
+//        String username = userList.get(1).getUsername(); //Username to find userEntity
 //
 //        ProjectUpdateDto projectUpdateDto = new ProjectUpdateDto("www.image.com", "New Title",
 //                "This is the new content of the updated project", true);
@@ -543,10 +543,10 @@
 //
 //        String projectId = projectList.get(1).getProjectId();
 //
-//        //User List...which will act as user repository
-//        List<User> userList = new ArrayList<>();
+//        //UserEntity List...which will act as userEntity repository
+//        List<UserEntity> userList = new ArrayList<>();
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(1L)
 //                .firstName("John")
 //                .lastName("Ade")
@@ -562,7 +562,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        userList.add(User.builder()
+//        userList.add(UserEntity.builder()
 //                .id(2L)
 //                .firstName("Bashorun")
 //                .lastName("Olu")
@@ -578,7 +578,7 @@
 //                .createdOn(LocalDateTime.now())
 //                .build());
 //
-//        String username = userList.get(1).getUsername(); //Username to find user
+//        String username = userList.get(1).getUsername(); //Username to find userEntity
 //        //Project project = projectRepository.findByProjectId(projectId).orElseThrow();
 //
 //        ProjectServiceProviderUpdateDto projectUpdateDto = new ProjectServiceProviderUpdateDto("BashOlu", NOT_ACCEPTED, PENDING,

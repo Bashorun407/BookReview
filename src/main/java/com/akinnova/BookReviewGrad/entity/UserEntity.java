@@ -13,16 +13,16 @@ import java.util.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "user",
+@Table(name = "userEntity",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "phoneNumber"),
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
         }
 )
-public class User extends BaseInfo implements Serializable {
+public class UserEntity extends BaseInfo implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String profilePicture;
     private String firstName;
@@ -36,10 +36,10 @@ public class User extends BaseInfo implements Serializable {
     private UserType userType;
     private boolean isProfileComplete;
     private Boolean activeStatus;
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Project> projects = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRole> roles = new ArrayList<>();
 
 //    Many-to-many relationship with role
@@ -56,11 +56,11 @@ public class User extends BaseInfo implements Serializable {
 
 //    public void addProject(Project project){
 //        this.projects.add(project);
-//        project.setUser(this);
+//        project.setUserEntity(this);
 //    }
 //
 //    public void removeProject(Project project){
-//        project.setUser(null);
+//        project.setUserEntity(null);
 //        this.projects.remove(project);
 //    }
 //
@@ -69,7 +69,7 @@ public class User extends BaseInfo implements Serializable {
 //
 //        while(iterator.hasNext()){
 //            Project project = iterator.next();
-//            project.setUser(null);
+//            project.setUserEntity(null);
 //            iterator.remove();
 //        }
 //    }
@@ -82,7 +82,7 @@ public class User extends BaseInfo implements Serializable {
         if(getClass() != obj.getClass())
             return false;
 
-        return id != null && id.equals(((User) obj).id);
+        return id != null && id.equals(((UserEntity) obj).id);
     }
 
     @Override

@@ -46,17 +46,17 @@ public class ResponseUtils {
     public static final String TIME_OUT_REQUEST = "REQUEST TIME OUT";
 
     //USER MESSAGES
-    public static final String USER_EXISTS = "User with username: %s already exists";
-    public static final String USER_ADDED = "New user added successfully";
-    public static final String NO_USER_BY_USERNAME = "There is no user by username: %s ";
+    public static final String USER_EXISTS = "UserEntity with username: %s already exists";
+    public static final String USER_ADDED = "New userEntity added successfully";
+    public static final String NO_USER_BY_USERNAME = "There is no userEntity by username: %s ";
     public static final String NO_CLIENT_YET = "There are no Clients yet.";
     public static final String NO_SERVICE_PROVIDER_BY_ID = "There is no Service provider with id: ";
     public static final String NO_SERVICE_PROVIDER_YET = "There are no Service Providers yet.";
     public static final String NO_REGULAR_USER_YET = "There are no Regular Users yet.";
     public static final String NO_ADMIN_YET = "There are no Admins yet.";
 
-    public static final String USER_UPDATE_MESSAGE = "User details has been updated successfully.";
-    public static final String USER_DELETE_MESSAGE = "User has been deleted.";
+    public static final String USER_UPDATE_MESSAGE = "UserEntity details has been updated successfully.";
+    public static final String USER_DELETE_MESSAGE = "UserEntity has been deleted.";
 
     //PROJECT MESSAGES
     public static final String PROJECT_CREATION_MESSAGE = "Project added successfully";

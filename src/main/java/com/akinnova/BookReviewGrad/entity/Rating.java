@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @Table(name = "rating_table")
 public class Rating {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private UserEntity userEntity;
     private Integer starRating;
     private Long rateCount;
     private Double averageRating;

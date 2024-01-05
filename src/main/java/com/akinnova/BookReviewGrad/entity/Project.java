@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class Project extends BaseInfo implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String imageUrl;
     private String title;
@@ -23,8 +23,8 @@ public class Project extends BaseInfo implements Serializable {
     //private ProjectFormat projectFormat;
 
     @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "userEntity", referencedColumnName = "id")
+    private UserEntity userEntity;
 
     @Override
     public boolean equals(Object obj){

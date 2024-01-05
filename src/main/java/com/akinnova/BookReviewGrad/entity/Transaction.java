@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "transaction_table")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String firstName;
     private String lastName;

@@ -20,7 +20,7 @@ import java.util.Set;
 public class ProjectReport extends BaseInfo implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @OneToOne
@@ -42,7 +42,7 @@ public class ProjectReport extends BaseInfo implements Serializable {
 //            joinColumns = @JoinColumn(name = "project_report_id", referencedColumnName = "id"),
 //            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    )
-//    private Set<User> users;
+//    private Set<UserEntity> users;
 
     @Override
     public boolean equals(Object obj){

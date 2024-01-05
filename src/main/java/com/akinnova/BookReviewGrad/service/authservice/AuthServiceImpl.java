@@ -35,7 +35,7 @@
 //    public AuthResponse login(LoginDto loginDto) {
 //
 //        boolean isUserExist = userRepository.existsByEmail(loginDto.getEmail());
-//        log.info("User Status: "+ isUserExist);
+//        log.info("UserEntity Status: "+ isUserExist);
 //
 ////            authResponse = ;
 ////        AuthResponse authResponse = new AuthResponse();
@@ -43,7 +43,7 @@
 //        if(isUserExist){
 ////            Authentication authentication;
 ////
-////            User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()-> new ApiException("Username not found"));
+////            UserEntity userEntity = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(()-> new ApiException("Username not found"));
 ////
 ////            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
 ////
@@ -59,7 +59,7 @@
 //                    .build();
 //        }else {
 //            return AuthResponse.builder()
-//                    .token("User does not exist")
+//                    .token("UserEntity does not exist")
 //                    .build();
 //        }
 //

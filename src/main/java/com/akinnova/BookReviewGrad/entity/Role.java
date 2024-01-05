@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 public class Role extends BaseInfo implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private RoleName roleName;
 
@@ -24,8 +24,8 @@ public class Role extends BaseInfo implements Serializable {
     private List<UserRole> users = new ArrayList<>();
 //    @MapsId
 //    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user", referencedColumnName = "id")
-//    private User user;
+//    @JoinColumn(name = "userEntity", referencedColumnName = "id")
+//    private UserEntity userEntity;
 
     @Override
     public boolean equals(Object obj){

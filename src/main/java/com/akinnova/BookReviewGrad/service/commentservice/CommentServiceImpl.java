@@ -58,7 +58,7 @@
 //        List<Comment> commentList = commentRepository.findByUsername(commentDeleteDto.getUsername())
 //                .orElseThrow(()-> new ApiException(String.format("Comments by username: %s not available", commentDeleteDto.getUsername())));
 //
-//        //to remove a comment by user at a specific time
+//        //to remove a comment by userEntity at a specific time
 //        commentList.stream().filter(x -> x.getCommentTime().equals(commentDeleteDto.getDateTime()))
 //                .peek(commentRepository::delete);
 //
