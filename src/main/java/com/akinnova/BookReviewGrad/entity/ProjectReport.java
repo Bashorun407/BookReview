@@ -6,6 +6,7 @@ import com.akinnova.BookReviewGrad.enums.ProjectLevelCompletionApproval;
 import com.akinnova.BookReviewGrad.enums.ProjectStartApproval;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -26,6 +27,9 @@ public class ProjectReport extends BaseInfo implements Serializable {
     @OneToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
+    private double cost;
+    @Formula("cost - cost * 0.25")
+    private double discounted;
     @Enumerated(EnumType.STRING)
     private JobAcceptanceStatus jobAcceptanceStatus;
     @Enumerated(EnumType.STRING)
@@ -43,6 +47,12 @@ public class ProjectReport extends BaseInfo implements Serializable {
 //            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    )
 //    private Set<UserEntity> users;
+
+
+    @Transient
+    public double getDiscounted() {
+        return discounted;
+    }
 
     @Override
     public boolean equals(Object obj){

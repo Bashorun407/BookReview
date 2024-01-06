@@ -7,6 +7,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,12 +21,11 @@ public class Role extends BaseInfo implements Serializable {
     private Long id;
     private RoleName roleName;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserRole> users = new ArrayList<>();
-//    @MapsId
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "userEntity", referencedColumnName = "id")
-//    private UserEntity userEntity;
+    @ManyToMany(mappedBy = "roles")
+    private Set<UserEntity> userEntities;
+
+//    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<UserRole> users = new ArrayList<>();
 
     @Override
     public boolean equals(Object obj){

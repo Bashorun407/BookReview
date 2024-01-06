@@ -39,16 +39,16 @@ public class UserEntity extends BaseInfo implements Serializable {
 //    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Project> projects = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserRole> roles = new ArrayList<>();
+//    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<UserRole> roles = new ArrayList<>();
 
 //    Many-to-many relationship with role
-//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinTable(name = "user_role_relationship",
-//            joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
-//            inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "roleName")
-//    )
-//    private Set<RoleName> roleName;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "userEntity", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "roleName")
+    )
+    private Set<Role> roles = new LinkedHashSet<>();
 
 
 //    @ManyToMany(mappedBy = "users")
