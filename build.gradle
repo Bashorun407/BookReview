@@ -33,7 +33,7 @@ dependencies {
 	//implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 //	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.postgresql:postgresql:42.6.0'
 	compileOnly 'org.projectlombok:lombok'
