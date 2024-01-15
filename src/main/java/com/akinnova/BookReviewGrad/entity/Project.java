@@ -3,6 +3,8 @@ package com.akinnova.BookReviewGrad.entity;
 import com.akinnova.BookReviewGrad.enums.*;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
 
@@ -12,6 +14,8 @@ import java.io.Serializable;
 @Setter
 @Builder
 @Entity
+@Audited
+@AuditTable("project_audit")
 public class Project extends BaseInfo implements Serializable {
 
     @Id

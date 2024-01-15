@@ -3,6 +3,8 @@ package com.akinnova.BookReviewGrad.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "transaction_table")
+@Audited
+@AuditTable("transaction_audit")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

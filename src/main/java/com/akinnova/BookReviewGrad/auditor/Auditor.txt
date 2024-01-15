@@ -1,0 +1,6 @@
+The AuditorAwareImpl implements AuditorAware<T> interface.
+The SpringApplication class is annotated with @EnableJpaAudit in which a method-name exposed by a @Bean is specified.
+The method returns a new AuditorAwareImpl.
+
+Some settings are also done in the application.properties file to aid this implementation.
+This setup tracks user activities and records create-time, create-by, lastModified-time and lastModified-by.

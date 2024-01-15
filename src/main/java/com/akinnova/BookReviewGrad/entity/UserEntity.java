@@ -3,6 +3,8 @@ package com.akinnova.BookReviewGrad.entity;
 import com.akinnova.BookReviewGrad.enums.*;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
 import java.util.*;
@@ -20,6 +22,8 @@ import java.util.*;
                 @UniqueConstraint(columnNames = "email")
         }
 )
+@Audited
+@AuditTable("user_entity_audit")
 public class UserEntity extends BaseInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

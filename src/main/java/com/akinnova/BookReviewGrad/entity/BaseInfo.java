@@ -7,22 +7,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 @MappedSuperclass
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-public class BaseInfo {
-    @CreationTimestamp
+public abstract class BaseInfo {
+    @CreatedDate
     protected LocalDateTime createdOn;
-    @UpdateTimestamp
+    @CreatedBy
+    protected String createdBy;
+    @LastModifiedDate
     protected LocalDateTime modifiedOn;
-
-    protected Long createdBy;
-
-    public BaseInfo(Long createdBy) {
-        this.createdBy = createdBy;
-    }
+    @LastModifiedBy
+    protected String lastModifiedBy;
 }

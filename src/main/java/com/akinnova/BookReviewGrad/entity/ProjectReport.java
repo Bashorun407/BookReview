@@ -7,6 +7,8 @@ import com.akinnova.BookReviewGrad.enums.ProjectStartApproval;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Formula;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,6 +20,8 @@ import java.util.Set;
 @Setter
 @Builder
 @Entity
+@Audited
+@AuditTable("project_report_audit")
 public class ProjectReport extends BaseInfo implements Serializable {
 
     @Id
